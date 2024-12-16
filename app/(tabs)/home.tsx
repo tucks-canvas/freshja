@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { SplashScreen, useRouter } from 'expo-router';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useRoute } from '@react-navigation/native';
 
 // Import Supported Content
 import { View, Image, StyleSheet, FlatList, TouchableOpacity, StatusBar, ScrollView, Animated, Text, TextInput, ImageBackground, useColorScheme } from 'react-native';
@@ -21,22 +22,22 @@ const ads = [
   {
     id: 1,
     title: 'Fruits',
-    image: require("../../assets/images/ad3.jpeg"),
+    image: images.ad3,
   },
   {
     id: 2,
     title: 'Vegetables',
-    image: require("../../assets/images/ad4.jpeg"),
+    image: images.ad4,
   },
   {
     id: 3,
     title: 'Fruits',
-    image: require("../../assets/images/ad3.jpeg"),
+    image: images.ad3,
   },
   {
     id: 4,
     title: 'Vegetables',
-    image: require("../../assets/images/ad4.jpeg"),
+    image: images.ad4,
   },
 ];
 
@@ -44,93 +45,177 @@ const categories = [
   {
     id: 1,
     title: 'Fruits',
-    image: require("../../assets/images/apple.png"),
+    image: images.apple,
     description: 'Locally grown and imported fresh fruits like mangoes, bananas, and apples.',
   },
   {
     id: 2,
     title: 'Vegetables',
-    image: require("../../assets/images/tomato.png"),
+    image: images.tomato,
     description: 'Fresh vegetables including callaloo, cabbage, and sweet peppers.',
   },
   {
     id: 3,
     title: 'Roots & Tubers',
-    image: require("../../assets/images/potato.png"),
+    image: images.potato,
     description: 'Staples like yam, cassava, sweet potatoes, and dasheen.',
   },
   {
     id: 4,
     title: 'Leafy Greens',
-    image: require("../../assets/images/cabbage.png"),
+    image: images.cabbage,
     description: 'Nutritious greens such as callaloo, spinach, lettuce, and pak choi.',
   },
   {
     id: 5,
     title: 'Herbs & Spices',
-    image: require("../../assets/images/ginger.png"),
+    image: images.ginger,
     description: 'Flavorful seasonings like thyme, scallion, pimento, ginger, and turmeric.',
   },
   {
     id: 6,
     title: 'Provisions',
-    image: require("../../assets/images/banana.png"),
+    image: images.banana,
     description: 'Essential items like green bananas, plantains, and breadfruit.',
   },
   {
     id: 7,
     title: 'Seasonal',
-    image: require("../../assets/images/jackfruit.png"),
+    image: images.jackfruit,
     description: 'Fruits and crops available by season like otaheite apples, guineps, and naseberries.',
   },
   {
     id: 8,
     title: 'Traditional',
-    image: require("../../assets/images/plantain.png"),
+    image: images.plantain,
     description: 'Jamaican favorites like ackee, plantains, and green bananas.',
   },
 ];
 
-const products = [
+const products = [ 
   {
     id: 1,
     title: 'Fresh Carrots',
+    name: 'Carrots',
+    seller: 'R & B Farms Ltd',
+    description: 'are a highly nutritious vegetable, known for their rich orange color, which comes from beta-carotene, a type of antioxidant.' 
+    + '\n\n' + 
+    'They are not only low in calories but also packed with essential vitamins and minerals, making them an excellent addition to any healthy diet.',
+    about: 'is a family-owned and operated farm that has been serving the community with fresh, locally-grown produce for generations.' 
+    + '\n\n' + 
+    'Nestled in the heart of St. Elizabeth, R & B Farms Ltd specializes in cultivating a wide variety of vegetables, with a focus on high-quality, nutrient-rich carrots. Using sustainable farming practices, the farm prioritizes the health of the soil and the environment while producing fresh, flavorful crops.',
+    nutrition: 'are particularly known for being a great source of Vitamin A, which supports eye health and immune function.'
+    + '\n\n' + 
+    'Additionally, they contain fiber, Vitamin K, potassium, and antioxidants, all of which contribute to overall health.',
+    fact: 'are not only nutritious but also versatile, perfect for snacking, adding to salads, soups, or even roasting for extra flavor!',
     category: 1,
     topic: 'Vegetables',
     price: 200,   
     discount: 400,  
     percentage: '50%',
-    image: require("../../assets/images/freshcarrots.jpg"),     
+    calories: 41,
+    carbs: 9.58, 
+    protein: 0.93, 
+    fat: 0.24, 
+    fiber: 2.8,
+    vitamin: 835, 
+    potassium: 310,
+    image: images.freshcarrots,   
+    image1: images.freshcarrots1,
+    image2: images.freshcarrots2,
   },
   {
     id: 2,
     title: 'Fresh Onions',
+    name: 'Onions',
+    seller: 'R & B Farms Ltd',
+    description: 'are a staple in many cuisines worldwide, offering a unique flavor that ranges from sweet to sharp, depending on how they are prepared.' 
+    + '\n\n' + 
+    'They are rich in antioxidants and compounds that promote heart health and may help reduce inflammation.',
+    about: 'is a family-run farm dedicated to growing fresh, high-quality produce for the local community and beyond.' 
+    + '\n\n' + 
+    'With generations of farming experience, R & B Farms Ltd produces flavorful onions using sustainable agricultural practices, ensuring each crop is nutrient-rich and fresh.',
+    nutrition: 'are low in calories but packed with Vitamin C, B6, and antioxidants like quercetin, which help fight free radicals in the body.'
+    + '\n\n' + 
+    'They are also a good source of fiber, which supports digestive health.',
+    fact: 'are incredibly versatile and can be enjoyed raw in salads, caramelized for sandwiches, or added to soups and stews for a burst of flavor.',
     category: 1,
     topic: 'Vegetables',
     price: 350,    
     discount: 400,  
     percentage: '5%',
-    image: require("../../assets/images/freshpeppers.jpg"),    
+    calories: 40,
+    carbs: 9.34, 
+    protein: 1.1, 
+    fat: 0.1, 
+    fiber: 1.7,
+    vitamin: 7.4,
+    potassium: 146,
+    image: images.freshonions,  
+    image1: images.freshonions1,
+    image2: images.freshonions2,
   },
   {
     id: 3,
     title: 'Fresh Peppers',
+    name: 'Peppers',
+    seller: 'R & B Farms Ltd',
+    description: 'are colorful and crunchy vegetables that are as nutritious as they are vibrant. They are rich in vitamins and antioxidants that support overall health.' 
+    + '\n\n' + 
+    'Peppers come in various colors, including red, green, and yellow, each offering a slightly different flavor profile.',
+    about: 'is committed to producing fresh, high-quality produce with an emphasis on flavor and nutrition.' 
+    + '\n\n' + 
+    'Specializing in colorful bell peppers, R & B Farms Ltd uses eco-friendly farming methods to ensure the highest quality vegetables for their customers.',
+    nutrition: 'are an excellent source of Vitamin C, providing more than 150% of the daily recommended intake per serving.'
+    + '\n\n' + 
+    'They also contain Vitamins A, B6, and antioxidants like lutein and zeaxanthin, which are beneficial for eye health.',
+    fact: 'can be enjoyed raw, grilled, roasted, or sautéed, adding both color and flavor to a wide variety of dishes.',
     category: 1,
     topic: 'Vegetables',
     price: 250,
     discount: 400,  
     percentage: '25%',
-    image: require("../../assets/images/freshonions.jpg"), 
+    calories: 20,
+    carbs: 4.64, 
+    protein: 0.86, 
+    fat: 0.17, 
+    fiber: 1.7,
+    vitamin: 127.7,
+    potassium: 211,
+    image: images.freshpeppers, 
+    image1: images.freshpeppers1,
+    image2: images.freshpeppers2,
   },
   {
     id: 4,
     title: 'Fresh Potatoes',
+    name: 'Potatoes',
+    seller: 'R & B Farms Ltd',
+    description: 'are a versatile and nutrient-rich vegetable, often considered a comfort food in many households.' 
+    + '\n\n' + 
+    'They are packed with carbohydrates, fiber, and essential nutrients that provide energy and promote overall health.',
+    about: 'has been providing fresh and locally-grown produce for generations, focusing on quality and sustainability.' 
+    + '\n\n' + 
+    'With expertise in growing root vegetables, R & B Farms Ltd delivers fresh, hearty potatoes that are perfect for a wide variety of dishes.',
+    nutrition: 'are an excellent source of Vitamin C, potassium, and Vitamin B6, which are essential for energy production and immune function.'
+    + '\n\n' + 
+    'They are also rich in resistant starch, which supports digestive health and keeps you feeling full longer.',
+    fact: 'are incredibly versatile and can be mashed, roasted, baked, or fried, making them a staple ingredient in countless recipes worldwide.',
     category: 1,
     topic: 'Vegetables',
     price: 350,
     discount: 500,  
     percentage: '25%',
-    image: require("../../assets/images/freshpotatoes.jpg"), 
+    calories: 77,
+    carbs: 17.6, 
+    protein: 2.0, 
+    fat: 0.1, 
+    fiber: 2.2,
+    vitamin: 19.7,
+    potassium: 429,
+    image: images.freshpotatoes, 
+    image1: images.freshpotatoes1,
+    image2: images.freshpotatoes2,
   },
 ];
 
@@ -156,6 +241,17 @@ const Home = ({}) => {
       <TouchableOpacity 
         key={product.id}
         style={styles.listing}
+        onPress={() => {
+          const selectedProduct = products.find(p => p.id === product.id);
+          console.log(selectedProduct);
+
+          router.push({ 
+            pathname: '/product', 
+            params: {
+              products: JSON.stringify(selectedProduct),
+            }
+          });
+        }}
       >
         <View style={styles.productimage}>
           <Image
@@ -191,7 +287,7 @@ const Home = ({}) => {
           <Image
             source={icons.bag}
             style={styles.minicon}
-            tintColor='rgba(0, 0, 0, 0.4)'
+            tintColor='rgba(0, 0, 0, 0)'
           />
         </View>        
       </View>
@@ -297,7 +393,7 @@ const Home = ({}) => {
                   {categories.map((category) => (
                     <TouchableOpacity 
                       key={category.id}
-                      style={styles.item}
+                      style={styles.item}                      
                     >
                       <View style={styles.categoryimage}>
                         <Image
@@ -345,9 +441,8 @@ const Home = ({}) => {
 
             <View style={styles.funnel}>
               <ScrollView 
-                vertical
                 showsVerticalScrollIndicator={false} 
-                contentContainerStyle={styles.scroll}
+                contentContainerStyle={styles.scrollViewContent}
               >
                 <View style={styles.funnelcontent}>
                   <View style={styles.funneltop}>
@@ -767,12 +862,12 @@ const styles = StyleSheet.create({
   },
 
   active: {
-    backgroundColor: colors.green,
+    backgroundColor: colors.emerald,
     width: 15,
   },
 
   inactive: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
 
   /* Images, and Icons */

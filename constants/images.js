@@ -9,10 +9,18 @@ import apple from "../assets/images/apple.png";
 import cabbage from "../assets/images/cabbage.png";
 import ad3 from "../assets/images/ad3.jpeg";
 import ad4 from "../assets/images/ad4.jpeg";
-import freshcarrots from "../assets/images/freshcarrots.jpg";
-import freshonions from "../assets/images/freshonions.jpg";
-import freshpotatoes from "../assets/images/freshpotatoes.jpg";
-import freshpeppers from "../assets/images/freshpeppers.jpg";
+import freshcarrots from "../assets/images/freshcarrots.jpeg";
+import freshcarrots1 from "../assets/images/freshcarrots1.jpeg";
+import freshcarrots2 from "../assets/images/freshcarrots2.jpeg";
+import freshonions from "../assets/images/freshonions.jpeg";
+import freshonions1 from "../assets/images/freshonions1.jpeg";
+import freshonions2 from "../assets/images/freshonions2.jpeg";
+import freshpotatoes from "../assets/images/freshpotatoes.jpeg";
+import freshpotatoes1 from "../assets/images/freshpotatoes1.jpeg";
+import freshpotatoes2 from "../assets/images/freshpotatoes2.jpeg";
+import freshpeppers from "../assets/images/freshpeppers.jpeg";
+import freshpeppers1 from "../assets/images/freshpeppers.jpeg";
+import freshpeppers2 from "../assets/images/freshpeppers.jpeg";
 
 export default { 
     user,
@@ -27,7 +35,15 @@ export default {
     ad3,
     ad4,
     freshonions,
+    freshonions1,
+    freshonions2,
     freshpeppers,
+    freshpeppers1,
+    freshpeppers2,
     freshpotatoes,
+    freshpotatoes1,
+    freshpotatoes2,
     freshcarrots,
+    freshcarrots1,
+    freshcarrots2,
 };

@@ -15,6 +15,18 @@ import bag from "../assets/icons/bag.png";
 import tick from "../assets/icons/tick.png";
 import close from "../assets/icons/close.png";
 import funnel from "../assets/icons/funnel.png";
+import minus from "../assets/icons/minus.png";
+import add from "../assets/icons/add.png";
+import calories from "../assets/icons/calories.png";
+import carbs from "../assets/icons/carbs.png";
+import fat from "../assets/icons/fat.png";
+import potassium from "../assets/icons/potassium.png";
+import protein from "../assets/icons/protein.png";
+import vitamin from "../assets/icons/vitamin.png";
+import star from "../assets/icons/star.png";
+import starfill from "../assets/icons/starfill.png";
+import slash from "../assets/icons/slash.png";
+import cross from "../assets/icons/cross.png";
 
 export default { 
     home,
@@ -34,4 +46,16 @@ export default {
     tick,
     close,
     funnel,
+    minus,
+    add,
+    calories,
+    carbs,
+    fat, 
+    vitamin,
+    potassium,
+    protein,
+    star,
+    starfill,
+    slash,
+    cross,
 };
