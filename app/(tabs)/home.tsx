@@ -43,6 +43,12 @@ const ads = [
 
 const categories = [
   {
+    id: 0,
+    title: 'All',
+    image: images.all,
+    description: 'Showcase of all the products we have to offer YOU - the customer.',
+  },
+  {
     id: 1,
     title: 'Fruits',
     image: images.apple,
@@ -108,7 +114,7 @@ const products = [
     + '\n\n' + 
     'Additionally, they contain fiber, Vitamin K, potassium, and antioxidants, all of which contribute to overall health.',
     fact: 'are not only nutritious but also versatile, perfect for snacking, adding to salads, soups, or even roasting for extra flavor!',
-    category: 1,
+    category: 2,
     topic: 'Vegetables',
     price: 200,   
     discount: 400,  
@@ -139,7 +145,7 @@ const products = [
     + '\n\n' + 
     'They are also a good source of fiber, which supports digestive health.',
     fact: 'are incredibly versatile and can be enjoyed raw in salads, caramelized for sandwiches, or added to soups and stews for a burst of flavor.',
-    category: 1,
+    category: 2,
     topic: 'Vegetables',
     price: 350,    
     discount: 400,  
@@ -170,7 +176,7 @@ const products = [
     + '\n\n' + 
     'They also contain Vitamins A, B6, and antioxidants like lutein and zeaxanthin, which are beneficial for eye health.',
     fact: 'can be enjoyed raw, grilled, roasted, or sautéed, adding both color and flavor to a wide variety of dishes.',
-    category: 1,
+    category: 2,
     topic: 'Vegetables',
     price: 250,
     discount: 400,  
@@ -201,7 +207,7 @@ const products = [
     + '\n\n' + 
     'They are also rich in resistant starch, which supports digestive health and keeps you feeling full longer.',
     fact: 'are incredibly versatile and can be mashed, roasted, baked, or fried, making them a staple ingredient in countless recipes worldwide.',
-    category: 1,
+    category: 2,
     topic: 'Vegetables',
     price: 350,
     discount: 500,  
@@ -217,6 +223,223 @@ const products = [
     image1: images.freshpotatoes1,
     image2: images.freshpotatoes2,
   },
+  {
+    id: 5,
+    title: 'Sweet Mangoes',
+    name: 'Mangoes',
+    seller: 'Tropical Fruits Ltd',
+    description: 'are deliciously sweet and juicy, rich in flavor and packed with essential vitamins, making them a summer favorite.' 
+    + '\n\n' +
+    'Mangoes are versatile fruits that can be enjoyed fresh, in smoothies, or as part of savory dishes.',
+    about: 'is known for delivering high-quality tropical fruits, focusing on sustainability and freshness.'
+    + '\n\n' +
+    'Grown in sun-kissed orchards, these mangoes are carefully harvested to ensure optimal ripeness and taste.',
+    nutrition: 'are an excellent source of Vitamin C, Vitamin A, and dietary fiber, which promote skin health and aid digestion.'
+    + '\n\n' +
+    'They are also low in calories but high in antioxidants, making them a guilt-free treat.',
+    fact: 'are often called the "king of fruits" and can be used in both sweet and savory dishes!',
+    category: 1,
+    topic: 'Fruits',
+    price: 400,
+    discount: 500,
+    percentage: '20%',
+    calories: 60,
+    carbs: 15, 
+    protein: 0.8, 
+    fat: 0.4,
+    fiber: 1.6,
+    vitamin: 36.4,
+    potassium: 168,
+    image: images.sweetmangoes,
+    image1: images.sweetmangoes1,
+    image2: images.sweetmangoes2,
+  },
+  {
+    id: 6,
+    title: 'Sweet Potatoes',
+    name: 'Sweet Potatoes',
+    seller: 'Green Acres Farm',
+    description: 'are a nutrient-dense root vegetable, offering a naturally sweet flavor and a host of essential vitamins.' 
+    + '\n\n' +
+    'They are a versatile ingredient perfect for roasting, baking, or mashing.',
+    about: 'is dedicated to growing fresh, farm-to-table produce with sustainable practices that ensure flavor and nutrition.'
+    + '\n\n' +
+    'Their sweet potatoes are grown in nutrient-rich soils, guaranteeing a delicious and healthy crop.',
+    nutrition: 'are rich in beta-carotene, a powerful antioxidant, and an excellent source of Vitamin A, potassium, and fiber.'
+    + '\n\n' +
+    'They help promote eye health, boost immunity, and support digestion.',
+    fact: 'are naturally sweet, making them a perfect substitute for unhealthy carbs.',
+    category: 3,
+    topic: 'Roots & Tubers',
+    price: 300,
+    discount: 450,
+    percentage: '33%',
+    calories: 86,
+    carbs: 20.1, 
+    protein: 1.6, 
+    fat: 0.1,
+    fiber: 3.0,
+    vitamin: 709,
+    potassium: 337,
+    image: images.sweetpotatoes,
+    image1: images.sweetpotatoes1,
+    image2: images.sweetpotatoes2,
+  },
+  {
+    id: 7,
+    title: 'Fresh Spinach',
+    name: 'Spinach',
+    seller: 'Urban Greenhouse Co.',
+    description: 'is a nutrient-rich leafy green, offering numerous health benefits and a delicious earthy flavor.' 
+    + '\n\n' +
+    'Spinach is perfect for salads, smoothies, or as a cooked side dish.',
+    about: 'is a hydroponic farm committed to delivering the freshest leafy greens using innovative and sustainable methods.'
+    + '\n\n' +
+    'Their spinach is grown pesticide-free, ensuring safety and superior taste.',
+    nutrition: 'is loaded with iron, calcium, and Vitamins A, C, and K, which are essential for bone health and immunity.'
+    + '\n\n' +
+    'It is also low in calories, making it an ideal food for weight management.',
+    fact: 'was made famous by the cartoon character Popeye for its ability to build strength!',
+    category: 4,
+    topic: 'Leafy Greens',
+    price: 150,
+    discount: 200,
+    percentage: '25%',
+    calories: 23,
+    carbs: 3.6, 
+    protein: 2.9, 
+    fat: 0.4,
+    fiber: 2.2,
+    vitamin: 469,
+    potassium: 558,
+    image: images.freshspinach,
+    image1: images.freshspinach1,
+    image2: images.freshspinach2,
+  },
+  {
+    id: 8,
+    title: 'Fresh Ginger',
+    name: 'Ginger',
+    seller: 'Spice Masters Ltd',
+    description: 'is a versatile spice with a zesty flavor, widely used for both culinary and medicinal purposes.' 
+    + '\n\n' +
+    'It adds a refreshing kick to teas, meals, and desserts.',
+    about: 'is a leading provider of fresh herbs and spices, known for their premium quality and unique flavors.'
+    + '\n\n' +
+    'Their ginger is grown in nutrient-rich soils, ensuring a bold and aromatic taste.',
+    nutrition: 'is known for its anti-inflammatory and antioxidant properties, helping with digestion, nausea, and immune support.'
+    + '\n\n' +
+    'It is also low in calories, making it an excellent addition to healthy diets.',
+    fact: 'has been used in traditional medicine for thousands of years!',
+    category: 5,
+    topic: 'Herbs & Spices',
+    price: 180,
+    discount: 220,
+    percentage: '18%',
+    calories: 80,
+    carbs: 17.8, 
+    protein: 1.8, 
+    fat: 0.8,
+    fiber: 2.0,
+    vitamin: 0,
+    potassium: 415,
+    image: images.freshginger,
+    image1: images.freshginger1,
+    image2: images.freshginger2,
+  },
+  {
+    id: 9,
+    title: 'Juicy Jackfruit',
+    name: 'Jackfruit',
+    seller: 'Tropical Treats Co.',
+    description: 'is a tropical fruit known for its sweet, fibrous flesh, often used as a meat substitute in vegetarian dishes.' 
+    + '\n\n' +
+    'Jackfruit is not only delicious but also highly nutritious.',
+    about: 'specializes in tropical and seasonal fruits, ensuring freshness and quality with every harvest.'
+    + '\n\n' +
+    'Their jackfruit is handpicked to guarantee ripeness and flavor.',
+    nutrition: 'is rich in Vitamin C, potassium, and dietary fiber, supporting immune health and digestion.'
+    + '\n\n' +
+    'It is also a low-calorie, filling option for those seeking healthier snacks.',
+    fact: 'is the largest fruit that grows on trees, sometimes weighing up to 40 pounds!',
+    category: 7,
+    topic: 'Seasonal',
+    price: 500,
+    discount: 600,
+    percentage: '17%',
+    calories: 95,
+    carbs: 23, 
+    protein: 1.7, 
+    fat: 0.6,
+    fiber: 1.5,
+    vitamin: 13.7,
+    potassium: 448,
+    image: images.juicyjackfruit,
+    image1: images.juicyjackfruit1,
+    image2: images.juicyjackfruit2,
+  },
+  {
+    id: 10,
+    title: 'Green Bananas',
+    name: 'Green Bananas',
+    seller: 'Harvest Fresh Ltd',
+    description: 'are a staple in Jamaican and Caribbean cuisine, offering a starchy texture and subtle flavor when cooked.' 
+    + '\n\n' +
+    'They are often boiled, steamed, or fried as a side dish or a hearty base for meals.',
+    about: 'is dedicated to providing fresh, farm-to-table produce to households and markets across the region.' 
+    + '\n\n' +
+    'Their green bananas are handpicked at peak maturity, ensuring quality and freshness in every bunch.',
+    nutrition: 'are rich in complex carbohydrates, potassium, and fiber, making them a great energy source for an active lifestyle.'
+    + '\n\n' +
+    'They also contain resistant starch, which supports gut health and regulates blood sugar levels.',
+    fact: 'are an essential ingredient in traditional Jamaican dishes like boiled bananas served with fish or callaloo.',
+    category: 6,
+    topic: 'Provisions',
+    price: 200,
+    discount: 250,
+    percentage: '20%',
+    calories: 90,
+    carbs: 23, 
+    protein: 1.1, 
+    fat: 0.3,
+    fiber: 2.6,
+    vitamin: 10.3,
+    potassium: 358,
+    image: images.greenbananas,
+    image1: images.greenbananas1,
+    image2: images.greenbananas2,
+  },
+  {
+    id: 11,
+    title: 'Fresh Ackee',
+    name: 'Ackee',
+    seller: 'Island Pride Farms',
+    description: 'is Jamaica’s national fruit and a key ingredient in the beloved dish, ackee and saltfish.' 
+    + '\n\n' +
+    'With its buttery texture and subtle flavor, ackee pairs perfectly with savory dishes, creating a unique culinary experience.',
+    about: 'is renowned for supplying authentic Jamaican produce to local and international markets.' 
+    + '\n\n' +
+    'Their ackee is carefully harvested and prepared to ensure quality, freshness, and safety.',
+    nutrition: 'is rich in healthy fats, protein, and essential nutrients like Vitamin C and potassium.' 
+    + '\n\n' +
+    'It provides energy, supports heart health, and contributes to a balanced diet.',
+    fact: 'is a versatile fruit that, when cooked, resembles scrambled eggs but with a distinctly Jamaican flavor!',
+    category: 8,
+    topic: 'Traditional',
+    price: 600,
+    discount: 700,
+    percentage: '15%',
+    calories: 151,
+    carbs: 8.1, 
+    protein: 2.9, 
+    fat: 15.2,
+    fiber: 2.5,
+    vitamin: 30.0,
+    potassium: 270,
+    image: images.freshackee,
+    image1: images.freshackee1,
+    image2: images.freshackee2,
+  },  
 ];
 
 const Home = ({}) => {
@@ -231,10 +454,45 @@ const Home = ({}) => {
   const [toggleFilter, setToggleFilter] = useState(false);
   const [currentAdIndex, setcurrentAdIndex] = useState(0);
 
+  const [likedProducts, setLikedProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState(products); // Initial list of products
+
+
+  const toggleLike = async (product) => {
+    try {
+      let updatedLikes = [...likedProducts];
+
+      const existingIndex = updatedLikes.findIndex((item) => item.id === product.id);
+  
+      if (existingIndex > -1) 
+      {
+        updatedLikes.splice(existingIndex, 1);
+      } 
+      else 
+      {
+        updatedLikes.push(product);
+      }
+  
+      setLikedProducts(updatedLikes);
+
+      console.log(updatedLikes);
+
+      await AsyncStorage.setItem('likedProducts', JSON.stringify(updatedLikes));
+    } 
+    catch (error) 
+    {
+      console.error("Error toggling like: ", error);
+    }
+  };  
+
   const handleCategoryPress = (category) => {
     setSelectedCategory(category);
-    console.log('Selected Category:', category);
-  };  
+    if (category === null || category === 0) {
+      setFilteredProducts(products);
+    } else {
+      setFilteredProducts(products.filter((product) => product.category === category));
+    }
+  };
 
   const renderProduct = ({ item: product }) => (
     <View style={styles.listings}>
@@ -275,13 +533,18 @@ const Home = ({}) => {
       </TouchableOpacity>
 
       <View style={styles.likeandadd}>
-        <View style={styles.likeproduct}>
+        <TouchableOpacity 
+          style={styles.likeproduct}
+          onPress={() => toggleLike(product)} 
+        >
           <Image
-            source={icons.like}
+            source={likedProducts.some((item) => item.id === product.id) ? icons.likefill : icons.like}
             style={styles.tinyicon}
-            tintColor={colors.white}
+            tintColor={
+              likedProducts.some((item) => item.id === product.id) ? colors.red : colors.white
+            }
           />
-        </View>
+        </TouchableOpacity>
 
         <View style={styles.addproduct}>
           <Image
@@ -300,7 +563,7 @@ const Home = ({}) => {
     }, 4000);
 
     return () => clearInterval(timer);
-  }, []);   
+  }, []);  
 
   return (
     <>
@@ -393,7 +656,8 @@ const Home = ({}) => {
                   {categories.map((category) => (
                     <TouchableOpacity 
                       key={category.id}
-                      style={styles.item}                      
+                      style={styles.item}    
+                      onPress={() => handleCategoryPress(category.id)}                
                     >
                       <View style={styles.categoryimage}>
                         <Image
@@ -421,8 +685,8 @@ const Home = ({}) => {
 
               <View style={styles.products}>
                 <FlatList
-                  data={products}
-                  keyExtractor={(item) => item.id}
+                  data={filteredProducts}
+                  keyExtractor={(item) => item.id.toString()}
                   scrollEnabled={false}
                   showsVerticalScrollIndicator={false}
                   numColumns={2}
