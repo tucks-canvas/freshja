@@ -446,7 +446,7 @@ const Home = ({}) => {
 
   const router = useRouter();
 
-  const [search, setSearch] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [values, setValues] = useState([0, 2000]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -455,44 +455,7 @@ const Home = ({}) => {
   const [currentAdIndex, setcurrentAdIndex] = useState(0);
 
   const [likedProducts, setLikedProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState(products); // Initial list of products
-
-
-  const toggleLike = async (product) => {
-    try {
-      let updatedLikes = [...likedProducts];
-
-      const existingIndex = updatedLikes.findIndex((item) => item.id === product.id);
-  
-      if (existingIndex > -1) 
-      {
-        updatedLikes.splice(existingIndex, 1);
-      } 
-      else 
-      {
-        updatedLikes.push(product);
-      }
-  
-      setLikedProducts(updatedLikes);
-
-      console.log(updatedLikes);
-
-      await AsyncStorage.setItem('likedProducts', JSON.stringify(updatedLikes));
-    } 
-    catch (error) 
-    {
-      console.error("Error toggling like: ", error);
-    }
-  };  
-
-  const handleCategoryPress = (category) => {
-    setSelectedCategory(category);
-    if (category === null || category === 0) {
-      setFilteredProducts(products);
-    } else {
-      setFilteredProducts(products.filter((product) => product.category === category));
-    }
-  };
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   const renderProduct = ({ item: product }) => (
     <View style={styles.listings}>
@@ -557,6 +520,59 @@ const Home = ({}) => {
     </View>
   );
 
+  const toggleLike = async (product) => {
+    try {
+      let updatedLikes = [...likedProducts];
+
+      const existingIndex = updatedLikes.findIndex((item) => item.id === product.id);
+  
+      if (existingIndex > -1) 
+      {
+        updatedLikes.splice(existingIndex, 1);
+      } 
+      else 
+      {
+        updatedLikes.push(product);
+      }
+  
+      setLikedProducts(updatedLikes);
+
+      console.log(updatedLikes);
+
+      await AsyncStorage.setItem('likedProducts', JSON.stringify(updatedLikes));
+    } 
+    catch (error) 
+    {
+      console.error("Error toggling like: ", error);
+    }
+  };  
+
+  const applyFilters = (products, query, category) => {
+    let filtered = products;
+  
+    if (query.trim() !== '') {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+  
+    if (category !== null && category !== 0) {
+      filtered = filtered.filter(product => product.category === category);
+    }
+  
+    return filtered;
+  };
+  
+  const handleCategoryPress = (category) => {
+    setSelectedCategory(category);
+    setFilteredProducts(applyFilters(products, searchQuery, category));
+  };
+  
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+    setFilteredProducts(applyFilters(products, text, selectedCategory));
+  };
+
   useEffect(() => {
     const timer = setInterval(() => {
       setcurrentAdIndex((prevIndex) => (prevIndex + 1) % ads.length);
@@ -605,8 +621,8 @@ const Home = ({}) => {
                 <TextInput
                   placeholder="Search for your items"
                   placeholderTextColor='rgba(0, 0, 0, 0.2)'
-                  value={search}
-                  onChangeText={setSearch}
+                  value={searchQuery}
+                  onChangeText={handleSearch}
                   style={styles.bartext}
                 />
               </View>
@@ -675,26 +691,52 @@ const Home = ({}) => {
             </View>
 
             <View style={styles.offers}>
-              <View style={styles.topic}>
-                <Text style={styles.topictext}>Special Offers</Text>
 
-                <TouchableOpacity>
-                  <Text style={styles.topicsub}>See More</Text>
-                </TouchableOpacity>
-              </View>
+              { searchQuery ? (
 
-              <View style={styles.products}>
-                <FlatList
-                  data={filteredProducts}
-                  keyExtractor={(item) => item.id.toString()}
-                  scrollEnabled={false}
-                  showsVerticalScrollIndicator={false}
-                  numColumns={2}
-                  renderItem={renderProduct}
-                  columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 20 }}
-                  style={styles.product}
-                />
-              </View>
+                <View style={styles.searchview}>
+                  <View style={styles.topic}>
+                    <Text style={styles.topictext}>{filteredProducts.length} {filteredProducts.length === 1 ? 'Result' : 'Results'} Found</Text>
+                  </View>
+                  
+                  <FlatList
+                    data={filteredProducts}
+                    keyExtractor={(item) => item.id.toString()}
+                    scrollEnabled={false}
+                    showsVerticalScrollIndicator={false}
+                    numColumns={2}
+                    renderItem={renderProduct}
+                    columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 20 }}
+                    contentContainerStyle={styles.product}
+                  />
+                </View>
+
+              ) : (
+
+                <View style={styles.defaultview}>
+                  <View style={styles.topic}>
+                    <Text style={styles.topictext}>Special Offers</Text>
+
+                    <TouchableOpacity>
+                      <Text style={styles.topicsub}>See More</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={styles.products}>
+                    <FlatList
+                      data={filteredProducts}
+                      keyExtractor={(item) => item.id.toString()}
+                      scrollEnabled={false}
+                      showsVerticalScrollIndicator={false}
+                      numColumns={2}
+                      renderItem={renderProduct}
+                      columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 20 }}
+                      style={styles.product}
+                    />
+                  </View>
+                </View>
+
+              )}
             </View>
           </View>
         </ScrollView>
@@ -827,6 +869,14 @@ const styles = StyleSheet.create({
   },
 
   /* Search */
+
+  defaultview: {
+
+  },
+
+  searchview: {
+
+  },
 
   search: {
     flexDirection: 'row',
