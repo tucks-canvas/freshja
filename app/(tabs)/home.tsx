@@ -547,7 +547,7 @@ const Home = ({}) => {
     }
   };  
 
-  const applyFilters = (products, query, category) => {
+  const applyFilters = (products, query, category, priceRange) => {
     let filtered = products;
   
     if (query.trim() !== '') {
@@ -560,17 +560,26 @@ const Home = ({}) => {
       filtered = filtered.filter(product => product.category === category);
     }
   
+    filtered = filtered.filter(product => {
+      return product.price >= priceRange[0] && product.price <= priceRange[1];
+    });
+  
     return filtered;
   };
   
   const handleCategoryPress = (category) => {
     setSelectedCategory(category);
-    setFilteredProducts(applyFilters(products, searchQuery, category));
+    setFilteredProducts(applyFilters(products, searchQuery, category, values));
   };
   
   const handleSearch = (text) => {
     setSearchQuery(text);
-    setFilteredProducts(applyFilters(products, text, selectedCategory));
+    setFilteredProducts(applyFilters(products, text, selectedCategory, values));
+  };
+  
+  const handlePriceChange = (newValues) => {
+    setValues(newValues);
+    setFilteredProducts(applyFilters(products, searchQuery, selectedCategory, newValues));
   };
 
   useEffect(() => {
@@ -799,7 +808,7 @@ const Home = ({}) => {
 
                     <MultiSlider
                       values={values}
-                      onValuesChange={setValues}
+                      onValuesChange={handlePriceChange}
                       min={0}
                       max={2000}
                       step={10}
