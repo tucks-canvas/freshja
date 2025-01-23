@@ -22,6 +22,7 @@ import colors from '../../constants/colors';
 const Cart = ({}) => {
 
   const [cart, setCart] = useState([]);
+  const router = useRouter();
 
   const updateQuantity = async (id, change) => {
     const updatedCart = cart.map((item) => {
@@ -148,7 +149,8 @@ const Cart = ({}) => {
 
           <TouchableOpacity 
             style={styles.book}
-            onPress={() => router.push('/checkout')}
+            onPress={() => router.push('/checkout')} 
+            // /screens/cart/checkout
           >
             <Text style={styles.booktext}>Checkout</Text>
           </TouchableOpacity>
@@ -327,7 +329,7 @@ const styles = StyleSheet.create({
   cartsub: {
     fontFamily: 'Poppins-Bold',
     fontSize: 18,
-    color: 'rgba(0, 0, 0, 0.08)',
+    color: colors.black,
   },
 
   carthighlight: {

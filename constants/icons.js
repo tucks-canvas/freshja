@@ -27,17 +27,25 @@ import star from "../assets/icons/star.png";
 import starfill from "../assets/icons/starfill.png";
 import slash from "../assets/icons/slash.png";
 import cross from "../assets/icons/cross.png";
+import checkmark from "../assets/icons/checkmark.png";
+import calendar from "../assets/icons/calendar.png";
+import mastercard from "../assets/icons/mastercard.png";
+import visa from "../assets/icons/visa.png";
 
 export default { 
     home,
+    visa,
     like,
     cart, 
+    checkmark,
+    mastercard,
     profile,
     homefill,
     likefill,
     cartfill, 
     profilefill,
     notification,
+    calendar,
     location,
     search,
     filter,
