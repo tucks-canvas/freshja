@@ -52,13 +52,14 @@ const styles = StyleSheet.create({
   
   header: {
     fontSize: 24,
-    fontFamily: 'Nunito-Bold',
+    fontFamily: 'Poppins-Bold',
     marginBottom: 20,
   },
   
   message: {
     fontSize: 16,
     textAlign: 'center',
+    fontFamily: 'Poppins-Regular',
     marginBottom: 30,
   },
   
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
   buttontext: {
     color: '#fff',
     fontSize: 18,
+    fontFamily: 'Poppins-Regular',
   },
 });
 
