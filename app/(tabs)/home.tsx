@@ -31,11 +31,6 @@ const ads = [
   },
   {
     id: 3,
-    title: 'Fruits',
-    image: images.ad3,
-  },
-  {
-    id: 4,
     title: 'Vegetables',
     image: images.ad4,
   },
@@ -585,7 +580,7 @@ const Home = ({}) => {
   useEffect(() => {
     const timer = setInterval(() => {
       setcurrentAdIndex((prevIndex) => (prevIndex + 1) % ads.length);
-    }, 4000);
+    }, 6000);
 
     return () => clearInterval(timer);
   }, []);  

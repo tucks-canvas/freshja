@@ -6,6 +6,7 @@ import { View, Image } from 'react-native';
 import Home from './home';
 import Like from './like';
 import Cart from './cart';
+import Order from './order';
 import Profile from './profile';
 
 
@@ -58,6 +59,9 @@ const Tabs = () => {
             case 'Cart':
               iconSource = icons.cart;
               break;
+            case 'Order':
+              iconSource = icons.order;
+              break;
             case 'Profile':
               iconSource = icons.profile;
               break;
@@ -71,6 +75,7 @@ const Tabs = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Like" component={Like} />
       <Tab.Screen name="Cart" component={Cart} />
+      <Tab.Screen name="Order" component={Order} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );

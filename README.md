@@ -1,50 +1,99 @@
-# Welcome to your Expo app 👋
+# FreshJA - Agricultural E-Commerce Platform
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<img src="https://github.com/tucks-canvas/FreshJA/blob/main/assets/logo.png?raw=true" alt="FreshJA Logo" width="200"/>
 
-## Get started
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Stars](https://img.shields.io/github/stars/tucks-canvas/FreshJA?style=social)](https://github.com/tucks-canvas/FreshJA)
 
-1. Install dependencies
+# Description
+Connecting Jamaican farmers directly with consumers to eliminate middlemen and reduce food costs.
 
-   ```bash
-   npm install
-   ```
+## Demo
+[Click here to play](https://github.com/tucks-canvas/FreshJA/releases/download/v1.0/freshja-demo.mp4) (Hosted via GitHub Releases)
 
-2. Start the app
+## Table of Contents
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Screenshots](#screenshots)
+- [Awards](#awards)
+- [Team](#team)
+- [License](#license)
 
-   ```bash
-    npx expo start
-   ```
+## Features
+✅ **Real-time Marketplace**
+- Advanced search filtering by produce type, location, and price
+- Food grading system with quality verification
 
-In the output, you'll find options to open the app in a
+🚚 **Delivery Integration**
+- Route-optimized delivery coordination
+- Real-time tracking for buyers and sellers
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+📊 **Farmer Analytics**
+- Inventory management dashboard
+- Sales performance metrics
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Tech Stack
+| Component | Technologies     |
+|-----------|------------------|
+| Frontend  | React Native     |
+| Backend   | Strapi           |
+| APIs      | RESTful, Postman |
+| Testing   | Cypress          |
 
-## Get a fresh project
+## Awards
+🏆 **Vincent Hosang Competition 2025**
+- 2nd Place Overall
+- Best Undergraduate Team
+- JMMB Corporate Social Responsibility Award
 
-When you're ready, run:
+## Screenshots
+<div align="center"> 
+   <img src="https://github.com/tucks-canvas/FreshJA/blob/main/assets/screen1.png?raw=true" width="30%"/> 
+   <img src="https://github.com/tucks-canvas/FreshJA/blob/main/assets/screen2.png?raw=true" width="30%"/> 
+   <img src="https://github.com/tucks-canvas/FreshJA/blob/main/assets/screen3.png?raw=true" width="30%"/> 
+</div>
 
-```bash
-npm run reset-project
-```
+## Team
+<table align="center">
+  <tr>
+    <td align="center" width="25%">
+      <img src="https://github.com/tucks-canvas/FreshJA/blob/main/assets/team-christian.jpg?raw=true" width="100" alt="Christian Douglas"/>
+      <br />
+      <strong>Christian Douglas</strong>
+      <br />
+      <em>Marketing & Design Lead</em>
+      <br />
+      <sub>Brand identity, UI/UX design</sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="https://github.com/tucks-canvas/FreshJA/blob/main/assets/team-josiah.jpg?raw=true" width="100" alt="Josiah-John Green"/>
+      <br />
+      <strong>Josiah-John Green</strong>
+      <br />
+      <em>Lead Developer</em>
+      <br />
+      <sub>Full-stack architecture, React Native</sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="https://github.com/tucks-canvas/FreshJA/blob/main/assets/team-roshae.jpg?raw=true" width="100" alt="Roshae Sinclair"/>
+      <br />
+      <strong>Roshae Sinclair</strong>
+      <br />
+      <em>Research & Outreach</em>
+      <br />
+      <sub>Farmer relations, requirements analysis</sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="https://github.com/tucks-canvas/FreshJA/blob/main/assets/team-somesh.jpg?raw=true" width="100" alt="Somesh Sharma"/>
+      <br />
+      <strong>Somesh Sharma</strong>
+      <br />
+      <em>Business Development</em>
+      <br />
+      <sub>Partnerships, stakeholder negotiations</sub>
+    </td>
+  </tr>
+</table>
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## License
+MIT © 2025 Josiah-John Green

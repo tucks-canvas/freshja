@@ -2,6 +2,7 @@ const colors = {
     default: '#01796F',
 
     // Basic Colours
+
     blue: '#100E34',
     sky: '#99B1BB',
     deep: '#4F7490',
@@ -12,7 +13,7 @@ const colors = {
     white: '#FFFFFF',
     grey: '#808080',
     red: '#C41E3A',
-    green: '#104F17',
+    green: '#4eaf59ff',
     dew: '#F0FFF0',
     mantis: '#74C365',
     mint: '#98FB98',
@@ -34,8 +35,13 @@ const colors = {
     indigo: '#535ac2',
     marguerite: '#736dbd',
     chetwood: '#8887d7',
+    elf: '#098e63',
+    fresh: '#4daa46',
+    link: '#eef3fb',
+    california: '#fe9506',
 
     // Light, Medium and Soft Colors
+    
     softgreen: '#29AB87',
     softblue: '#cfe0f7',
     softyellow: '#fbecbd',
@@ -44,9 +50,13 @@ const colors = {
     lightGrey: '#FBFBFB',
     dullGrey: '#DEDEDE',
     lightGreen: '#90EE90',
-    link: '#eef3fb',
+    darkgreen: '#123c29',
+    lightgreen: '#bdd9ccff',
+    darkorange: '#e36e0f',
+
 
     // Calendar Colors
+    
     selectedDayColor: '#ffddc1',
     selectedDayBorder: '#ffa500',
     unselectedDayBorder: '#fff',     

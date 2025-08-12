@@ -49,6 +49,14 @@ export default function Root() {
         "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
         "Poppins-ExtraLight": require("../assets/fonts/Poppins-ExtraLight.ttf"),
         "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
+        "Lightbox21-ExtraBold": require("../assets/fonts/Lightbox21-ExtraBold.ttf"),
+        "Lightbox21-Bold": require("../assets/fonts/Lightbox21-Bold.ttf"),
+        "Lightbox21-Medium": require("../assets/fonts/Lightbox21-Medium.ttf"),
+        "Lightbox21-Thin": require("../assets/fonts/Lightbox21-Thin.ttf"),
+        "Lightbox21-Regular": require("../assets/fonts/Lightbox21-Regular.ttf"),
+        "Lightbox21-UltraLight": require("../assets/fonts/Lightbox21-UltraLight.ttf"),
+        "Lightbox21-Light": require("../assets/fonts/Lightbox21-Light.ttf"),
+        "Lightbox21-Black": require("../assets/fonts/Lightbox21-Black.ttf"),
     });
 
     useEffect(() => {

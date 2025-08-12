@@ -31,6 +31,19 @@ import checkmark from "../assets/icons/checkmark.png";
 import calendar from "../assets/icons/calendar.png";
 import mastercard from "../assets/icons/mastercard.png";
 import visa from "../assets/icons/visa.png";
+import order from "../assets/icons/order.png";
+import unchecked from "../assets/icons/unchecked.png";
+import checked from "../assets/icons/checked.png";
+import lock from "../assets/icons/lock.png";
+import show from "../assets/icons/show.png";
+import hide from "../assets/icons/hide.png";
+import user from "../assets/icons/user.png";
+import back from "../assets/icons/back.png";
+import phone from "../assets/icons/phone.png";
+import email from "../assets/icons/email.png";
+import upload from "../assets/icons/upload.png";
+import left from "../assets/icons/left.png";
+import right from "../assets/icons/right.png";
 
 export default { 
     home,
@@ -66,4 +79,17 @@ export default {
     starfill,
     slash,
     cross,
+    order, 
+    checked,
+    unchecked,
+    lock,
+    show,
+    hide,
+    user,
+    back,
+    phone,
+    email,
+    upload, 
+    left, 
+    right
 };
