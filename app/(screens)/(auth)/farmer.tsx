@@ -618,7 +618,7 @@ const styles = StyleSheet.create({
   /* Add-Ons */
 
   back: {
-    borderRadius: 30,
+    borderRadius: 15,
     padding: 20,
     width: 50,
     height: 50,

@@ -60,12 +60,14 @@ import photo3 from "../assets/images/background/photo3.png";
 import photo4 from "../assets/images/background/photo4.png";
 import photo5 from "../assets/images/background/photo5.jpg";
 import photo6 from "../assets/images/background/photo6.jpg";
+import photo7 from "../assets/images/background/photo7.png";
 import background2 from "../assets/images/background/background2.jpg";
 import background3 from "../assets/images/background/background3.jpg";
 import background4 from "../assets/images/background/background4.jpg";
 import background5 from "../assets/images/background/background5.jpg";
 import store from "../assets/images/choice/store.png";
 import customer from "../assets/images/choice/customer.png";
+import all from "../assets/images/produce/all.png";
 
 export default { 
     user,
@@ -130,10 +132,12 @@ export default {
     photo4,
     photo5,
     photo6,
+    photo7,
     background2,
     background3,
     background4,
     background5,
     store,
     customer,
+    all
 };

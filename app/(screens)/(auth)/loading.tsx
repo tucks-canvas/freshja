@@ -96,7 +96,7 @@ const Loading = () => {
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
           <View style={styles.content}>
-            <Animated.View style={[styles.logoContainer, logoStyle]}>
+            <Animated.View style={[styles.logocontainer, logoStyle]}>
               <Image 
                 source={images.logo} 
                 style={styles.image}
@@ -104,13 +104,14 @@ const Loading = () => {
               />
             </Animated.View>
             
-            <View style={styles.textContainer}>
+            <View style={styles.textcontainer}>
               <Animated.View style={[styles.texts, textStyle]}>
-                <Text style={styles.title}>freshja</Text>
+                <Text style={styles.title}>fresh</Text>
+                <Text style={styles.altitle}>ja</Text>
                 <Animated.View style={[styles.dot, dotStyle]} />
               </Animated.View>
               
-              <Animated.View style={[styles.subtitleContainer, subtitleStyle]}>
+              <Animated.View style={[styles.subtitlecontainer, subtitleStyle]}>
                 <Text style={styles.subtitle}>for you</Text>
               </Animated.View>
             </View>
@@ -126,40 +127,45 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
+  
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  /* Content */
+  
   content: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  logoContainer: {
-    marginRight: 20,
-  },
-  image: {
-    width: 130,
-    height: 300,
-    top: -20,
-  },
-  textContainer: {
+
+  /* Text */
+  
+  textcontainer: {
     position: 'relative',
   },
+  
   texts: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+
+  /* Title */
+  
   title: {
     fontSize: 50,
     color: colors.california,
     fontFamily: 'Lightbox21-ExtraBold',
   },
-  subtitleContainer: {
+  
+  subtitlecontainer: {
     position: 'absolute',
     bottom: -20,
     width: '100%',
   },
+  
   subtitle: {
     fontSize: 10,
     color: colors.yellow,
@@ -167,13 +173,36 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 7,
   },
+
+  altitle: {
+    fontSize: 50,
+    color: colors.fresh,
+    fontFamily: 'Lightbox21-ExtraBold',
+  },
+
+  /* Dot */
+
   dot: {
     position: 'absolute',
     right: -10,
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: colors.california,
+    backgroundColor: colors.fresh,
+  },
+
+  /* Logo */
+
+  logocontainer: {
+    marginRight: 20,
+  },
+
+  /* Image and Icons */
+
+  image: {
+    width: 130,
+    height: 300,
+    top: -20,
   },
 });
 

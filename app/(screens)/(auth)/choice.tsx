@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
 
   registertext: {
     fontSize: 85,
-    color: colors.darkgreen,
+    color: colors.elf,
     fontFamily: 'Lightbox21-Bold',
   },
 
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
 
   back: {
     padding: 20,
-    borderRadius: 30,
+    borderRadius: 15,
     width: 45,
     height: 45,
     backgroundColor: colors.white,

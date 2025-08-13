@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
 
 /* Import React-Native Content */
-import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity, StatusBar, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity, ImageBackground, StatusBar, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 /* Import Other Supported Content */
@@ -45,184 +45,190 @@ const Farmer = () => {
       <StatusBar translucent backgroundColor="rgba(255, 255, 255, 0.1)" barStyle="dark-content" />
       
       <SafeAreaView style={styles.safeArea}>
-        <ScrollView
-          vertical
-          contentContainerStyle={styles.scrollArea}
-          showsVerticalScrollIndicator={false}
+        <ImageBackground
+          imageStyle={styles.imageOverlay}
+          style={styles.imageSpace}
+          source={images.background3}
         >
-          <View style={styles.container}>
-            <View style={styles.waves}>
-                <Svg
-                height="300"
-                width="200%"
-                viewBox="0 0 440 165"
-                style={[styles.wave, { bottom: 100 }]}
-                preserveAspectRatio="none"
-                >
-                <Defs>
-                    <Pattern
-                        id="wavePattern"
-                        patternUnits="userSpaceOnUse"
-                        width="440"
-                        height="600"
-                    >
-                        <SvgImage
-                            href={colors.white}
-                            width="440"
-                            height="200"
-                            preserveAspectRatio="xMidYMid slice"
-                        />
-                    </Pattern>
-                </Defs>
-                
-                <Path
-                    fill="url(#wavePattern)"
-                    d="M 120 0 V 140 C 276 187 257 86 441 151 v -151 Z"
-                />
-                </Svg>
-            </View>
-                       
-            <View style={styles.backward}>
-                <TouchableOpacity 
-                    style={styles.back}
-                    onPress={handleBack}
-                >
-                    <Image
-                        source={icons.left}
-                        style={styles.icon}
-                        tintColor={colors.grey}
-                    />
-                </TouchableOpacity>
-            </View>             
-
-            <View style={styles.header}>
-              <Text style={styles.headertext}>Register</Text>
-
-              <Text style={styles.headersub}>
-                Create your account
-              </Text>        
-            </View>
-
-            <View style={styles.textfields}>
-                <Text style={styles.text}>Please fill all the fields accordingly</Text>
-
-                <View style={styles.textfield}> 
-                    <View style={styles.textbody}>
-                        <Image
-                            source={icons.user}
-                            tintColor={colors.grey}
-                            style={styles.icon}
-                        />
-
-                        <TextInput
-                            style={styles.textinput}
-                            placeholder="Full name"
-                            placeholderTextColor={colors.grey}
-                            value={formData.fullName}
-                            onChangeText={(text) => setFormData({...formData, fullName: text})}
-                        />
-                    </View>
-                </View>
-
-                <View style={styles.textfield}> 
-                    <View style={styles.textbody}>
-                    <Image
-                        source={icons.email}
-                        tintColor={colors.grey}
-                        style={styles.icon}
-                    />
-
-                    <TextInput
-                        style={styles.textinput}
-                        placeholder="Email address"
-                        placeholderTextColor={colors.grey}
-                        value={formData.email}
-                        onChangeText={(text) => setFormData({...formData, email: text})}
-                        keyboardType="email-address"
-                    />
-                    </View>
-                </View>
-
-                <View style={styles.textfield}> 
-                    <View style={styles.textbody}>
-                    <Image
-                        source={icons.phone}
-                        tintColor={colors.grey}
-                        style={styles.icon}
-                    />
-
-                    <TextInput
-                        style={styles.textinput}
-                        placeholder="Phone number"
-                        placeholderTextColor={colors.grey}
-                        value={formData.phone}
-                        onChangeText={(text) => setFormData({...formData, phone: text})}
-                        keyboardType="phone-pad"
-                    />
-                    </View>
-                </View>
-
-                <View style={styles.textfield}> 
-                    <View style={styles.textbody}>
-                    <Image
-                        source={icons.lock}
-                        tintColor={colors.grey}
-                        style={styles.icon}
-                    />
-
-                    <TextInput
-                        style={styles.textinput}
-                        placeholder="Password"
-                        placeholderTextColor={colors.grey}
-                        secureTextEntry={!showPassword}
-                        value={formData.password}
-                        onChangeText={(text) => setFormData({...formData, password: text})}
-                    />
-                    </View>
-
-                    <TouchableOpacity 
-                    onPress={() => setShowPassword(!showPassword)}
-                    >
-                    <Image
-                        source={showPassword ? icons.show : icons.hide}
-                        style={styles.icon}                     
-                        tintColor={colors.grey}                      
-                    />
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            <View style={styles.pages}>
-              <Text style={styles.pagetext}>Page 1 of </Text>
-              <Text style={styles.pagesub}>1</Text>
-            </View>
-            
-            <View style={styles.footer}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={handleNext}
-              >
-                <Text style={styles.buttontext}>
-                  Submit
-                </Text>
-              </TouchableOpacity>
-
-                <View style={styles.sign}>
-                  <Text style={styles.signtext}>Have an account?</Text>
-                  <TouchableOpacity 
-                    onPress={() => router.replace('/(screens)/(auth)/signin')}
+          <ScrollView
+            vertical
+            contentContainerStyle={styles.scrollArea}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.container}>
+              <View style={styles.waves}>
+                  <Svg
+                  height="300"
+                  width="200%"
+                  viewBox="0 0 440 165"
+                  style={[styles.wave, { bottom: 100 }]}
+                  preserveAspectRatio="none"
                   >
-                    <Text style={styles.signsub}>Sign in</Text>
+                  <Defs>
+                      <Pattern
+                          id="wavePattern"
+                          patternUnits="userSpaceOnUse"
+                          width="440"
+                          height="600"
+                      >
+                          <SvgImage
+                              href={images.background3}
+                              width="440"
+                              height="200"
+                              preserveAspectRatio="xMidYMid slice"
+                          />
+                      </Pattern>
+                  </Defs>
+                  
+                  <Path
+                      fill="url(#wavePattern)"
+                      d="M 120 0 V 140 C 276 187 257 86 441 151 v -151 Z"
+                  />
+                  </Svg>
+              </View>
+                        
+              <View style={styles.backward}>
+                  <TouchableOpacity 
+                      style={styles.back}
+                      onPress={handleBack}
+                  >
+                      <Image
+                          source={icons.left}
+                          style={styles.icon}
+                          tintColor={colors.grey}
+                      />
                   </TouchableOpacity>
-                </View>
-            </View>
+              </View>             
 
-            <View style={styles.rep}>
-              <Text style={styles.reptext}>FreshJA</Text>
-              <Text style={styles.repsub}>Freshly made for you</Text>
+              <View style={styles.header}>
+                <Text style={styles.headertext}>Register</Text>
+
+                <Text style={styles.headersub}>
+                  Create your account
+                </Text>        
+              </View>
+
+              <View style={styles.textfields}>
+                  <Text style={styles.text}>Please fill all the fields accordingly</Text>
+
+                  <View style={styles.textfield}> 
+                      <View style={styles.textbody}>
+                          <Image
+                              source={icons.user}
+                              tintColor={colors.grey}
+                              style={styles.icon}
+                          />
+
+                          <TextInput
+                              style={styles.textinput}
+                              placeholder="Full name"
+                              placeholderTextColor={colors.grey}
+                              value={formData.fullName}
+                              onChangeText={(text) => setFormData({...formData, fullName: text})}
+                          />
+                      </View>
+                  </View>
+
+                  <View style={styles.textfield}> 
+                      <View style={styles.textbody}>
+                      <Image
+                          source={icons.email}
+                          tintColor={colors.grey}
+                          style={styles.icon}
+                      />
+
+                      <TextInput
+                          style={styles.textinput}
+                          placeholder="Email address"
+                          placeholderTextColor={colors.grey}
+                          value={formData.email}
+                          onChangeText={(text) => setFormData({...formData, email: text})}
+                          keyboardType="email-address"
+                      />
+                      </View>
+                  </View>
+
+                  <View style={styles.textfield}> 
+                      <View style={styles.textbody}>
+                      <Image
+                          source={icons.phone}
+                          tintColor={colors.grey}
+                          style={styles.icon}
+                      />
+
+                      <TextInput
+                          style={styles.textinput}
+                          placeholder="Phone number"
+                          placeholderTextColor={colors.grey}
+                          value={formData.phone}
+                          onChangeText={(text) => setFormData({...formData, phone: text})}
+                          keyboardType="phone-pad"
+                      />
+                      </View>
+                  </View>
+
+                  <View style={styles.textfield}> 
+                      <View style={styles.textbody}>
+                      <Image
+                          source={icons.lock}
+                          tintColor={colors.grey}
+                          style={styles.icon}
+                      />
+
+                      <TextInput
+                          style={styles.textinput}
+                          placeholder="Password"
+                          placeholderTextColor={colors.grey}
+                          secureTextEntry={!showPassword}
+                          value={formData.password}
+                          onChangeText={(text) => setFormData({...formData, password: text})}
+                      />
+                      </View>
+
+                      <TouchableOpacity 
+                      onPress={() => setShowPassword(!showPassword)}
+                      >
+                      <Image
+                          source={showPassword ? icons.show : icons.hide}
+                          style={styles.icon}                     
+                          tintColor={colors.grey}                      
+                      />
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.pages}>
+                <Text style={styles.pagetext}>Page 1 of </Text>
+                <Text style={styles.pagesub}>1</Text>
+              </View>
+              
+              <View style={styles.footer}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={handleNext}
+                >
+                  <Text style={styles.buttontext}>
+                    Submit
+                  </Text>
+                </TouchableOpacity>
+
+                  <View style={styles.sign}>
+                    <Text style={styles.signtext}>Have an account?</Text>
+                    <TouchableOpacity 
+                      onPress={() => router.replace('/(screens)/(auth)/signin')}
+                    >
+                      <Text style={styles.signsub}>Sign in</Text>
+                    </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.rep}>
+                <Text style={styles.reptext}>FreshJA</Text>
+                <Text style={styles.repsub}>Freshly made for you</Text>
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </ImageBackground>
       </SafeAreaView>
     </>
   );
@@ -237,11 +243,24 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: 'center',
-    zIndex: 1,
+    zIndex: 2,
   },
 
   scrollArea: {
     marginBottom: 80,
+  },
+
+  /* Image */
+
+  imageOverlay: {
+    width: '100%',
+    height: '105%',
+    opacity: 0.05,
+    top: -20,
+  },
+
+  imageSpace: {
+    zIndex: 0,
   },
 
   /* Waves */
@@ -249,13 +268,15 @@ const styles = StyleSheet.create({
   waves: {
     position: 'absolute',
     height: 200,
-    top: 160,
+    top: 500,
     right: 300,
     width: '100%',
   },
   
   wave: {
     position: 'absolute',
+    opacity: 0,
+
   },
   
   /* Header */
@@ -268,7 +289,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 50,
     marginTop: 100,
-    zIndex: 1,
+    zIndex: 2,
   },
 
   headertext: {
@@ -289,7 +310,7 @@ const styles = StyleSheet.create({
     width: '80%',
     gap: 10,
     marginBottom: 20,
-    zIndex: 1,
+    zIndex: 2,
   },
 
   textfield: {
@@ -330,7 +351,7 @@ const styles = StyleSheet.create({
 
   documentfields: {
     width: '80%',
-    zIndex: 1,
+    zIndex: 2,
   },
 
   documentfield: {
@@ -394,7 +415,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     textAlign: 'right',
     gap: 2,
-    zIndex: 1,
+    zIndex: 2,
   },
   
   pagetext: {
@@ -418,7 +439,7 @@ const styles = StyleSheet.create({
     gap: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1,
+    zIndex: 2,
     marginBottom: 20,
   },
 
@@ -477,7 +498,7 @@ const styles = StyleSheet.create({
       { translateX: -100 }
     ],
     opacity: 0.05,
-    zIndex: 0,
+    zIndex: 1,
   },
 
   reptext: {
@@ -497,14 +518,14 @@ const styles = StyleSheet.create({
   backward: {
     width: '80%',
     marginTop: 20,
-    zIndex: 1,
+    zIndex: 2,
     justifyContent: 'flex-start',
   },
 
   /* Add-Ons */
 
   back: {
-    borderRadius: 30,
+    borderRadius: 15,
     padding: 20,
     width: 50,
     height: 50,
