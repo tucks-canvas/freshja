@@ -52,14 +52,14 @@ const styles = StyleSheet.create({
   
   header: {
     fontSize: 24,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     marginBottom: 20,
   },
   
   message: {
     fontSize: 16,
     textAlign: 'center',
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     marginBottom: 30,
   },
   
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   buttontext: {
     color: '#fff',
     fontSize: 18,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
   },
 });
 

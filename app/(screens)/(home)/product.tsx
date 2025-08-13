@@ -610,7 +610,7 @@ const Product = ({}) => {
 
             <TouchableOpacity onPress={increment}>
               <Image
-                  source={icons.add}
+                  source={icons.plus}
                   style={styles.icon}
                   tintColor={colors.emerald}
               />
@@ -728,38 +728,38 @@ const styles = StyleSheet.create({
   },  
 
   productext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 25,
     color: colors.black,
   },
 
   productsub: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 20,
     color: colors.black,
   },
 
   productbig: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 20,
     color: 'rgba(0, 0, 0, 0.3)',
     marginBottom: 10,
   },
 
   productsml: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: 'rgba(0, 0, 0, 0.3)',
   },
 
   producthighlight: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: colors.white,
   },
 
   productcross: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 12,
     color: 'rgba(0, 0, 0, 0.3)',
     textDecorationLine: 'line-through',
@@ -788,7 +788,7 @@ const styles = StyleSheet.create({
   },
 
   detail: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 15,
     color: 'rgba(0, 0, 0, 0.2)',
   },
@@ -814,7 +814,7 @@ const styles = StyleSheet.create({
   },
 
   description: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     fontSize: 14,
     color: 'rgba(0, 0, 0, 0.6)',
     lineHeight: 21,
@@ -822,7 +822,7 @@ const styles = StyleSheet.create({
   },
 
   descriptiontext: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 14,
     color: colors.emerald,
     lineHeight: 21,
@@ -830,7 +830,7 @@ const styles = StyleSheet.create({
   },
 
   descriptionsub: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 14,
     color: colors.emerald,
     lineHeight: 21,
@@ -882,26 +882,26 @@ const styles = StyleSheet.create({
   },
 
   relatedtext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 15,
     color: colors.black,
   },
 
   relatedsub: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 15,
     color: colors.emerald,
     marginBottom: 10,
   },
 
   relatedbig: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 15,
     color: colors.emerald,
   },
 
   relatedsml: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: 'rgba(0, 0, 0, 0.3)',
   },
@@ -935,7 +935,7 @@ const styles = StyleSheet.create({
   },
 
   factext: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 12,
     color: 'rgba(0, 0, 0, 0.5)',
     textTransform: 'uppercase',
@@ -944,13 +944,13 @@ const styles = StyleSheet.create({
   },
 
   factsub: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 50,
     color: colors.black,
   },
 
   factsml: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 15,
     color: 'rgba(0, 0, 0, 0.3)',
   },
@@ -969,19 +969,19 @@ const styles = StyleSheet.create({
   },
 
   ratingtext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 70,
     color: colors.emerald,
   },
 
   ratingsub: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 12,
     color: 'rgba(0, 0, 0, 0.5)',
   },
 
   ratingmid: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 15,
     color: 'rgba(0, 0, 0, 0.1)',
   },
@@ -1062,38 +1062,38 @@ const styles = StyleSheet.create({
   },
 
   reviewtext: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 25,
     color: colors.black,
   },
 
   reviewsub: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 12,
     color: 'rgba(0, 0, 0, 0.1)',
   },
 
   reviewsml: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 12,
     color: 'rgba(0, 0, 0, 0.1)',
     lineHeight: 22,
   },
 
   reviewmid: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 18,
     color: 'rgba(0, 0, 0, 0.1)',
   },
 
   reviewbig: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 18,
     color: colors.emerald,
   },
 
   reviewalt: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 12,
     color: 'rgba(0, 0, 0, 0.1)',
   },
@@ -1143,7 +1143,7 @@ const styles = StyleSheet.create({
   },
 
   numbertext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     color: colors.white,
   },
@@ -1163,7 +1163,7 @@ const styles = StyleSheet.create({
   },
 
   booktext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     color: colors.white,
   },

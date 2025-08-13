@@ -43,24 +43,11 @@ import greenbananas2 from "../assets/images/produce/greenbananas2.jpeg";
 import juicyjackfruit from "../assets/images/produce/juicyjackfruit.jpeg";
 import juicyjackfruit1 from "../assets/images/produce/juicyjackfruit1.jpeg";
 import juicyjackfruit2 from "../assets/images/produce/juicyjackfruit2.jpeg";
-import texture1 from "../assets/images/background/texture1.jpg";
-import texture2 from "../assets/images/background/texture2.jpg";
-import texture3 from "../assets/images/background/texture3.jpg";
-import texture4 from "../assets/images/background/texture4.jpg";
-import texture5 from "../assets/images/background/texture5.jpg";
-import texture6 from "../assets/images/background/texture6.jpg";
-import texture7 from "../assets/images/background/texture7.jpg";
-import texture8 from "../assets/images/background/texture8.jpg";
-import texture9 from "../assets/images/background/texture9.jpg";
-import texture10 from "../assets/images/background/texture10.jpg";
-import texture11 from "../assets/images/background/texture11.jpg";
-import photo1 from "../assets/images/background/photo1.jpg";
+import photo1 from "../assets/images/background/photo1.png";
 import photo2 from "../assets/images/background/photo2.png";
-import photo3 from "../assets/images/background/photo3.png";
+import photo3 from "../assets/images/background/photo3.jpg";
 import photo4 from "../assets/images/background/photo4.png";
-import photo5 from "../assets/images/background/photo5.jpg";
-import photo6 from "../assets/images/background/photo6.jpg";
-import photo7 from "../assets/images/background/photo7.png";
+import background1 from "../assets/images/background/background1.jpg";
 import background2 from "../assets/images/background/background2.jpg";
 import background3 from "../assets/images/background/background3.jpg";
 import background4 from "../assets/images/background/background4.jpg";
@@ -115,24 +102,11 @@ export default {
     freshackee1,
     freshackee2,
     logo,
-    texture1,
-    texture2,
-    texture3,
-    texture4,
-    texture5,
-    texture6,
-    texture7,
-    texture8,
-    texture9,
-    texture10,
-    texture11,
     photo1,
     photo2,
     photo3,
     photo4,
-    photo5,
-    photo6,
-    photo7,
+    background1,
     background2,
     background3,
     background4,

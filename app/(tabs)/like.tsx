@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   },
 
   headertext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 25,
     color: colors.black,
   },
@@ -201,32 +201,32 @@ const styles = StyleSheet.create({
   },
 
   productext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     color: colors.black,
   },
 
   productsub: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 15,
     color: colors.black,
   },
 
   productbig: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 15,
     color: 'rgba(0, 0, 0, 0.3)',
     marginBottom: 10,
   },
 
   productsml: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: 'rgba(0, 0, 0, 0.3)',
   },
 
   producthighlight: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: colors.white,
   },

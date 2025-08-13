@@ -10,13 +10,14 @@ import notification from "../assets/icons/notification.png";
 import location from "../assets/icons/location.png";
 import search from "../assets/icons/search.png";
 import filter from "../assets/icons/filter.png";
-import plus from "../assets/icons/plus.png";
 import bag from "../assets/icons/bag.png";
 import tick from "../assets/icons/tick.png";
 import close from "../assets/icons/close.png";
 import funnel from "../assets/icons/funnel.png";
+import plus from "../assets/icons/plus.png";
 import minus from "../assets/icons/minus.png";
 import add from "../assets/icons/add.png";
+import subtract from "../assets/icons/subtract.png";
 import calories from "../assets/icons/calories.png";
 import carbs from "../assets/icons/carbs.png";
 import fat from "../assets/icons/fat.png";
@@ -44,6 +45,7 @@ import email from "../assets/icons/email.png";
 import upload from "../assets/icons/upload.png";
 import left from "../assets/icons/left.png";
 import right from "../assets/icons/right.png";
+import drag from "../assets/icons/drag.png";
 
 export default { 
     home,
@@ -62,13 +64,14 @@ export default {
     location,
     search,
     filter,
-    plus,
     bag,
     tick,
     close,
     funnel,
     minus,
     add,
+    plus, 
+    subtract,
     calories,
     carbs,
     fat, 
@@ -91,5 +94,6 @@ export default {
     email,
     upload, 
     left, 
-    right
+    right,
+    drag
 };

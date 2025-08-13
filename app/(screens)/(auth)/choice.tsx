@@ -178,13 +178,13 @@ const styles = StyleSheet.create({
   headertext: {
     fontSize: 30,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Bold',
+    fontFamily: 'Gilroy-Bold',
   },
 
   headersub: {
     fontSize: 13,
     color: colors.grey,
-    fontFamily: 'Lightbox21-Medium',
+    fontFamily: 'Gilroy-Medium',
   },
 
   /* Choice */
@@ -214,13 +214,13 @@ const styles = StyleSheet.create({
   choicetext: {
     fontSize: 35,
     color: colors.white,
-    fontFamily: 'Lightbox21-Bold',    
+    fontFamily: 'Gilroy-Bold',    
   },
 
   choicesub: {
     fontSize: 10,
     color: colors.white,
-    fontFamily: 'Lightbox21-Medium',    
+    fontFamily: 'Gilroy-Medium',    
   },
 
   /* Footer */
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
   buttontext: {
     fontSize: 10,
     color: colors.white,
-    fontFamily: 'Montserrat-Medium',    
+    fontFamily: 'Gilroy-Medium',    
     letterSpacing: 2,
   },
 
@@ -263,13 +263,13 @@ const styles = StyleSheet.create({
   signtext: {
     fontSize: 12,
     color: colors.grey,
-    fontFamily: 'Montserrat-Medium',
+    fontFamily: 'Gilroy-Medium',
   },
 
   signsub: {
     fontSize: 12,
     color: colors.fresh,
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'Gilroy-Regular',
     textDecorationLine: 'underline',
   },
 
@@ -292,13 +292,13 @@ const styles = StyleSheet.create({
   registertext: {
     fontSize: 85,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Bold',
+    fontFamily: 'Gilroy-Bold',
   },
 
   registersub: {
     fontSize: 25,
     color: colors.grey,
-    fontFamily: 'Lightbox21-Regular',
+    fontFamily: 'Gilroy-Regular',
   },
 
   /* Next */
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
   nextext: {
     fontSize: 25,
     color: colors.grey,
-    fontFamily: 'Lightbox21-Regular',
+    fontFamily: 'Gilroy-Regular',
   },
 
   /* Add-Ons  */

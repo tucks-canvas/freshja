@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   headertext: {
     fontSize: 40,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Bold',
+    fontFamily: 'Gilroy-Bold',
   },
 
   headersub: {
@@ -260,14 +260,14 @@ const styles = StyleSheet.create({
   pagetext: {
     fontSize: 10,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Medium',
+    fontFamily: 'Gilroy-Medium',
     top: 3,
   },
     
   pagesub: {
     fontSize: 25,
     color: colors.elf,
-    fontFamily: 'Lightbox21-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
   },
 
   /* Footer */
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
   buttontext: {
     fontSize: 13,
     color: colors.white,
-    fontFamily: 'Lightbox21-Bold',    
+    fontFamily: 'Gilroy-Bold',    
     letterSpacing: 2,
   },
 
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   signsub: {
     fontSize: 12,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Bold',
+    fontFamily: 'Gilroy-Bold',
   },
 
   /* Backward */

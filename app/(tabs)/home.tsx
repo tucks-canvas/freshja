@@ -4,7 +4,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useRoute } from '@react-navigation/native';
 
 // Import Supported Content
-import { View, Image, StyleSheet, FlatList, TouchableOpacity, StatusBar, ScrollView, Animated, Text, TextInput, ImageBackground, useColorScheme } from 'react-native';
+import { View, Image, StyleSheet, FlatList, PanResponder, TouchableOpacity, StatusBar, ScrollView, Animated, Text, TextInput, ImageBackground, useColorScheme } from 'react-native';
 
 // Import Slidder
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
@@ -21,18 +21,27 @@ import colors from '../../constants/colors';
 const ads = [
   {
     id: 1,
-    title: 'Fruits',
-    image: images.ad3,
+    title: 'Level 1 in June',
+    subtitle: '8% off on your favourite product',
+    text: '500 credits',
+    image: images.background3,
+    link: '',
   },
   {
     id: 2,
-    title: 'Vegetables',
-    image: images.ad4,
+    title: 'Level 2 in August',
+    subtitle: '12% off on your favourite product',
+    text: '1, 000 credits',
+    image: images.background4,
+    link: '',
   },
   {
     id: 3,
-    title: 'Vegetables',
-    image: images.ad4,
+    title: 'Level 3 in September',
+    subtitle: '20% on your favourite product',
+    text: '1, 500 credits',
+    image: images.background5,
+    link: '',
   },
 ];
 
@@ -110,6 +119,7 @@ const products = [
     'Additionally, they contain fiber, Vitamin K, potassium, and antioxidants, all of which contribute to overall health.',
     fact: 'are not only nutritious but also versatile, perfect for snacking, adding to salads, soups, or even roasting for extra flavor!',
     category: 2,
+    grading: 'A+',
     topic: 'Vegetables',
     price: 200,   
     discount: 400,  
@@ -141,6 +151,7 @@ const products = [
     'They are also a good source of fiber, which supports digestive health.',
     fact: 'are incredibly versatile and can be enjoyed raw in salads, caramelized for sandwiches, or added to soups and stews for a burst of flavor.',
     category: 2,
+    grading: 'A+',
     topic: 'Vegetables',
     price: 350,    
     discount: 400,  
@@ -172,6 +183,7 @@ const products = [
     'They also contain Vitamins A, B6, and antioxidants like lutein and zeaxanthin, which are beneficial for eye health.',
     fact: 'can be enjoyed raw, grilled, roasted, or sautéed, adding both color and flavor to a wide variety of dishes.',
     category: 2,
+    grading: 'A+',
     topic: 'Vegetables',
     price: 250,
     discount: 400,  
@@ -203,6 +215,7 @@ const products = [
     'They are also rich in resistant starch, which supports digestive health and keeps you feeling full longer.',
     fact: 'are incredibly versatile and can be mashed, roasted, baked, or fried, making them a staple ingredient in countless recipes worldwide.',
     category: 2,
+    grading: 'A+',
     topic: 'Vegetables',
     price: 350,
     discount: 500,  
@@ -235,6 +248,7 @@ const products = [
     fact: 'are often called the "king of fruits" and can be used in both sweet and savory dishes!',
     category: 1,
     topic: 'Fruits',
+    grading: 'A+',
     price: 400,
     discount: 500,
     percentage: '20%',
@@ -265,6 +279,7 @@ const products = [
     'They help promote eye health, boost immunity, and support digestion.',
     fact: 'are naturally sweet, making them a perfect substitute for unhealthy carbs.',
     category: 3,
+    grading: 'A+',
     topic: 'Roots & Tubers',
     price: 300,
     discount: 450,
@@ -296,6 +311,7 @@ const products = [
     'It is also low in calories, making it an ideal food for weight management.',
     fact: 'was made famous by the cartoon character Popeye for its ability to build strength!',
     category: 4,
+    grading: 'A+',
     topic: 'Leafy Greens',
     price: 150,
     discount: 200,
@@ -327,6 +343,7 @@ const products = [
     'It is also low in calories, making it an excellent addition to healthy diets.',
     fact: 'has been used in traditional medicine for thousands of years!',
     category: 5,
+    grading: 'A+',
     topic: 'Herbs & Spices',
     price: 180,
     discount: 220,
@@ -358,6 +375,7 @@ const products = [
     'It is also a low-calorie, filling option for those seeking healthier snacks.',
     fact: 'is the largest fruit that grows on trees, sometimes weighing up to 40 pounds!',
     category: 7,
+    grading: 'A+',
     topic: 'Seasonal',
     price: 500,
     discount: 600,
@@ -389,6 +407,7 @@ const products = [
     'They also contain resistant starch, which supports gut health and regulates blood sugar levels.',
     fact: 'are an essential ingredient in traditional Jamaican dishes like boiled bananas served with fish or callaloo.',
     category: 6,
+    grading: 'A+',
     topic: 'Provisions',
     price: 200,
     discount: 250,
@@ -420,6 +439,7 @@ const products = [
     'It provides energy, supports heart health, and contributes to a balanced diet.',
     fact: 'is a versatile fruit that, when cooked, resembles scrambled eggs but with a distinctly Jamaican flavor!',
     category: 8,
+    grading: 'A+',
     topic: 'Traditional',
     price: 600,
     discount: 700,
@@ -437,6 +457,155 @@ const products = [
   },  
 ];
 
+const companies = [
+  { id: 1, name: 'R & B Farms Ltd' },
+  { id: 2, name: 'Tropical Fruits Ltd' },
+  { id: 3, name: 'Green Acres Farm' },
+  { id: 4, name: 'Urban Greenhouse Co.' },
+  { id: 5, name: 'Spice Masters Ltd' },
+  { id: 6, name: 'Island Pride Farms' }
+];
+
+const foodGrades = ['A+', 'A', 'B+', 'B', 'C', 'D', 'F'];
+
+const starRatings = [5, 4, 3, 2, 1];
+
+const Product = ({ product, onLikePress, likedProducts, router }) => {
+  const [quantity, setQuantity] = useState(0);
+
+  useEffect(() => {
+    const loadQuantity = async () => {
+      const storedCart = await AsyncStorage.getItem('cart');
+      if (storedCart) {
+        const cart = JSON.parse(storedCart);
+        const cartItem = cart.find(item => item.id === product.id);
+        if (cartItem) {
+          setQuantity(cartItem.quantity);
+        }
+      }
+    };
+    loadQuantity();
+  }, [product.id]);
+
+  const updateCart = async (newQuantity: number) => {
+    try {
+      const storedCart = await AsyncStorage.getItem('cart');
+      let cart = storedCart ? JSON.parse(storedCart) : [];
+
+      const itemIndex = cart.findIndex((item) => item.id === product.id);
+
+      if (newQuantity > 0) {
+        const cartItem = {
+          id: product.id,
+          title: product.title,
+          image: product.image,
+          price: product.price,
+          quantity: newQuantity,
+        };
+
+        if (itemIndex !== -1) {
+          cart[itemIndex] = cartItem;
+        } 
+        else {
+          cart.push(cartItem);
+        }
+      } 
+      else if (itemIndex !== -1) {
+        cart.splice(itemIndex, 1);
+      }
+
+      await AsyncStorage.setItem('cart', JSON.stringify(cart));
+      setQuantity(newQuantity);
+
+    } catch (error) {
+      console.error('Error updating cart:', error);
+    }
+  };
+
+  const increment = () => updateCart(quantity + 1);
+  const decrement = () => updateCart(Math.max(0, quantity - 1));
+
+  return (
+    <View style={styles.catelogue}>
+      <TouchableOpacity 
+        key={product.id}
+        style={styles.product}
+        onPress={() => {
+          router.push({ 
+            pathname: '/product', 
+            params: {
+              products: JSON.stringify(product),
+            }
+          });
+        }}
+      >
+        <View>
+          <ImageBackground
+            source={product.image}
+            style={styles.productimage}
+          >
+            <TouchableOpacity 
+              style={styles.productlike}
+              onPress={() => onLikePress(product)} 
+            >
+              <Image
+                source={likedProducts.some((item) => item.id === product.id) ? icons.likefill : icons.like}
+                style={styles.mediumicon}
+                tintColor={
+                  likedProducts.some((item) => item.id === product.id) ? colors.red : colors.white
+                }
+              />
+            </TouchableOpacity>
+          </ImageBackground>
+        </View>
+
+        <View style={styles.productbody}>
+          <View style={styles.productbodyhead}>
+            <Text style={styles.productext}>{product.title}</Text>
+
+            <Text style={styles.productsubtext}>
+              <Text style={styles.productsubprice}>JMD </Text>{product.price}
+              <Text style={styles.productsubper}> /kg</Text>
+            </Text>
+
+            <Text style={styles.productdiscount}>JMD {product.discount}</Text> 
+          </View>     
+
+          <View style={styles.productbodybot}>
+              <Image
+                source={icons.starfill}
+                tintColor={colors.yellow}
+                style={styles.smallicon}
+              />
+
+              <Text style={styles.productgrading}>{product.grading}</Text>
+          </View>   
+        </View>
+
+        <View style={styles.productbot}>
+          <TouchableOpacity onPress={decrement}>
+            <Image
+              source={icons.subtract}
+              tintColor={colors.white}
+              style={styles.mediumicon}
+            />
+          </TouchableOpacity>
+
+          <Text style={styles.productcount}>JMD {quantity * product.price}</Text>
+
+          <TouchableOpacity onPress={increment}>
+            <Image
+              source={icons.add}
+              tintColor={colors.white}
+              style={styles.mediumicon}
+            />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 const Home = ({}) => {
 
   const router = useRouter();
@@ -445,6 +614,9 @@ const Home = ({}) => {
 
   const [values, setValues] = useState([0, 2000]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [selectedGrade, setSelectedGrade] = useState(null);
+  const [selectedRating, setSelectedRating] = useState(null);
 
   const [toggleFilter, setToggleFilter] = useState(false);
   const [currentAdIndex, setcurrentAdIndex] = useState(0);
@@ -452,67 +624,80 @@ const Home = ({}) => {
   const [likedProducts, setLikedProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState(products);
 
-  const renderProduct = ({ item: product }) => (
-    <View style={styles.listings}>
-      <TouchableOpacity 
-        key={product.id}
-        style={styles.listing}
-        onPress={() => {
-          const selectedProduct = products.find(p => p.id === product.id);
-          console.log(selectedProduct);
+  const [pan] = useState(new Animated.Value(0));
+  const [filterHeight, setFilterHeight] = useState('60%');
 
-          router.push({ 
-            pathname: '/product', 
-            params: {
-              products: JSON.stringify(selectedProduct),
-            }
-          });
-        }}
-      >
-        <View style={styles.productimage}>
-          <Image
-            source={product.image}
-            style={styles.lrgimage}
-            resizeMode='cover'
-          />
-        </View>
+  // Create the pan responder
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (_, gestureState) => {
+        pan.setValue(gestureState.dy);
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dy < -50) { // Swiped up
+          setFilterHeight('100%');
+        } else if (gestureState.dy > 50) { // Swiped down
+          setFilterHeight('60%');
+        }
+        Animated.spring(pan, {
+          toValue: 0,
+          useNativeDriver: false,
+        }).start();
+      },
+    })
+  ).current;
 
-        <View style={styles.productbody}>
-          <Text style={styles.productext}>{product.title}</Text>
+  /* Handlers Constants  */
 
-          <Text style={styles.productsub}>
-            <Text style={styles.productbig}>JMD </Text> 
-              {product.price}
-            <Text style={styles.productsml}> /kg</Text>
-          </Text>
+  const handleCategoryPress = (category) => {
+    setSelectedCategory(category);
+    setFilteredProducts(applyFilters(
+      products, 
+      searchQuery, 
+      selectedCategory, 
+      values,
+      selectedCompany,
+      selectedGrade,
+      selectedRating
+    ));
+  };
+  
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+    setFilteredProducts(applyFilters(
+      products, 
+      text, 
+      selectedCategory, 
+      values,
+      selectedCompany,
+      selectedGrade,
+      selectedRating
+    ));
+  };
+  
+  const handlePriceChange = (newValues) => {
+    setValues(newValues);
+    setFilteredProducts(applyFilters(
+      newValues,
+      products, 
+      searchQuery, 
+      selectedCategory, 
+      selectedCompany,
+      selectedGrade,
+      selectedRating      
+    ));
+  };
 
-          <Text style={styles.productcross}>JMD {product.discount}</Text>        
-        </View>
-      </TouchableOpacity>
+  /* Product Constants */
 
-      <View style={styles.likeandadd}>
-        <TouchableOpacity 
-          style={styles.likeproduct}
-          onPress={() => toggleLike(product)} 
-        >
-          <Image
-            source={likedProducts.some((item) => item.id === product.id) ? icons.likefill : icons.like}
-            style={styles.tinyicon}
-            tintColor={
-              likedProducts.some((item) => item.id === product.id) ? colors.red : colors.white
-            }
-          />
-        </TouchableOpacity>
-
-        <View style={styles.addproduct}>
-          <Image
-            source={icons.bag}
-            style={styles.minicon}
-            tintColor='rgba(0, 0, 0, 0)'
-          />
-        </View>        
-      </View>
-    </View>
+  const renderProduct = ({ item }) => (
+    <Product 
+      product={item} 
+      onLikePress={toggleLike} 
+      likedProducts={likedProducts} 
+      router={router} 
+    />
   );
 
   const toggleLike = async (product) => {
@@ -542,39 +727,40 @@ const Home = ({}) => {
     }
   };  
 
-  const applyFilters = (products, query, category, priceRange) => {
+  const applyFilters = (products, query, category, priceRange, company, grade, rating) => {
     let filtered = products;
-  
+    
+    // Existing filters
     if (query.trim() !== '') {
       filtered = filtered.filter(product =>
         product.name.toLowerCase().includes(query.toLowerCase())
       );
     }
-  
+    
     if (category !== null && category !== 0) {
       filtered = filtered.filter(product => product.category === category);
     }
-  
+    
     filtered = filtered.filter(product => {
       return product.price >= priceRange[0] && product.price <= priceRange[1];
     });
-  
+    
+    // New filters
+    if (company) {
+      filtered = filtered.filter(product => product.seller === company);
+    }
+    
+    if (grade) {
+      // Assuming you'll add a 'grade' field to your products
+      filtered = filtered.filter(product => product.grade === grade);
+    }
+    
+    if (rating) {
+      // Assuming you'll add a 'rating' field to your products
+      filtered = filtered.filter(product => Math.floor(product.rating) === rating);
+    }
+    
     return filtered;
-  };
-  
-  const handleCategoryPress = (category) => {
-    setSelectedCategory(category);
-    setFilteredProducts(applyFilters(products, searchQuery, category, values));
-  };
-  
-  const handleSearch = (text) => {
-    setSearchQuery(text);
-    setFilteredProducts(applyFilters(products, text, selectedCategory, values));
-  };
-  
-  const handlePriceChange = (newValues) => {
-    setValues(newValues);
-    setFilteredProducts(applyFilters(products, searchQuery, selectedCategory, newValues));
   };
 
   useEffect(() => {
@@ -592,62 +778,93 @@ const Home = ({}) => {
       <SafeAreaView style={styles.safeArea}>
         <ScrollView 
           showsVerticalScrollIndicator={false} 
-          contentContainerStyle={styles.scrollViewContent}
+          contentContainerStyle={styles.scrollViewContent1}
         >
           <View style={styles.container}>
             <View style={styles.header}>
-              <Image
-                source={icons.location}
-                style={styles.smallicon}
-                tintColor={colors.black}
-              />
+              <TouchableOpacity style={styles.headertop}>
+                <Image
+                  source={icons.location}
+                  style={styles.icon}
+                  tintColor={colors.black}
+                />  
+              </TouchableOpacity>
 
-              <View style={styles.delivery}>
-                <Text style={styles.deliverytext}>Deliver To</Text>
-                <Text style={styles.deliverysub}>4 Marvic Close, Red. . .</Text>
+              <View style={styles.headerbody}>
+                <Text style={styles.headerbodytext}>Express delivery</Text>
+                <Text style={styles.headerbodysub}>Deepolie Street, 42</Text>
               </View>
 
-              <Image
-                source={icons.notification}
-                style={styles.smallicon}
-                tintColor={colors.black}
-              />
+              <View style={styles.headerbot}>
+                <TouchableOpacity>
+                  <Image
+                    source={icons.search}
+                    style={styles.icon}
+                    tintColor={colors.black}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <Image
+                    source={icons.notification}
+                    style={styles.icon}
+                    tintColor={colors.black}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
 
             <View style={styles.search}>
-              <View style={styles.bar}>
-                <Image
-                  source={icons.search}
-                  style={styles.tinyicon}
-                  tintColor='rgba(0, 0, 0, 0.2)'
-                />
+              <Image
+                source={icons.search}
+                style={styles.mediumicon}
+                tintColor='rgba(0, 0, 0, 0.2)'
+              />
 
-                <TextInput
-                  placeholder="Search for your items"
-                  placeholderTextColor='rgba(0, 0, 0, 0.2)'
-                  value={searchQuery}
-                  onChangeText={handleSearch}
-                  style={styles.bartext}
-                />
-              </View>
+              <TextInput
+                placeholder="Search for your items"
+                placeholderTextColor='rgba(0, 0, 0, 0.2)'
+                value={searchQuery}
+                onChangeText={handleSearch}
+                style={styles.searchtext}
+              />
 
               <TouchableOpacity 
-                style={styles.filter}
                 onPress={() => setToggleFilter(!toggleFilter)}
               >
                 <Image
                   source={icons.filter}
-                  style={styles.tinyicon}
+                  style={styles.mediumicon}
+                  tintColor='rgba(0, 0, 0, 0.2)'
                 />
               </TouchableOpacity>
             </View>
 
-            <View style={styles.banner}>                                         
-              <Image
+            <View style={styles.promos}>
+              <ImageBackground
+                style={styles.promoImage}
+                imageStyle={styles.promoOverlay}
                 source={ads[currentAdIndex].image}
-                style={styles.lrgimage}  
-                resizeMode='cover'                 
-              />
+              >
+                <View style={styles.promotop}>
+                  <Text style={styles.promotoptext}>{ads[currentAdIndex].title}</Text>
+                  <Text style={styles.promotopsub}>{ads[currentAdIndex].subtitle}</Text>
+                </View>
+
+                <View style={styles.promobot}>
+                  <TouchableOpacity style={styles.promobutton1}>
+                    <Text style={styles.promobotext}>{ads[currentAdIndex].text}</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.promobutton2}>
+                    <Image
+                      source={icons.right}
+                      style={styles.mediumicon}
+                      tintColor={colors.charcoal}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
             </View>
 
             <View style={styles.pagination}>
@@ -662,67 +879,33 @@ const Home = ({}) => {
               ))}
             </View>
 
-            <View style={styles.categories}>
-              <View style={styles.topic}>
-                <Text style={styles.topictext}>Category</Text>
-              </View>
-
-              <View style={styles.category}>
-                <ScrollView 
-                  horizontal
-                  contentContainerStyle={styles.sort}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  {categories.map((category) => (
-                    <TouchableOpacity 
-                      key={category.id}
-                      style={styles.item}    
-                      onPress={() => handleCategoryPress(category.id)}                
-                    >
-                      <View style={styles.categoryimage}>
-                        <Image
-                          source={category.image}
-                          style={styles.smallimage}
-                          resizeMode='cover'
-                        />
-                      </View>
-
-                      <Text style={styles.categorytext}>{category.title}</Text>
-                    </TouchableOpacity>
-                  ))}      
-                </ScrollView>
-              </View>
-            </View>
-
             <View style={styles.offers}>
-
-              { searchQuery ? (
-
-                <View style={styles.searchview}>
-                  <View style={styles.topic}>
-                    <Text style={styles.topictext}>{filteredProducts.length} {filteredProducts.length === 1 ? 'Result' : 'Results'} Found</Text>
+              {searchQuery ? (
+                <View>
+                  <View style={styles.offer}>
+                    <Text style={styles.offertext}>{filteredProducts.length} {filteredProducts.length === 1 ? 'Result' : 'Results'} Found</Text>
                   </View>
                   
                   <FlatList
                     data={filteredProducts}
                     keyExtractor={(item) => item.id.toString()}
-                    scrollEnabled={false}
-                    showsVerticalScrollIndicator={false}
-                    numColumns={2}
+                    horizontal={true}
+                    scrollEnabled={true}
+                    showsHorizontalScrollIndicator={false}
                     renderItem={renderProduct}
-                    columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 20 }}
-                    contentContainerStyle={styles.product}
+                    contentContainerStyle={{ 
+                        gap: 15,
+                        justifyContent: 'center',
+                    }}
                   />
                 </View>
-
               ) : (
-
-                <View style={styles.defaultview}>
-                  <View style={styles.topic}>
-                    <Text style={styles.topictext}>Special Offers</Text>
+                <View>
+                  <View style={styles.offer}>
+                    <Text style={styles.offertext}>Novelities of the week</Text>
 
                     <TouchableOpacity>
-                      <Text style={styles.topicsub}>See More</Text>
+                      <Text style={styles.offersub}>See More</Text>
                     </TouchableOpacity>
                   </View>
 
@@ -730,17 +913,48 @@ const Home = ({}) => {
                     <FlatList
                       data={filteredProducts}
                       keyExtractor={(item) => item.id.toString()}
-                      scrollEnabled={false}
-                      showsVerticalScrollIndicator={false}
-                      numColumns={2}
+                      horizontal={true}
+                      scrollEnabled={true} 
+                      showsHorizontalScrollIndicator={false}
                       renderItem={renderProduct}
-                      columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 20 }}
-                      style={styles.product}
+                      contentContainerStyle={{ 
+                        gap: 15,
+                        justifyContent: 'center',
+                      }}
                     />
                   </View>
                 </View>
-
               )}
+            </View> 
+
+            <View style={styles.categories}>
+              <View style={styles.category}>
+                <ScrollView 
+                  horizontal
+                  contentContainerStyle={styles.categorysort}
+                  showsHorizontalScrollIndicator={false}
+                >
+                  {categories.map((category) => (
+                    <TouchableOpacity 
+                      key={category.id}
+                      style={styles.categoryitem}    
+                      onPress={() => handleCategoryPress(category.id)}                
+                    >
+                      <View style={styles.categorybody}>
+                        <Text style={styles.categorytext}>{category.title}</Text>
+                        
+                        <View style={styles.categoryimage}>
+                          <Image
+                            source={category.image}
+                            style={styles.largeimage}
+                            resizeMode='cover'
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}      
+                </ScrollView>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -749,77 +963,251 @@ const Home = ({}) => {
           <>
             <BlurView intensity={90} tint="dark" style={StyleSheet.absoluteFill} />
 
-            <View style={styles.funnel}>
+            <Animated.View 
+              style={[
+                styles.filters,
+                { height: filterHeight },
+                {
+                  transform: [{
+                    translateY: pan.interpolate({
+                      inputRange: [-300, 0, 300],
+                      outputRange: [-50, 0, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  }],
+                }
+              ]}
+            >
+              <View 
+                style={styles.filterdrag}
+                {...panResponder.panHandlers}
+              >
+                <Image
+                  source={icons.drag}
+                  style={styles.largeicon}
+                  tintColor={colors.dullGrey}
+                />
+              </View>
+
               <ScrollView 
                 showsVerticalScrollIndicator={false} 
-                contentContainerStyle={styles.scrollViewContent}
+                contentContainerStyle={styles.scrollViewContent2}
               >
-                <View style={styles.funnelcontent}>
-                  <View style={styles.funneltop}>
-                    <Image
-                      source={icons.filter}
-                      style={styles.subicon}
-                      tintColor={colors.black}
-                    />
-
-                    <Text style={styles.funneltext}>Filter</Text>
+                <View style={styles.filter}>
+                  <View style={styles.filterheader}>
+                    <Text style={styles.filtertitle}>Filter</Text>
 
                     <TouchableOpacity 
-                      style={styles.savefunnel}
+                      style={styles.close}
                       onPress={() => setToggleFilter(!toggleFilter)}
                     >
                       <Image
-                        source={icons.tick}
-                        style={styles.subicon}
-                        tintColor={colors.black}
+                        source={icons.close}
+                        style={styles.tinyicon}
+                        tintColor={colors.dullGrey}
                       />
                     </TouchableOpacity>
                   </View>
 
-                  <View style={styles.funnelbody}>
-                    <View style={styles.funnelheader}>
-                      <Text style={styles.funnelsub}>Category</Text>
-                      <Text style={styles.funnelbig}>e.g: Fruits, Veggies, etc.</Text>
+                  <View style={styles.filtersection}>
+                    <View style={styles.filtertop}>
+                      <Text style={styles.filtertext}>Category</Text>
+                      <Text style={styles.filtersubtext}>e.g: Fruits, Veggies, etc.</Text>
                     </View>
 
-                    <View style={styles.funnelcategories}>
-                      {categories.map((category) => (
+                    <ScrollView 
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      contentContainerStyle={styles.filteroptions}
+                    >
+                      {categories.map(category => (
                         <TouchableOpacity
                           key={category.id}
-                          style={[styles.funnelcategory, selectedCategory === category.id && styles.selectedcategory]}
-                          onPress={() => handleCategoryPress(category.id)}
+                          style={[
+                            styles.filteroption,
+                            selectedCategory === category && styles.selectedfilter
+                          ]}
+                          onPress={() => setSelectedCategory(
+                            selectedCategory === category.id ? null : category.id
+                          )}
                         >
-                          <Text style={styles.funnelsml}>{category.title}</Text>
+                          <Text style={styles.filteroptiontext}>{category.title}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
+
+                  <View style={styles.filtersection}>
+                    <View style={styles.filtertop}>
+                      <Text style={styles.filtertext}>Company</Text>
+                      <Text style={styles.filtersubtext}>Select producer/seller</Text>
+                    </View>
+
+                    <ScrollView 
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      contentContainerStyle={styles.filteroptions}
+                    >
+                      {companies.map(company => (
+                        <TouchableOpacity
+                          key={company.id}
+                          style={[
+                            styles.filteroption,
+                            selectedCompany === company.name && styles.selectedfilter
+                          ]}
+                          onPress={() => setSelectedCompany(
+                            selectedCompany === company.name ? null : company.name
+                          )}
+                        >
+                          <Text style={styles.filteroptiontext}>{company.name}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
+
+                  <View style={styles.filtersection}>
+                    <View style={styles.filtertop}>
+                      <Text style={styles.filtertext}>Food Grade</Text>
+                      <Text style={styles.filtersubtext}>Quality rating</Text>
+                    </View>
+
+                    <ScrollView 
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      contentContainerStyle={styles.filteroptions}
+                    >
+                      {foodGrades.map(grade => (
+                        <TouchableOpacity
+                          key={grade}
+                          style={[
+                            styles.filteroption,
+                            selectedGrade === grade && styles.selectedfilter
+                          ]}
+                          onPress={() => setSelectedGrade(
+                            selectedGrade === grade ? null : grade
+                          )}
+                        >
+                          <Text style={styles.filteroptiontext}>{grade}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
+
+                  <View style={styles.filtersection}>
+                    <View style={styles.filtertop}>
+                      <Text style={styles.filtertext}>Star Rating</Text>
+                      <Text style={styles.filtersubtext}>Customer reviews</Text>
+                    </View>
+
+                    <View style={styles.filteratings}>
+                      {starRatings.map(rating => (
+                        <TouchableOpacity
+                          key={rating}
+                          style={[
+                            styles.filterating,
+                            selectedRating === rating && styles.selectedrating
+                          ]}
+                          onPress={() => setSelectedRating(
+                            selectedRating === rating ? null : rating
+                          )}
+                        >
+                          <View style={styles.filteratingoptions}>
+                            {[...Array(rating)].map((_, i) => (
+                              <Image
+                                key={i}
+                                source={icons.starfill}
+                                style={styles.filteratingoption}
+                                tintColor={
+                                  selectedRating === rating ? colors.emerald : colors.grey
+                                }
+                              />
+                            ))}
+                          </View>
+
+                          <Text style={styles.filteratingtext}>{rating}+</Text>
                         </TouchableOpacity>
                       ))}
                     </View>
                   </View>
 
-                  <View style={styles.funnelprice}>
-                    <View style={styles.funnelheader}>
-                      <Text style={styles.funnelsub}>Price Range</Text>
-                      <Text style={styles.funnelbig}>${values[0]} - ${values[1]}</Text>
+                  <View style={styles.filterprice}>
+                    <View style={styles.filtertop}>
+                      <Text style={styles.filtertext}>Price Range</Text>
+                      <Text style={styles.filtersubtext}>JMD {values[0]} - JMD {values[1]}</Text>
                     </View>
 
-                    <MultiSlider
-                      values={values}
-                      onValuesChange={handlePriceChange}
-                      min={0}
-                      max={2000}
-                      step={10}
-                      sliderLength={350}
-                      allowOverlap
-                      snapped
-                      markerStyle={{height: 10, width: 10, backgroundColor: colors.emerald }}
-                      selectedStyle={{ backgroundColor: colors.emerald }}
-                      unselectedStyle={{ backgroundColor: colors.grey }}
-                    />
+                    <View style={styles.filterpriceinputs}>
+                      <View style={styles.filterpriceinput}>
+                        <Text style={styles.filterpricelabel}>Min:</Text>
+                                                
+                        <TextInput
+                          style={styles.filterpricetext}
+                          keyboardType="numeric"
+                          value={values[0].toString()}
+                          onChangeText={(text) => {
+                            if (text === '') {
+                              handlePriceChange([0, values[1]]);
+                            } 
+                            else {
+                              const num = parseInt(text) || 0;
+                              
+                              if (num >= 0 && num <= values[1]) {
+                                handlePriceChange([num, values[1]]);
+                              }
+                            }
+                          }}
+                        />
+                      </View>
+                      
+                      <View style={styles.filterpriceinput}>
+                        <Text style={styles.filterpricelabel}>Max:</Text>
+
+                        <TextInput
+                          style={styles.filterpricetext}
+                          keyboardType="numeric"
+                          value={values[1].toString()}
+                          onChangeText={(text) => {
+                            if (text === '') {
+                              handlePriceChange([values[0], 2000]);
+                            } else {
+                              const num = parseInt(text) || 0;
+                              if (num >= values[0] && num <= 2000) {
+                                handlePriceChange([values[0], num]);
+                              }
+                            }
+                          }}
+                        />
+                      </View>
+                    </View>
+
+                    <View style={styles.filterpriceslider}>
+                      <MultiSlider
+                        values={values}
+                        onValuesChange={handlePriceChange}
+                        min={0}
+                        max={2000}
+                        step={10}
+                        sliderLength={330}
+                        allowOverlap
+                        snapped
+                        markerStyle={{height: 10, width: 10, backgroundColor: colors.fresh }}
+                        selectedStyle={{ backgroundColor: colors.fresh }}
+                        unselectedStyle={{ backgroundColor: colors.charcoal }}
+                      />
+                    </View>
                   </View>
+
+                  <TouchableOpacity 
+                    style={styles.filterbutton}
+                    onPress={() => setToggleFilter(!toggleFilter)}
+                  >
+                    <Text style={styles.filterbuttontext}>Apply Changes</Text>
+                  </TouchableOpacity>
                 </View>
               </ScrollView>
-            </View>
+            </Animated.View>
           </>
-        )}  
+        )}
       </SafeAreaView>
     </>
   );
@@ -828,16 +1216,24 @@ const Home = ({}) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.link,
+    backgroundColor: colors.white,
     height: '100%',
   },
 
-  scrollViewContent: {
+  scrollViewContent1: {
     height: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 80,
     paddingTop: 20,
+  },
+
+  scrollViewContent2: {
+    height: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 80,
+    bottom: 30,
   },
 
   container: {
@@ -854,76 +1250,253 @@ const styles = StyleSheet.create({
     width: '90%',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 20,
   },
 
-  delivery: {
+  headertop: {
+    /* Add code here  */
+  },
+
+  headerbody: {
     marginRight: 80,
   },
 
-  deliverytext: {
-    fontFamily: 'Poppins-Medium',
+  headerbodytext: {
+    fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: 'rgba(0, 0, 0, 0.5)',
   },
 
-  deliverysub: {
-    fontFamily: 'Poppins-Bold',
+  headerbodysub: {
+    fontFamily: 'Gilroy-Bold',
     fontSize: 17,
+  },
+
+  headerbot: {
+    flexDirection: 'row',
+    gap: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   /* Search */
 
-  defaultview: {
-
-  },
-
-  searchview: {
-
-  },
-
   search: {
-    flexDirection: 'row',
     width: '90%',
+    backgroundColor: colors.gallery,
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',   
     marginVertical: 20, 
+    borderRadius: 18,
+    padding: 5,
   },
 
-  bar: {
-    flexDirection: 'row',
-    width: '80%',
-    backgroundColor: colors.white,
-    alignItems: 'center',  
-    gap: 10,  
-    padding: 10,
-    borderRadius: 15,
-    elevation: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
-  },
-
-  bartext: {
-    fontFamily: 'Poppins-Medium',
+  searchtext: {
+    fontFamily: 'Gilroy-Medium',
     fontSize: 15,
-    color: 'rgba(0, 0, 0, 0.5)',
+    color: colors.charcoal,
+    marginRight: 120,
   },
 
-  filter: {
-    backgroundColor: colors.white,
-    padding: 15,
-    borderRadius: 15,
-    elevation: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
-  },
+  /* Promos */
 
-  /* Banner */
-
-  banner: {
-    overflow: 'hidden',
+  promos: {
     width: '90%',
-    height: 200,
+    overflow: 'hidden',
     borderRadius: 20,
+  },
+
+  promoImage: {
+    padding: 20,
+    flexDirection: 'column',
+    gap: 25,
+  },
+
+  promoOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(18, 19, 19, 0.67)',
+    zIndex: 0,
+  },
+
+  promotop: {
+    flexDirection: 'column',
+    gap: 10,
+  },
+  
+  promotoptext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 20,
+    color: colors.white,
+  },
+  
+  promotopsub: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 15,
+    color: colors.white,
+  },
+
+  promobot: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 15,
+  },
+
+  promobotext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 15,
+    color: colors.charcoal,
+    padding: 5,
+  },
+
+  promobutton1: {
+    backgroundColor: colors.white,
+    height: 30,
+    width: 140,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  promobutton2: {
+    backgroundColor: colors.white,
+    height: 30,
+    width: 30,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  /* Offers */
+
+  offers: {
+    width: '90%',
+    marginVertical: 20,
+  },
+
+  offer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 20, 
+    alignItems: 'flex-end',
+  },
+
+  offertext: {
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 25,
+    color: colors.black,
+  },
+
+  offersub: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 15,
+    color: 'rgba(0, 0, 0, 0.3)',
+  },
+
+  /* Products */
+
+  catelogue: {
+  },
+
+  products: {
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+
+  product: {
+    backgroundColor: colors.white,
+    flexDirection: 'column',
+    gap: 10,
+    borderRadius: 20,
+  },
+
+  productbody: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     marginVertical: 10,
+  },
+
+  productbodybot: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+
+  productbodyhead: {
+    flexDirection: 'column',
+    gap: 8,
+  },
+
+  productext: {
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 15,
+    color: colors.black,
+  },
+
+  productsubtext: {
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 13,
+    color: colors.black,
+  },
+
+  productsubprice: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 13,
+    color: 'rgba(0, 0, 0, 0.3)',
+  },
+
+  productsubper: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 10,
+    color: 'rgba(0, 0, 0, 0.3)',
+  },
+
+  productdiscount: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 12,
+    color: 'rgba(0, 0, 0, 0.3)',
+    textDecorationLine: 'line-through',
+  },
+
+  productlike: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    width: 55,
+    height: 55,
+    padding: 10,
+    borderRadius: 30,
+    alignItems: 'center',
+    right: 0,
+    margin: 10,
+  },
+
+  productimage: {
+    width: 170,
+    height: 160,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+
+  productbot: {
+    padding: 10,
+    backgroundColor: colors.black,
+    borderRadius: 15,
+    width: 170,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  productcount: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 15,
+    color: colors.white,
+  },
+
+  productgrading: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 15,
+    color: colors.black,
   },
 
   /* Category */
@@ -933,154 +1506,40 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
 
-  category: {
-  },
-
-  sort: {
-    gap: 20,
-  },
-
-  item: {
-    flexDirection: 'column',
-    gap: 20,
-  },
-
-  topic: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 20, 
-  },
-
-  topictext: {
-    fontFamily: 'Poppins-Bold',
-    fontSize: 15,
-    color: colors.black,
-  },
-
-  topicsub: {
-    fontFamily: 'Poppins-Medium',
-    fontSize: 15,
-    color: 'rgba(0, 0, 0, 0.3)',
-  },
-
-  categorytext: {
-    fontFamily: 'Poppins-Medium',
-    fontSize: 10,
-    color: 'rgba(0, 0, 0, 0.3)',
-  },
-
-  categoryimage: {
-    backgroundColor: colors.white,
-    height: 80,
-    width: 80,
+  categorybody: {
+    backgroundColor: colors.lightGrey,
     padding: 15,
     borderRadius: 15,
-    elevation: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent:'center',
-    alignItems: 'center',
-  },
-
-  /* Products and Offers */
-
-  offers: {
-    width: '90%',
-    marginVertical: 20,
-  },
-
-  products: {
-    width: '100%',
-    justifyContent: 'space-between',
-  },
-
-  product: {
-  },
-
-  listings: {
-  },
-
-  listing: {
-    backgroundColor: colors.white,
-    flexDirection: 'column',
-    height: 250,
-    width: 175,
-    gap: 10,
-    borderRadius: 15,
-    elevation: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    width: 150,
+    height: 100,
     overflow: 'hidden',
   },
 
-  productimage: {
-    height: 120,
-    width: 'auto',
-  },
-
-  productbody: {
-    flexDirection: 'column',
-    padding: 10,
-  },
-
-  productext: {
-    fontFamily: 'Poppins-Bold',
+  categorytext: {
+    fontFamily: 'Gilroy-Bold',
     fontSize: 15,
     color: colors.black,
   },
 
-  productsub: {
-    fontFamily: 'Poppins-Bold',
-    fontSize: 13,
-    color: colors.black,
+  categorysort: {
+    gap: 20,
   },
 
-  productbig: {
-    fontFamily: 'Poppins-Medium',
-    fontSize: 13,
-    color: 'rgba(0, 0, 0, 0.3)',
+  categoryitem: {
+    flexDirection: 'column',
+    gap: 20,
   },
 
-  productsml: {
-    fontFamily: 'Poppins-Medium',
-    fontSize: 10,
-    color: 'rgba(0, 0, 0, 0.3)',
+  categoryimage: {
+    width: 150,
+    height: 150,
+    left: 30,
+    bottom: 30,
   },
 
-  productcross: {
-    fontFamily: 'Poppins-Medium',
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.3)',
-    textDecorationLine: 'line-through',
-  },
+  /* Filter */
 
-  /* Like and Add Product */
-
-  likeandadd: {
-    position: 'absolute',
-  },
-
-  likeproduct: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    alignItems: 'center', 
-    left: 115,
-    top: 5,
-    width: 55,
-    height: 55,
-    padding: 10,
-    borderRadius: 15,
-    elevation: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 10,
-  },
-
-  addproduct: {
-    left: 130,
-    top: 150,
-  },
-
-  /* Funnel */
-
-  funnel: {
+  filters: {
     backgroundColor: colors.white,
     width: '100%',
     height: '60%',
@@ -1088,12 +1547,18 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
   },
 
-  funnelcontent: {
+  filterdrag: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  filter: {
     width: '99%',
     padding: 30,
   },
 
-  funneltop: {
+  filterheader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 10,
@@ -1101,66 +1566,155 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  funnelheader: {
+  filtertop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 10,
     alignItems: 'center',
   },
 
-  savefunnel: {
-  },
-
-  funnelbody: {
-    width: '99%',
-  },
-
-  funnelcategories: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    gap: 5,
-    marginVertical: 10,
-    marginBottom: 30,
-  },
-
-  funnelcategory: {
-    backgroundColor: colors.emerald,
-    padding: 10,
-    borderRadius: 15,
-  },
-
-  selectedcategory: {
-    backgroundColor: colors.yellow,
-  },
-
-  funneltext: {
-    fontFamily: 'Poppins-SemiBold',
+  filtertitle: {
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 20,
     color: colors.black,
-    textTransform: 'uppercase',
     marginRight: 220,
   },
 
-  funnelsub: {
-    fontFamily: 'Poppins-Bold',
+  filtersubtitle: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 13,
+    color: colors.black,
+  },
+
+  filtertext: {
+    fontFamily: 'Gilroy-Bold',
     fontSize: 16,
     color: 'rgba(0, 0, 0, 0.4)',
   },
 
-  funnelsml: {
-    fontFamily: 'Poppins-Medium',
-    fontSize: 13,
-    color: colors.black,
-  },
-
-  funnelbig: {
-    fontFamily: 'Poppins-Medium',
+  filtersubtext: {
+    fontFamily: 'Gilroy-Medium',
     fontSize: 13,
     color: 'rgba(0, 0, 0, 0.4)',
   },
+  
+  filtersection: {
+    marginBottom: 25,
+  },
 
-  funnelprice: {
+  filteroptions: {
+    gap: 10,
+    paddingVertical: 10,
+  },
+  
+  filteroption: {
+    backgroundColor: colors.gallery,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 20,
+  },
+
+  filteroptiontext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 14,
+  },
+
+  filterprice: {
     width: '100%',
+  },
+
+  filterpriceinputs: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+
+  filterpriceinput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.gallery,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    width: '45%',
+  },
+
+  filterpricelabel: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 14,
+    color: colors.black,
+    marginRight: 5,
+  },
+  
+  filterpricetext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 16,
+    color: colors.black,
+    flex: 1,
+  },
+
+  filterpriceslider: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  filteratings: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    gap: 5,
+  },
+  
+  filterating: {
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: colors.gallery,
+  },
+  
+  filteratingoptions: {
+    flexDirection: 'row',
+    marginBottom: 5,
+  },
+  
+  filteratingoption: {
+    width: 15,
+    height: 15,
+    marginHorizontal: 1,
+  },
+  
+  filteratingtext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 12,
+  },
+
+  filterbutton: {
+    padding: 20,
+    width: '100%',
+    backgroundColor: colors.green,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  filterbuttontext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 12,
+    color: colors.white
+  },
+
+  /* Selected */
+
+  selectedrating: {
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+  },
+  
+  selectedcategory: {
+    backgroundColor: colors.yellow,
+  },
+
+  selectedfilter: {
+    backgroundColor: colors.emerald,
   },
 
   /* Pagination */
@@ -1169,56 +1723,75 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '90%',
     alignItems: 'center',
-    marginVertical: 10,
+    marginTop: 10,
   },
 
   dot: {
-    height: 7,
-    width: 7,
+    height: 5,
+    width: 5,
     borderRadius: 4,
     margin: 5,
   },
 
   active: {
-    backgroundColor: colors.emerald,
-    width: 15,
+    backgroundColor: colors.fresh,
+    width: 30,
   },
 
   inactive: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
 
-  /* Images, and Icons */
+  /* Add-Ons */
 
-  smallimage: {
+  close: {
+    width: 25,
+    height: 25,
+    borderRadius: 20,
+    backgroundColor: colors.black,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  /* Images */
+
+  image: {
     height: 80,
     width: 80,
   },
 
-  lrgimage: {
+  largeimage: {
     height: '100%',
     width: '100%',
   },
 
-  smallicon: {
-    height: 35,
-    width: 35,
-  },
+  /* Icons */
 
-  tinyicon: {
+  icon: {
     height: 25,
     width: 25,
+  },
+  
+  largeicon: {
+    margin: 15,
+    width: 90,
+    height: 40,
+  },
+
+  mediumicon: {
+    height: 20,
+    width: 20,
     margin: 5,
   },
 
-  subicon: {
-    height: 25,
-    width: 25,
+  smallicon: {
+    height: 15,
+    width: 15,
   },
 
-  minicon: {
-    height: 30,
-    width: 30,
+  tinyicon: {
+    height: 5,
+    width: 5,
   },
 
 });

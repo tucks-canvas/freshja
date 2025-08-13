@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
 
   headertext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 25,
     color: colors.black,
   },
@@ -243,32 +243,32 @@ const styles = StyleSheet.create({
   },
 
   productext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     color: colors.black,
   },
 
   productsub: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 15,
     color: colors.black,
   },
 
   productbig: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 15,
     color: 'rgba(0, 0, 0, 0.3)',
     marginBottom: 10,
   },
 
   productsml: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: 'rgba(0, 0, 0, 0.3)',
   },
 
   producthighlight: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: colors.white,
   },
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   },
 
   numbertext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 12,
     color: colors.black,
   },
@@ -321,19 +321,19 @@ const styles = StyleSheet.create({
   },
 
   cartext: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 18,
     color: colors.black,
   },
 
   cartsub: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     color: colors.black,
   },
 
   carthighlight: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 12,
     color: colors.emerald,
   },
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   },
 
   booktext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     color: colors.white,
   },

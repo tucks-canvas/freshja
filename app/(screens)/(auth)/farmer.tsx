@@ -385,13 +385,13 @@ const styles = StyleSheet.create({
   headertext: {
     fontSize: 45,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Bold',
+    fontFamily: 'Gilroy-Bold',
   },
 
   headersub: {
     fontSize: 12,
     color: colors.grey,
-    fontFamily: 'Lightbox21-Medium',
+    fontFamily: 'Gilroy-Medium',
   },
 
   /* Text */
@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     color: colors.grey,
-    fontFamily: 'Lightbox21-Regular',
+    fontFamily: 'Gilroy-Regular',
     letterSpacing: 0.7,
     marginBottom: 20,
   },
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
   documentitle: {
     fontSize: 12,
     color: colors.dullGrey,
-    fontFamily: 'Lightbox21-Medium',
+    fontFamily: 'Gilroy-Medium',
   },
 
   /* Upload */
@@ -487,14 +487,14 @@ const styles = StyleSheet.create({
   uploadtext: {
     fontSize: 10,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Medium',
+    fontFamily: 'Gilroy-Medium',
     textAlign: 'center',
   },
 
   uploadedtext: {
     fontSize: 10,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Medium',
+    fontFamily: 'Gilroy-Medium',
   },
 
   /* Pages */
@@ -513,14 +513,14 @@ const styles = StyleSheet.create({
   pagetext: {
     fontSize: 10,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Medium',
+    fontFamily: 'Gilroy-Medium',
     top: 3,
   },
     
   pagesub: {
     fontSize: 25,
     color: colors.elf,
-    fontFamily: 'Lightbox21-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
   },
 
   /* Footer */
@@ -552,7 +552,7 @@ const styles = StyleSheet.create({
   buttontext: {
     fontSize: 13,
     color: colors.white,
-    fontFamily: 'Lightbox21-Bold',    
+    fontFamily: 'Gilroy-Bold',    
     letterSpacing: 2,
   },
 
@@ -574,7 +574,7 @@ const styles = StyleSheet.create({
   signsub: {
     fontSize: 13,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Bold',
+    fontFamily: 'Gilroy-Bold',
   },
 
   /* Rep */
@@ -596,13 +596,13 @@ const styles = StyleSheet.create({
   reptext: {
     fontSize: 85,
     color: colors.elf,
-    fontFamily: 'Lightbox21-Bold',
+    fontFamily: 'Gilroy-Bold',
   },
 
   repsub: {
     fontSize: 25,
     color: colors.grey,
-    fontFamily: 'Lightbox21-Regular',
+    fontFamily: 'Gilroy-Regular',
   },
 
   /* Backward */

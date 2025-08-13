@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   },
   
   headertext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 25,
   },
 
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
   },
   
   addresstext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     lineHeight: 24,
     color: colors.black,
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
   },
 
   addressub: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     fontSize: 16,
     lineHeight: 24,
     color: colors.black,
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
   },
 
   cartext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     lineHeight: 24,
     color: colors.black,
@@ -420,18 +420,18 @@ const styles = StyleSheet.create({
   },
   
   itemtitle: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 16,
   },
   
   itemprice: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     fontSize: 14,
     color: 'rgba(0, 0, 0, 0.6)',
   },
   
   itemTotal: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 16,
   },
 
@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
   },
   
   deliverytext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     marginBottom: 10,
   },
@@ -467,7 +467,7 @@ const styles = StyleSheet.create({
   },
   
   dateselectortext: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     fontSize: 16,
     color: '#6c757d',
   },
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
   },
 
   timetext: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     fontSize: 14,
     color: colors.black,
   },
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
   },
 
   paymentext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     color: colors.black,
   },
@@ -540,7 +540,7 @@ const styles = StyleSheet.create({
   },
   
   cardno: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 16,
     letterSpacing: 9.35,
   },
@@ -552,13 +552,13 @@ const styles = StyleSheet.create({
   },
   
   cardholder: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     fontSize: 14,
     color: '#6c757d',
   },
   
   cardexpiry: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     fontSize: 14,
     color: '#6c757d',
   },
@@ -602,12 +602,12 @@ const styles = StyleSheet.create({
   },
   
   summarytext: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     fontSize: 16,
   },
   
   summarysub: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 16,
   },
   
@@ -619,12 +619,12 @@ const styles = StyleSheet.create({
   },
   
   totaltext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
   },
 
   totalsub: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     color: colors.emerald,
   },
@@ -640,7 +640,7 @@ const styles = StyleSheet.create({
   },
   
   paybuttontext: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Gilroy-Bold',
     fontSize: 18,
     color: colors.white,
   },
@@ -648,7 +648,7 @@ const styles = StyleSheet.create({
   /* Selected */
   
   selectedate: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Gilroy-Regular',
     fontSize: 16,
     color: colors.black,
   },
@@ -675,7 +675,7 @@ const styles = StyleSheet.create({
   
   confirmtext: {
     color: colors.white,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 16,
   },
 

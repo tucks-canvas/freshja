@@ -24,43 +24,48 @@ const Loading = () => {
 
   const textY = useSharedValue(30);
   const textOpacity = useSharedValue(0);
-  const subtitleOpacity = useSharedValue(0); // New control for "for you" text
+  const subtitleOpacity = useSharedValue(0);
   
   const dotScale = useSharedValue(0.1);
   const dotOpacity = useSharedValue(0);
 
   useEffect(() => {
-    // Logo fade in with gentle scale
     logoOpacity.value = withTiming(1, { duration: 800 });
     logoScale.value = withTiming(1, { 
       duration: 1000, 
       easing: Easing.out(Easing.elastic(1)) 
     });
 
-    // Text animation after logo appears
     setTimeout(() => {
       textY.value = withSequence(
         withTiming(-5, { duration: 200 }),
         withTiming(0, { duration: 300, easing: Easing.out(Easing.quad) })
       );
       textOpacity.value = withTiming(1, { duration: 500 });
-      subtitleOpacity.value = withTiming(1, { duration: 500 }); // Show "for you"
+      subtitleOpacity.value = withTiming(1, { duration: 500 });
       
-      // Dot animation after text is fully visible
       setTimeout(() => {
-        // First fade out "for you" text
         subtitleOpacity.value = withTiming(0, { duration: 200 }, () => {
-          // Then start dot animation
           dotOpacity.value = withTiming(1, { duration: 200 });
-          dotScale.value = withTiming(
-            100,
-            {
-              duration: 800,
-              easing: Easing.in(Easing.exp),
-            },
-            () => {
-              runOnJS(router.replace)('/signin');
-            }
+          // Updated dot animation sequence: bounce in, then expand out
+          dotScale.value = withSequence(
+            // Bounce in (scale up then down slightly)
+            withTiming(1.5, { duration: 150, easing: Easing.out(Easing.quad) }),
+            withTiming(0.8, { duration: 100, easing: Easing.out(Easing.quad) }),
+            // Small bounce back to normal size
+            withTiming(1.1, { duration: 80, easing: Easing.out(Easing.quad) }),
+            withTiming(1, { duration: 60, easing: Easing.out(Easing.quad) }),
+            // Then expand out
+            withTiming(
+              100,
+              {
+                duration: 800,
+                easing: Easing.in(Easing.exp),
+              },
+              () => {
+                runOnJS(router.replace)('/reel');
+              }
+            )
           );
         });
       }, 1000);
@@ -86,7 +91,7 @@ const Loading = () => {
     opacity: dotOpacity.value,
     transform: [{ scale: dotScale.value }],
     top: '50%',
-    marginTop: -5,
+    marginTop: 13,
   }));
 
   return (
@@ -95,15 +100,7 @@ const Loading = () => {
       
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
-          <View style={styles.content}>
-            <Animated.View style={[styles.logocontainer, logoStyle]}>
-              <Image 
-                source={images.logo} 
-                style={styles.image}
-                resizeMode='contain'
-              />
-            </Animated.View>
-            
+          <View style={styles.content}>            
             <View style={styles.textcontainer}>
               <Animated.View style={[styles.texts, textStyle]}>
                 <Text style={styles.title}>fresh</Text>
@@ -125,7 +122,7 @@ const Loading = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.backdrop,
   },
   
   container: {
@@ -156,8 +153,8 @@ const styles = StyleSheet.create({
   
   title: {
     fontSize: 50,
-    color: colors.california,
-    fontFamily: 'Lightbox21-ExtraBold',
+    color: colors.default,
+    fontFamily: 'Gilroy-ExtraBold',
   },
   
   subtitlecontainer: {
@@ -168,27 +165,27 @@ const styles = StyleSheet.create({
   
   subtitle: {
     fontSize: 10,
-    color: colors.yellow,
-    fontFamily: 'Poppins-Bold',
+    color: colors.complementary,
+    fontFamily: 'Gilroy-Bold',
     textTransform: 'uppercase',
     letterSpacing: 7,
   },
 
   altitle: {
     fontSize: 50,
-    color: colors.fresh,
-    fontFamily: 'Lightbox21-ExtraBold',
+    color: colors.complementary,
+    fontFamily: 'Gilroy-ExtraBold',
   },
 
   /* Dot */
 
   dot: {
     position: 'absolute',
-    right: -10,
+    right: -15,
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: colors.fresh,
+    backgroundColor: colors.default,
   },
 
   /* Logo */

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Tabs from './(tabs)/_layout';
-import Loading from './(screens)/(auth)/loading';
+import Loading from './(screens)/(load)/loading';
 
 const Stack = createStackNavigator();
 

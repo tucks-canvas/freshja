@@ -1,5 +1,21 @@
 const colors = {
-    default: '#01796F',
+    default: '#181818',
+    black: '#222222',
+    white: '#FFFFFF',
+    grey: '#808080',
+    link: '#eef3fb',
+
+    // Accents
+
+    complementary: '#61ad4e',
+    backdrop: '#f9f9f9',
+    elf: '#098e63',
+    fresh: '#4daa46',
+
+    // Used Colors
+
+    gallery: '#3a38380a',
+    charcoal: '#00000080',
 
     // Basic Colours
 
@@ -8,10 +24,7 @@ const colors = {
     deep: '#4F7490',
     gore: '#151537',
     malibu: '#4F48EC',
-    black: '#222222',
     yellow: "#FFBF18",
-    white: '#FFFFFF',
-    grey: '#808080',
     red: '#C41E3A',
     green: '#4eaf59ff',
     dew: '#F0FFF0',
@@ -35,24 +48,20 @@ const colors = {
     indigo: '#535ac2',
     marguerite: '#736dbd',
     chetwood: '#8887d7',
-    elf: '#098e63',
-    fresh: '#4daa46',
-    link: '#eef3fb',
     california: '#fe9506',
 
     // Light, Medium and Soft Colors
-    
-    softgreen: '#29AB87',
-    softblue: '#cfe0f7',
     softyellow: '#fbecbd',
     mediumyellow: '#FFBF20',
-    lightBlue: '#ADD8E6',
+    darkorange: '#e36e0f',
+    
     lightGrey: '#FBFBFB',
     dullGrey: '#DEDEDE',
+    
+    softgreen: '#29AB87',
     lightGreen: '#90EE90',
     darkgreen: '#123c29',
     lightgreen: '#bdd9ccff',
-    darkorange: '#e36e0f',
 
 
     // Calendar Colors

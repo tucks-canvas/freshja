@@ -4,7 +4,6 @@ export default function AuthViews() {
 
     return (
         <Stack>
-            <Stack.Screen name="loading" options={{headerShown: false}} />
             <Stack.Screen name="farmer" options={{headerShown: false}} />
             <Stack.Screen name="customer" options={{headerShown: false}} />
             <Stack.Screen name="choice" options={{headerShown: false}} />
