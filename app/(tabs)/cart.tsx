@@ -20,9 +20,9 @@ import { icons, images } from '../../constants';
 import colors from '../../constants/colors';
 
 const Cart = ({}) => {
+  const router = useRouter();
 
   const [cart, setCart] = useState([]);
-  const router = useRouter();
 
   const updateQuantity = async (id, change) => {
     const updatedCart = cart.map((item) => {
@@ -34,6 +34,7 @@ const Cart = ({}) => {
     });
 
     setCart(updatedCart);
+
     await AsyncStorage.setItem('cart', JSON.stringify(updatedCart)); 
   };
 
@@ -46,6 +47,7 @@ const Cart = ({}) => {
   useEffect(() => {
     const loadCart = async () => {
       const storedCart = await AsyncStorage.getItem('cart');
+
       if (storedCart) {
         setCart(JSON.parse(storedCart));
       }
@@ -68,59 +70,64 @@ const Cart = ({}) => {
               <Text style={styles.headertext}>My Cart</Text>
             </View>
 
-            <View style={styles.body}>
+            <View style={styles.cart}>
               {cart.length > 0 ? (
                 <View style={styles.cartview}>
                   {cart.map((item) => (
                     <View 
-                      style={styles.product}
-                      key={item.id}                
+                      key={item.id}
+                      style={styles.product}                
                     >
                         <View style={styles.productimage}>
                           <Image
                             source={item.image} 
-                            style={styles.lrgimage}
+                            style={styles.largeimage}
                             resizeMode='cover'               
                           />
                         </View>
 
-                        <View style={styles.productdetail}>
-                          <Text style={styles.productext}>{item.title}</Text>
+                        <View style={styles.productinfo}>
+                          <View style={styles.productexts}>
+                            <Text style={styles.productext}>{item.title}</Text>
+                            
+                            <Text style={styles.productsub}>
+                              <Text style={styles.productsubprice}>JMD </Text>{item.price}
+                              <Text style={styles.productsubper}> /kg</Text>
+                            </Text>
+                          </View>
 
-                          <Text style={styles.productsub}>
-                            <Text style={styles.productbig}>JMD </Text> 
-                            {item.price}
-                            <Text style={styles.productsml}> /kg</Text>
+                          <Text style={styles.productsubtext}>
+                            JMD ${(item.price * item.quantity).toFixed(2)}
+                            <Text style={styles.productsubper}> total</Text>
                           </Text>
                         </View>
 
-                        <View style={styles.productcounts}>
+                        <View style={styles.productquantities}>
                           <TouchableOpacity 
                             onPress={() => removeItem(item.id)}
-                            style={styles.countimage}
                           >
                             <Image
                               source={icons.close}
-                              style={styles.alticon}
+                              style={styles.smallicon}
                               tintColor='rgba(0, 0, 0, 0.1)'                            
                             />
                           </TouchableOpacity>
 
-                          <View style={styles.productcount}>
+                          <View style={styles.productquantity}>
                             <TouchableOpacity  onPress={() => updateQuantity(item.id, -1)}>
                               <Image
-                                  source={icons.slash}
-                                  style={styles.minicon}
+                                  source={icons.minus}
+                                  style={styles.tinyicon}
                                   tintColor='rgba(0, 0, 0, 0.2)'
                               />
                             </TouchableOpacity>
 
-                            <Text style={styles.numbertext}>{item.quantity} pcs</Text>
+                            <Text style={styles.productquantitytext}>{item.quantity}</Text>
 
                             <TouchableOpacity onPress={() => updateQuantity(item.id, 1)}>
                               <Image
-                                  source={icons.cross}
-                                  style={styles.minicon}
+                                  source={icons.plus}
+                                  style={styles.tinyicon}
                                   tintColor='rgba(0, 0, 0, 0.2)'
                               />
                             </TouchableOpacity>
@@ -132,27 +139,38 @@ const Cart = ({}) => {
                 </View>
               ) : (
                 <View style={styles.defaultview}>
-                  <Text style={styles.productbig}>Your cart is empty!</Text>
+                  <Text style={styles.defaultext}>Your cart is empty!</Text>
                 </View>
               )}
             </View>
           </View>
         </ScrollView>
 
-        <View style={styles.productocart}>
-          <View style={styles.cartcontents}>
-            <Text style={styles.cartext}>Total 
-              <Text style={styles.carthighlight}></Text>
-            </Text>
-            <Text style={styles.cartsub}>JMD {cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</Text>
+        <View style={styles.cartopayment}>
+          <View style={styles.totalsandfees}>
+            <View style={styles.subtotals}>
+              <Text style={styles.subtotal}>Subtotal ({cart.reduce((sum, item) => sum + item.quantity, 0)} items)</Text>
+              <Text style={styles.subtotalprice}>JMD ${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</Text>    
+            </View>
           </View>
 
           <TouchableOpacity 
-            style={styles.book}
+            style={styles.checkouts}
             onPress={() => router.push('/checkout')} 
-            // /screens/cart/checkout
           >
-            <Text style={styles.booktext}>Checkout</Text>
+            <View style={styles.checkoutotals}>
+              <Text style={styles.checkoutotal}>JMD ${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</Text>
+            </View>
+
+            <View style={styles.checkout}>
+              <Text style={styles.checkoutext}>Checkout</Text>
+
+              <Image
+                source={icons.right}
+                tintColor={colors.white}
+                style={styles.tinyicon}
+              />
+            </View>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -162,7 +180,7 @@ const Cart = ({}) => {
 
 const styles = StyleSheet.create({
   safeArea: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: colors.white,
     alignItems: 'center',
     height: '100%',
@@ -172,47 +190,59 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     height: '100%',
     width: '100%',
-    paddingBottom: 80,
-    paddingTop: 20,
+    marginBottom: 80,
+    marginTop: 20,
   },
 
   container: {
-    flex: 1,
+    flexGrow: 1,
     width: '100%',
     height: '100%',
     alignItems: 'center',
-  },
-
-  /* Header */
-
-  header: {
-    width: '90%',
-    height: 'auto',
-    paddingVertical: 20,
-  },
-
-  headertext: {
-    fontFamily: 'Gilroy-Bold',
-    fontSize: 25,
-    color: colors.black,
-  },
-
-  /* Body */
-
-  body: {
-    width: '90%',
   },
 
   /* Views */
 
   defaultview: {
     width: '100%',
+    height: 800,
   },
 
   cartview: {
     flexDirection: 'column',
-    width: '100%',
+    width: '90%',
+    height: 1200,
     gap: 25,
+    marginTop: 25,
+  },
+
+  /* Cart */
+
+  cart: {
+    width: '90%',
+    height: 'auto',
+  },
+
+  /* Default */
+
+  defaultext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 15,
+    color: 'rgba(0, 0, 0, 0.3)',
+  },
+
+  /* Header */
+
+  header: {
+    width: '90%',
+    marginBottom: 20,
+    marginTop: 20,
+  },
+
+  headertext: {
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 25,
+    color: colors.black,
   },
 
   /* Product */
@@ -222,136 +252,258 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
+    borderBottomWidth: 0.5,
+    borderColor: colors.dullGrey,
+    paddingBottom: 10,
+    height: 100,
   },
 
-  productdetail: {
+  productinfo: {
+    height: '100%',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    gap: 7, 
   },
 
-  productimage: {
-    backgroundColor: colors.white,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent:'center',
-    alignItems: 'center',
-    overflow: 'hidden',
-    height: 56,
-    width: 58,
-    borderRadius: 15,
-    elevation: 10,
+  productexts: {
+    flexDirection: 'column',
+    gap: 5,
   },
 
   productext: {
     fontFamily: 'Gilroy-Bold',
-    fontSize: 18,
+    fontSize: 17,
+    color: colors.black,
+  },
+
+  productsubtext: {
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 16,
     color: colors.black,
   },
 
   productsub: {
     fontFamily: 'Gilroy-Bold',
-    fontSize: 15,
+    fontSize: 12,
     color: colors.black,
   },
 
-  productbig: {
+  productsubprice: {
     fontFamily: 'Gilroy-Medium',
     fontSize: 15,
     color: 'rgba(0, 0, 0, 0.3)',
     marginBottom: 10,
   },
 
-  productsml: {
+  productsubper: {
     fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: 'rgba(0, 0, 0, 0.3)',
   },
 
-  producthighlight: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 10,
-    color: colors.white,
+  productquantities: {
+    height: '100%',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',  
   },
 
-  productcount: {
+  productquantity: {
     backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 5,
     gap: 10,
-    borderRadius: 12,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    borderWidth: 1,
   },
 
-  productcounts: {
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    gap: 15,   
-  },
-
-  countimage: {
-
-  },
-
-  number: {
-  },
-
-  numbertext: {
+  productquantitytext: {
     fontFamily: 'Gilroy-Bold',
     fontSize: 12,
     color: colors.black,
   },
 
-  /* Button */
-
-  productocart: {
-    backgroundColor: colors.white,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '90%',
-    marginBottom: 110,
-  },
-
-  cartcontents: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-
-  cartext: {
+  productotaltext: {
     fontFamily: 'Gilroy-SemiBold',
-    fontSize: 18,
-    color: colors.black,
+    fontSize: 15,
+    color: colors.white,
   },
 
-  cartsub: {
-    fontFamily: 'Gilroy-Bold',
-    fontSize: 18,
-    color: colors.black,
-  },
-
-  carthighlight: {
+  productotalsubtext: {
     fontFamily: 'Gilroy-Medium',
     fontSize: 12,
     color: colors.emerald,
   },
 
-  book: {
-    backgroundColor: colors.emerald,
-    height: 60,
-    width: 170,
-    padding: 15,
-    borderRadius: 15,
-    elevation: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
+  productimage: {
+    height: 90,
+    width: 100,
+    backgroundColor: colors.white,
     justifyContent:'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    borderRadius: 12,
+  },
+
+  /* Checkout */
+  
+  cartopayment: {
+    alignItems: 'center',
+    width: '80%',
+    marginBottom: 110,
+    flexDirection: 'column',
+    gap: 15,
+  },
+
+  /* Promo */
+
+  promo: {
+    width: '100%',
+    borderRadius: 20,
+    padding: 8,
+    borderWidth: 2,
+    borderColor: colors.black,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
 
-  booktext: {
+  promocode: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+
+  promotext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 10,
+    color: colors.black,
+    marginLeft: 4,
+  },
+
+  promoinput: {
     fontFamily: 'Gilroy-Bold',
+    fontSize: 12,
+    color: colors.black,
+  },
+
+  /* Totals and Fees */
+
+  totalsandfees: {
+    width: '100%',
+    flexDirection: 'column',
+    gap: 20,
+  },
+
+  subtotals: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  subtotal: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 14,
+    color: colors.black,
+  },
+
+  subtotalprice: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 14,
+    color: colors.black,
+  },
+
+  fees: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  fee: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 14,
+    color: colors.black,
+  },
+
+  feeprice: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 14,
+    color: colors.black,
+  },
+
+  discounts: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  discount: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+
+  discountext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 14,
+    color: colors.black,
+  },
+
+  discountsubtext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 10,
+    color: colors.dullGrey,
+  },
+
+  discountprice: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 14,
+    color: colors.black,
+  },
+
+  taxes: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  tax: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+
+  taxtext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 14,
+    color: colors.black,
+  },
+
+  taxsubtext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 10,
+    color: colors.dullGrey,
+  },
+
+  taxprice: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 14,
+    color: colors.black,
+  },
+  
+  /* Checkout */
+
+  checkouts: {
+    backgroundColor: colors.black,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 18,
+    borderRadius: 15,
+    width: '100%',
+    marginTop: 10,
+  },
+
+  checkoutotals: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    gap: 5,
+  },
+
+  checkoutotal: {
+    fontFamily: 'Gilroy-Medium',
     fontSize: 18,
     color: colors.white,
   },
@@ -384,22 +536,35 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
 
-  /* Images, and Icons */
+  /* Add-Ons */
+
+  checkout: {
+  },
+
+  checkout: {
+    flexDirection: 'row',
+    gap: 5,
+  },
+
+  checkoutext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 18,
+    color: colors.white,
+  },
+
+  /* Images, */
 
   smallimage: {
     height: 80,
     width: 80,
   },
 
-  lrgimage: {
+  largeimage: {
     height: '100%',
     width: '100%',
   },
 
-  bigicon: {
-    width: 100,
-    height: 100,
-  },
+  /* Icons */
 
   icon: {
     height: 40,
@@ -407,34 +572,13 @@ const styles = StyleSheet.create({
   },
 
   smallicon: {
-    height: 35,
-    width: 35,
-  },
-
-  alticon: {
     height: 10,
     width: 10,
-  },
-
-  supicon: {
-    height: 25,
-    width: 25,
   },
 
   tinyicon: {
     height: 25,
     width: 25,
-    margin: 5,
-  },
-
-  subicon: {
-    height: 25,
-    width: 25,
-  },
-
-  minicon: {
-    height: 25,
-    width: 20,
   },
 
 });

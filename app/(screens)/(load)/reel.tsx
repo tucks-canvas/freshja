@@ -23,6 +23,24 @@ const carouselData = [
     title: "Healthy meals made easy",
     subtitle: "Nutritious options for every lifestyle"
   },
+  { 
+    id: 4, 
+    image: images.background2,
+    title: "Seasonal picks just for you",
+    subtitle: "Enjoy the best produce each season brings"
+  },
+  { 
+    id: 5, 
+    image: images.background1,
+    title: "Sustainable and eco-friendly choices",
+    subtitle: "Support local farmers and the environment"
+  },
+  { 
+    id: 6, 
+    image: images.background0,
+    title: "Convenience at your fingertips",
+    subtitle: "Order anytime, anywhere with our easy app"
+  },
 ];
 
 const Reel = () => {

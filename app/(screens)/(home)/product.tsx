@@ -47,6 +47,7 @@ const Product = ({}) => {
   const headerWidth = 60;
 
   const [selectedHeader, setSelectedHeader] = useState(null);
+  const [selectedLike, setSelectedLike] = useState(false);
 
   const [count, setCount] = useState(0);
 
@@ -125,12 +126,6 @@ const Product = ({}) => {
   const handleHeaderPress = (header_id, index) => {
     setSelectedHeader(header_id);
     console.log('Selected Header:', header_id);
-
-    Animated.timing(translateX, {
-      toValue: index * headerWidth * (2.09 + index * (0.158 * (index - 0.89) ** (index - 1))),
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
   };  
 
   const generateStars = (rating) => {
@@ -143,8 +138,8 @@ const Product = ({}) => {
         <Image
           key={`full-${i}`}
           source={icons.starfill}
-          style={styles.supicon}
-          tintColor={colors.emerald}
+          style={styles.smallicon}
+          tintColor={colors.black}
         />
       );
     }
@@ -154,7 +149,7 @@ const Product = ({}) => {
         <Image
           key={`empty-${i}`}
           source={icons.star}
-          style={styles.supicon}
+          style={styles.smallicon}
           tintColor='rgba(0, 0, 0, 0.3)'
         />
       );
@@ -185,18 +180,11 @@ const Product = ({}) => {
       }
 
       await AsyncStorage.setItem('cart', JSON.stringify(cart));
-
-      /*
-        Alert.alert('Success', 'Item added to cart!'); 
-      */
       router.push('/cart');
     } 
     catch (error) 
     {
       console.error('Error saving cart data:', error);
-      /*
-        Alert.alert('Error', 'Could not add item to cart.');
-      */
     }
   };
 
@@ -216,10 +204,34 @@ const Product = ({}) => {
     <>
       <StatusBar translucent backgroundColor="transparent" barStyle="light-content"  />
 
-      <View style={styles.productimage}>
+      <View style={styles.buttons}>
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => router.back()}
+        >
+          <Image
+            source={icons.left}
+            tintColor={colors.white}
+            style={styles.smallicon}          
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setSelectedLike(!selectedLike)}
+        >
+          <Image
+            source={selectedLike ? icons.likefill : icons.like}
+            tintColor={selectedLike ? colors.red : colors.white}
+            style={styles.smallicon}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.adimage}>
         <Image
             source={ads[currentAdIndex].image}
-            style={styles.lrgimage}
+            style={styles.largeimage}
             resizeMode='cover'
         />
 
@@ -229,19 +241,19 @@ const Product = ({}) => {
         />
       </View>
 
-      <View style={styles.productads}>
-        <View style={styles.productad}>
+      <View style={styles.ads}>
+        <View style={styles.ad}>
           <Image
               source={ads[(currentAdIndex + 1) % ads.length].image} 
-              style={styles.lrgimage}
+              style={styles.largeimage}
               resizeMode='cover'
           />
         </View>
 
-        <View style={styles.productad}>
+        <View style={styles.ad}>
           <Image
               source={ads[(currentAdIndex + 2) % ads.length].image} 
-              style={styles.lrgimage}
+              style={styles.largeimage}
               resizeMode='cover'
           />
         </View>
@@ -262,366 +274,70 @@ const Product = ({}) => {
       <SafeAreaView style={styles.safeArea}>
         <ScrollView 
           showsVerticalScrollIndicator={false} 
-          contentContainerStyle={styles.verticalViewContent}
+          contentContainerStyle={styles.scrollArea}
         >
           <View style={styles.container}>
-            <View style={styles.productbody}>
+            <View style={styles.product}>
               <View style={styles.productheader}>
-                <View style={styles.productcatdetails}>
-                  <View style={styles.productcategories}>
-                    <View style={styles.productcategory}>
-                      <Text style={styles.producthighlight}>{productData.topic}</Text>
-                    </View>
-                  </View>
+                <View style={styles.productdetails}>
+                  <Text style={[styles.productseller]}>{productData.seller}</Text>
 
                   <Text style={styles.productext}>{productData.title}</Text>
 
-                  <Text style={styles.productsub}>
-                    <Text style={styles.productbig}>JMD </Text> 
-                    {productData.price}
-                    <Text style={styles.productsml}> /kg  </Text>
-                    <Text style={styles.productcross}> JMD {productData.discount}</Text>
+                  <Text style={styles.productsubtext}>
+                    <Text style={styles.productsubtitle}>JMD </Text>{productData.price}
+                    <Text style={styles.productsubper}> /kg  </Text>
+                    <Text style={styles.productsubdiscount}> JMD {productData.discount}</Text>
                   </Text>
+
+                  <View style={styles.productcategory}>
+                    <Text style={styles.productitle}>{productData.topic}</Text>
+                  </View>
                 </View>
 
-                <TouchableOpacity 
-                  style={styles.productcatimage}
-                  onPress={() => router.back()}
-                >
-                  <Image
-                    source={icons.close}
-                    style={styles.supicon}
-                    tintColor='rgba(0, 0, 0, 0)'
-                  />
-                </TouchableOpacity>
+                <Text style={styles.productgrading}>{productData.grading}</Text>
               </View>
 
-              <View style={styles.productdetails}>
-                <View style={styles.productheaders}>
-                  {headers.map((header, index) => (
-                    <TouchableOpacity 
-                      key={header.id} 
-                      onPress={() => handleHeaderPress(header.id, index)} 
-                      style={styles.productdetail}
-                    >
-                      <Text style={[styles.detail, selectedHeader === header.id && styles.selectedheader]}>{header.title}</Text>
-                    </TouchableOpacity>
-                  ))} 
+              <View style={styles.productbody}>
+                <Text style={styles.productbodytitle}>About Seller</Text>
 
-                  <Animated.View
-                    style={[
-                      styles.underline,
-                      {
-                        transform: [{ translateX }],
-                        width: headerWidth,
-                      },
-                    ]}
-                  />
-                </View> 
-
-                {selectedHeader === 1 && (
-                  <View style={styles.productdescription}>
-                    <Text style={styles.description}>
-                      <Text style={styles.descriptiontext}>{productData.name} </Text> 
-                      {productData.description}
-                    </Text>
-
-                    <View style={styles.seller}>
-                      <Text style={styles.productbig}>About Seller</Text>
-
-                      <Text style={styles.description}>
-                        <Text style={styles.descriptiontext}>{productData.seller} </Text>
-                        {productData.about}
-                      </Text>
-
-                    </View>
-                    
-                    <View style={styles.relatedproducts}>
-                      <Text style={styles.productbig}>Related Products</Text>
-
-                      <View style={styles.relatedbody}>
-                        <ScrollView
-                          horizontal
-                          showsHorizontalScrollIndicator={false}
-                          contentContainerStyle={styles.horizontalViewContent}
-                        >
-                          <View style={styles.relatedcontents}>
-                            {/* 
-
-                              {productData.map((product) => (
-                                <TouchableOpacity
-                                  key={product.id}
-                                  style={styles.relatedproduct}
-                                >
-                                  <View style={styles.relatedimage}>
-                                    <Image 
-                                      source={product.image}
-                                      style={styles.lrgimage}
-                                      resizeMode='cover'
-                                    />
-                                  </View>
-
-                                  <View style={styles.relatedcontent}>
-                                    
-                                    <Text style={styles.relatedtext}>{product.title}</Text>
-
-                                    <Text style={styles.relatedsub}>
-                                      <Text style={styles.relatedbig}>JMD </Text> 
-                                      {product.price}
-                                      <Text style={styles.relatedsml}> /kg  </Text>
-                                    </Text>
-                                  </View>
-                                </TouchableOpacity>      
-                              ))}  
-                            
-                            */}
-                          </View>                   
-                        </ScrollView>
-                      </View>
-                    </View>
-                  </View>
-                )}  
-
-                {selectedHeader === 2 && (
-                  <View style={styles.productfacts}>
-                    <Text style={styles.description}>
-                      <Text style={styles.descriptiontext}>{productData.name} </Text> 
-                      {productData.nutrition}
-                    </Text>
-
-                    <View style={styles.nutrition}>
-                      <Text style={styles.productbig}>Nutritional Beneifit</Text>
-
-                      <Text style={styles.description}>
-                        Here are the <Text style={styles.descriptiontext}>nutritional facts</Text> per 100g of <Text style={styles.descriptionsub}>raw {productData.name}</Text>
-                      </Text>
-                    </View>
-
-                    <View style={styles.facts}>
-                      <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.horizontalViewContent}
-                      >
-                        {nutritionfacts.map((fact) => (
-                          <View key={fact.id} style={styles.fact}>
-                            <Image
-                              source={fact.icon}
-                              style={styles.bigicon}
-                              tintColor={colors.black}
-                            />
-
-                            <View style={styles.factbody}>
-                              <Text style={styles.factsub}>
-                                {fact.value} <Text style={styles.factsml}>{fact.unit}</Text>
-                              </Text>
-                              <Text style={styles.factext}>{fact.label}</Text>
-                            </View>
-                          </View>
-                        ))}
-                      </ScrollView>
-                    </View>
-
-                    <View style={styles.nutrition}>
-                      <Text style={styles.description}>
-                        <Text style={styles.descriptiontext}>{productData.name} </Text>{productData.fact}
-                      </Text>
-                    </View>
-                  </View>
-                )}   
-
-                {selectedHeader === 3 && (
-                  <View style={styles.productreviews}>
-                    <View style={styles.rating}>
-                      <Text style={styles.ratingtext}>4.7</Text>
-
-                      <View style={styles.ratingbody}>
-                        <View style={styles.ratingstars}>
-                          {generateStars(4.7)}
-                        </View>
-
-                        <Text style={styles.ratingsub}>Based on 3 reviews</Text>
-                      </View>
-                    </View>
-
-                    <View style={styles.ratings}>
-                      <View style={styles.ratingstar}>
-                        <View style={styles.star}>
-                          <Text style={styles.ratingmid}>5</Text>
-
-                          <View style={styles.ratingimage}>
-                            <Image
-                              source={icons.starfill}
-                              style={styles.alticon}
-                              tintColor={colors.emerald}
-                            />
-                          </View>
-                        </View>
-
-                        <View style={styles.bar}>
-                          <View
-                            style={[
-                              styles.starbar,
-                              { width: '50%' }, 
-                            ]}
-                          />                          
-                        </View>
-                      </View>
-
-                      <View style={styles.ratingstar}>
-                        <View style={styles.star}>
-                          <Text style={styles.ratingmid}>4</Text>
-
-                          <View style={styles.ratingimage}>
-                            <Image
-                              source={icons.starfill}
-                              style={styles.alticon}
-                              tintColor={colors.emerald}
-                            />
-                          </View>
-                        </View>
-
-                        <View style={styles.bar}>
-                          <View
-                            style={[
-                              styles.starbar,
-                              { width: '30%' }, 
-                            ]}
-                          />                          
-                        </View>
-                      </View>
-
-                      <View style={styles.ratingstar}>
-                        <View style={styles.star}>
-                          <Text style={styles.ratingmid}>3</Text>
-
-                          <View style={styles.ratingimage}>
-                            <Image
-                              source={icons.starfill}
-                              style={styles.alticon}
-                              tintColor={colors.emerald}
-                            />
-                          </View>
-                        </View>
-
-                        <View style={styles.bar}>
-                          <View
-                            style={[
-                              styles.starbar,
-                              { width: '20%' }, 
-                            ]}
-                          />                          
-                        </View>
-                      </View>
-
-                      <View style={styles.ratingstar}>
-                        <View style={styles.star}>
-                          <Text style={styles.ratingmid}>2</Text>
-
-                          <View style={styles.ratingimage}>
-                            <Image
-                              source={icons.starfill}
-                              style={styles.alticon}
-                              tintColor={colors.emerald}
-                            />
-                          </View>
-                        </View>
-
-                        <View style={styles.bar}>
-                          <View
-                            style={[
-                              styles.starbar,
-                              { width: '0%' }, 
-                            ]}
-                          />                          
-                        </View>
-                      </View>
-
-                      <View style={styles.ratingstar}>
-                        <View style={styles.star}>
-                          <Text style={styles.ratingmid}> 1</Text>
-
-                          <View style={styles.ratingimage}>
-                            <Image
-                              source={icons.starfill}
-                              style={styles.alticon}
-                              tintColor={colors.emerald}
-                            />
-                          </View>
-                        </View>
-
-                        <View style={styles.bar}>
-                          <View
-                            style={[
-                              styles.starbar,
-                              { width: '0%' }, 
-                            ]}
-                          />                          
-                        </View>
-                      </View>
-                    </View>
-
-                    <View style={styles.reviews}>
-                      <View style={styles.review}>
-                        <Text style={styles.reviewtext}>Reviews</Text>
-
-                        <TouchableOpacity>
-                          <Text style={styles.reviewalt}>Add Review</Text>
-                        </TouchableOpacity>
-                      </View>
-                      
-                      <View style={styles.reviewbody}>
-                        <View style={styles.reviewheader}>
-                          <Text style={styles.reviewmid}>Kim, Sanders</Text>
-                          <Text style={styles.reviewsub}>June 11th</Text>
-                        </View>
-
-                        <View style={styles.reviewstars}>
-                          <Text style={styles.reviewbig}>Great!</Text>
-
-                          <View style={styles.reviewstar}>
-                            {generateStars(4.7)}
-                          </View>
-                        </View>
-
-                        <Text style={styles.reviewsml}>This product was amazing, stay fresh for longer, and was supple when used.</Text>
-                      </View>
-                    </View>
-                  </View>
-                )}                 
+                <Text style={styles.productbodytext}>
+                  <Text style={styles.productbodysubtext}>{productData.seller} </Text>
+                  {productData.about}
+                </Text>      
               </View>
             </View>
           </View>
         </ScrollView>
 
-        <View style={styles.productocart}>
-          <View style={styles.count}>
+        <View style={styles.productquantity}>
+          <View style={styles.quantities}>
             <TouchableOpacity onPress={decrement}>
               <Image
-                  source={icons.minus}
-                  style={styles.icon}
-                  tintColor={colors.emerald}
+                  source={icons.subtract}
+                  style={styles.midicon}
+                  tintColor={colors.charcoal}
               />
             </TouchableOpacity>
 
-            <View style={styles.number}>
-                <Text style={styles.numbertext}>{count}</Text>
+            <View style={styles.quantity}>
+                <Text style={styles.quantitytext}>{count}</Text>
             </View>
 
             <TouchableOpacity onPress={increment}>
               <Image
-                  source={icons.plus}
-                  style={styles.icon}
-                  tintColor={colors.emerald}
+                  source={icons.add}
+                  style={styles.midicon}
+                  tintColor={colors.charcoal}
               />
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity 
-            style={styles.book}
+            style={styles.add}
             onPress={addToCart}
           >
-            <Text style={styles.booktext}>Add to Cart</Text>
+            <Text style={styles.addtext}>Add to Cart</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -632,36 +348,24 @@ const Product = ({}) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.link,
+    backgroundColor: colors.backdrop,
     height: '100%',
     width: '100%',
-    marginTop: 250,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    marginTop: 300,
+    alignItems: 'center',
   },
 
-  verticalViewContent: {
-    height: 'auto',
+  scrollArea: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 20,
     paddingBottom: 50,
   },
 
-  horizontalViewContent: {
-  },
-
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-
-  /* Image */
-
-  productimage: {
-    position: 'absolute',
-    overflow: 'visible',
-    height: '50%',
+    height: '100%',
     width: '100%',
   },
 
@@ -669,19 +373,28 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
 
-  productads: {
+  /* Ads */
+
+  adimage: {
+    position: 'absolute',
+    overflow: 'visible',
+    height: '50%',
+    width: '100%',
+  },
+
+  ads: {
     position: 'absolute',
     flexDirection: 'column',
     justifyContent:'center',
     alignItems: 'flex-end',
-    top: 90,
+    top: 150,
     right: 25,
     width: '100%',
     gap: 20,
     zIndex: 10,
   },
 
-  productad: {
+  ad: {
     backgroundColor: colors.white,
     height: 80,
     width: 80,
@@ -693,39 +406,25 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  /* Details */
+  /* Product */
 
-  productbody: {
+  product: {
     width: '90%',
     height: '100%',    
   },
 
   productheader: {
     flexDirection: 'row',
-    width: '90%',
+    width: '85%',
     gap: 5,
     justifyContent: 'space-between',
   },
 
-  productcatdetails: {
+  productdetails: {
     flexDirection: 'column',
     width: '100%',
     gap: 5,
   },
-
-  productcategories: {
-    flexDirection: 'row',
-    gap: 10,
-    marginBottom: 12,
-  },
-
-  productcategory: {
-    backgroundColor: colors.emerald,
-    paddingHorizontal: 10,
-    paddingVertical: 5, 
-    borderRadius: 5,
-    alignSelf: 'flex-start',
-  },  
 
   productext: {
     fontFamily: 'Gilroy-Bold',
@@ -733,87 +432,51 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
 
-  productsub: {
+  productsubtext: {
     fontFamily: 'Gilroy-Bold',
     fontSize: 20,
     color: colors.black,
   },
 
-  productbig: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 20,
-    color: 'rgba(0, 0, 0, 0.3)',
-    marginBottom: 10,
-  },
-
-  productsml: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 10,
-    color: 'rgba(0, 0, 0, 0.3)',
-  },
-
-  producthighlight: {
+  productitle: {
     fontFamily: 'Gilroy-Medium',
     fontSize: 10,
     color: colors.white,
   },
 
-  productcross: {
+  productsubtitle: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 20,
+    color: colors.charcoal,
+    marginBottom: 10,
+  },
+
+  productsubper: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 10,
+    color: 'rgba(0, 0, 0, 0.3)',
+  },
+
+  productsubdiscount: {
     fontFamily: 'Gilroy-Medium',
     fontSize: 12,
     color: 'rgba(0, 0, 0, 0.3)',
     textDecorationLine: 'line-through',
   },
 
-  /* Headers */
-
-  productdetails: {
+  productbody: {
     flexDirection: 'column',
   },
 
-  productcatimage: {
-    right: 7,
-    top: 5,
+  productbodytitle: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 20,
+    color: colors.charcoal,
+    marginBottom: 10,
+    marginTop: 20,
   },
 
-  productheaders: {
-    flexDirection: 'row',
-    gap: 47,
-    marginBottom: 20,
-  },
-
-  productdetail: {
-    marginTop: 20, 
-    marginBottom: 15,
-  },
-
-  detail: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 15,
-    color: 'rgba(0, 0, 0, 0.2)',
-  },
-
-  selectedheader: {
-    color: colors.black,
-  },
-
-  underline: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    height: 3,
-    backgroundColor: colors.emerald,
-    borderRadius: 0,
-  },
-
-  /* Description */
-  
-  productdescription: {
-    width: '100%',
-    height: '100%',
-  },
-
-  description: {
+  productbodytext: {
     fontFamily: 'Gilroy-Regular',
     fontSize: 14,
     color: 'rgba(0, 0, 0, 0.6)',
@@ -821,350 +484,70 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 
-  descriptiontext: {
+  productbodysubtext: {
     fontFamily: 'Gilroy-Medium',
     fontSize: 14,
-    color: colors.emerald,
+    color: colors.black,
     lineHeight: 21,
     marginBottom: 10,
   },
 
-  descriptionsub: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 14,
-    color: colors.emerald,
-    lineHeight: 21,
-    marginBottom: 10,
-    textTransform: 'lowercase',
-  },
-
-  seller: {
-    flexDirection: 'column',
-    marginTop: 21,
-  },
-
-  relatedproducts: {
-    flexDirection: 'column',
-    marginVertical: 15,
-  },
-
-  relatedbody: {
-    gap: 10,    
-  },
-
-  relatedcontents: {
-    flexDirection: 'row',
-    gap: 20,
-  },
-
-  relatedproduct: {
-    backgroundColor: colors.white,
-    flexDirection: 'row',
-    height: 100,
-    width: 275,
-    gap: 10,
-    borderRadius: 15,
-    marginBottom: 20,
-    elevation: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
-    overflow: 'hidden',
-  },
-
-  relatedimage: {
-    height: 'auto',
-    width: 120,
-  },
-
-  relatedcontent: {
-    flexDirection: 'column',
-    padding: 10,
-    justifyContent: 'center',
-  },
-
-  relatedtext: {
-    fontFamily: 'Gilroy-Bold',
-    fontSize: 15,
-    color: colors.black,
-  },
-
-  relatedsub: {
-    fontFamily: 'Gilroy-SemiBold',
-    fontSize: 15,
-    color: colors.emerald,
-    marginBottom: 10,
-  },
-
-  relatedbig: {
-    fontFamily: 'Gilroy-SemiBold',
-    fontSize: 15,
-    color: colors.emerald,
-  },
-
-  relatedsml: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 10,
-    color: 'rgba(0, 0, 0, 0.3)',
-  },
-
-  /* Facts */
-
-  productfacts: {
-    width: '100%',
-  },
-
-  nutrition: {
-    marginTop: 20,
-  },
-
-  facts: {
-    flexDirection: 'row',
-    marginVertical: 10,
-  },
-
-  fact: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-    marginRight: 25,
-  },
-
-  factbody: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-
-  factext: {
-    fontFamily: 'Gilroy-SemiBold',
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.5)',
-    textTransform: 'uppercase',
-    letterSpacing: 5,
-    bottom: 5,
-  },
-
-  factsub: {
-    fontFamily: 'Gilroy-Bold',
-    fontSize: 50,
-    color: colors.black,
-  },
-
-  factsml: {
-    fontFamily: 'Gilroy-SemiBold',
-    fontSize: 15,
-    color: 'rgba(0, 0, 0, 0.3)',
-  },
-
-  /* Reviews */
-
-  productreviews: {
-    width: '90%',
-  },
-
-  rating: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 20,
-    bottom: 12,
-  },
-
-  ratingtext: {
-    fontFamily: 'Gilroy-Bold',
-    fontSize: 70,
-    color: colors.emerald,
-  },
-
-  ratingsub: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.5)',
-  },
-
-  ratingmid: {
-    fontFamily: 'Gilroy-SemiBold',
-    fontSize: 15,
-    color: 'rgba(0, 0, 0, 0.1)',
-  },
-
-  ratingbody: {
-    flexDirection: 'column',
-    justifyContent:'space-between',
-  }, 
-
-  ratings: {
-    width: '90%',
-    bottom: 10,
-    marginBottom: 10,
-  },
-
-  ratingstars: {
-    flexDirection: 'row',
-    gap: 5,
-    bottom: 12,
-  }, 
-
-  ratingstar: {
-    flexDirection: 'row',
-    width: 'auto',
-    alignItems: 'center',
-    gap: 20,
-  },
-
-  ratingimage: {
-    bottom: 2,
-  },
-
-  star: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-
-  bar: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    width: '100%',
-    height: 4,
+  productcategory: {
+    backgroundColor: colors.black,
+    paddingHorizontal: 10,
+    paddingVertical: 5, 
     borderRadius: 5,
-    overflow: 'hidden',
-  },
-
-  starbar: {
-    height: 4,
-    backgroundColor: colors.yellow,
-    borderRadius: 5,
-  },
-
-  reviews: {
-    flexDirection: 'column',
-    width: '105%',
+    alignSelf: 'flex-start',
     marginVertical: 10,
   },  
 
-  review: {
+  productgrading: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 50,
+    color: colors.fresh, textAlign: 'right'
+  },
+
+  productseller: {
+    color: colors.fresh, 
+    fontSize: 13, 
+    marginBottom: 10,
+    fontFamily: 'Gilroy-Medium',
+  },
+
+
+  productquantity: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 5,
-    marginVertical: 5,
-  },
-
-  reviewheader: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 5,
-  },
-
-  reviewbody: {
-    flexDirection: 'column',
-    gap: 7,
-  },
-
-  reviewtext: {
-    fontFamily: 'Gilroy-SemiBold',
-    fontSize: 25,
-    color: colors.black,
-  },
-
-  reviewsub: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.1)',
-  },
-
-  reviewsml: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.1)',
-    lineHeight: 22,
-  },
-
-  reviewmid: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 18,
-    color: 'rgba(0, 0, 0, 0.1)',
-  },
-
-  reviewbig: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 18,
-    color: colors.emerald,
-  },
-
-  reviewalt: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.1)',
-  },
-
-  reviewstars: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 5,
-  }, 
-
-  reviewstar: {
-    flexDirection: 'row',
-    gap: 5,
-  }, 
-
-  /* Count */
-
-  productocart: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '90%',
+    width: '97%',
     height: '10%',
     padding: 20,
-    gap: 35,
     marginBottom: 20,
     marginTop: 20,
   },
 
-  count: {
+  /* Quantities */
+
+  quantities: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: 15,
   },
 
-  number: {
-    backgroundColor: colors.emerald,
-    height: 60,
-    width: 60,
+  quantity: {
+    backgroundColor: colors.black,
+    height: 50,
+    width: 50,
     padding: 15,
     borderRadius: 15,
-    elevation: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent:'center',
     alignItems: 'center',
   },
 
-  numbertext: {
-    fontFamily: 'Gilroy-Bold',
-    fontSize: 18,
-    color: colors.white,
-  },
-
-  /* Button */
-
-  book: {
-    backgroundColor: colors.emerald,
-    height: 60,
-    width: 170,
-    padding: 15,
-    borderRadius: 15,
-    elevation: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent:'center',
-    alignItems: 'center',
-  },
-
-  booktext: {
-    fontFamily: 'Gilroy-Bold',
-    fontSize: 18,
+  quantitytext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 15,
     color: colors.white,
   },
 
@@ -1175,43 +558,75 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    top: 200,
+    top: 250,
     width: '100%',
     marginVertical: 10,
   },
 
   dot: {
-    height: 7,
-    width: 7,
+    height: 5,
+    width: 5,
     borderRadius: 4,
     margin: 5,
   },
 
   active: {
-    backgroundColor: colors.emerald,
-    width: 15,
+    backgroundColor: colors.fresh,
+    width: 35,
   },
 
   inactive: {
     backgroundColor: colors.white,
   },
 
-  /* Images, and Icons */
+  /* Add-Ons */
 
-  smallimage: {
-    height: 80,
-    width: 80,
+  add: {
+    backgroundColor: colors.black,
+    right: 10,
+    height: 55,
+    width: 150,
+    padding: 15,
+    borderRadius: 15,
+    justifyContent:'center',
+    alignItems: 'center',
   },
 
-  lrgimage: {
+  addtext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 18,
+    color: colors.white,
+  },
+
+  buttons: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: 680,
+    left: 30,
+    zIndex: 10,
+    flexDirection: 'column',
+    gap: 15,
+  },
+
+  button: {
+    padding: 20,
+    borderRadius: 50,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 60,
+    height: 60,
+  },
+
+  /* Images */
+
+  largeimage: {
     height: '100%',
     width: '100%',
   },
 
-  bigicon: {
-    width: 100,
-    height: 100,
-  },
+  /* Icons */
 
   icon: {
     height: 40,
@@ -1219,34 +634,14 @@ const styles = StyleSheet.create({
   },
 
   smallicon: {
-    height: 35,
-    width: 35,
-  },
-
-  alticon: {
-    height: 15,
-    width: 15,
-  },
-
-  supicon: {
     height: 20,
     width: 20,
   },
 
-  tinyicon: {
+  midicon: {
     height: 25,
     width: 25,
     margin: 5,
-  },
-
-  subicon: {
-    height: 25,
-    width: 25,
-  },
-
-  minicon: {
-    height: 30,
-    width: 30,
   },
 
 });

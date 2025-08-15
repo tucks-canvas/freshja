@@ -49,21 +49,22 @@ const Tabs = () => {
         },
         tabBarIcon: ({ focused }) => {
           let iconSource;
+          
           switch (route.name) {
             case 'Home':
-              iconSource = icons.home;
+              iconSource = focused ? icons.homefill : icons.home;
               break;
             case 'Like':
-              iconSource = icons.like;
+              iconSource = focused ? icons.likefill : icons.like;
               break;
             case 'Cart':
-              iconSource = icons.cart;
+              iconSource = focused ? icons.cartfill : icons.cart;
               break;
             case 'Order':
-              iconSource = icons.order;
+              iconSource = focused ? icons.orderfill : icons.order;
               break;
             case 'Profile':
-              iconSource = icons.profile;
+              iconSource = focused ? icons.profilefill : icons.profile;
               break;
             default:
               iconSource = icons.home;

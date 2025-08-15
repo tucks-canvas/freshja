@@ -47,15 +47,9 @@ const Loading = () => {
       setTimeout(() => {
         subtitleOpacity.value = withTiming(0, { duration: 200 }, () => {
           dotOpacity.value = withTiming(1, { duration: 200 });
-          // Updated dot animation sequence: bounce in, then expand out
           dotScale.value = withSequence(
-            // Bounce in (scale up then down slightly)
             withTiming(1.5, { duration: 150, easing: Easing.out(Easing.quad) }),
             withTiming(0.8, { duration: 100, easing: Easing.out(Easing.quad) }),
-            // Small bounce back to normal size
-            withTiming(1.1, { duration: 80, easing: Easing.out(Easing.quad) }),
-            withTiming(1, { duration: 60, easing: Easing.out(Easing.quad) }),
-            // Then expand out
             withTiming(
               100,
               {
@@ -72,7 +66,6 @@ const Loading = () => {
     }, 500);
   }, []);
 
-  // Animated styles
   const logoStyle = useAnimatedStyle(() => ({
     opacity: logoOpacity.value,
     transform: [{ scale: logoScale.value }]

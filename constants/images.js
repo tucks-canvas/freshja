@@ -47,6 +47,7 @@ import photo1 from "../assets/images/background/photo1.png";
 import photo2 from "../assets/images/background/photo2.png";
 import photo3 from "../assets/images/background/photo3.jpg";
 import photo4 from "../assets/images/background/photo4.png";
+import background0 from "../assets/images/background/background0.jpg";
 import background1 from "../assets/images/background/background1.jpg";
 import background2 from "../assets/images/background/background2.jpg";
 import background3 from "../assets/images/background/background3.jpg";
@@ -106,6 +107,7 @@ export default {
     photo2,
     photo3,
     photo4,
+    background0,
     background1,
     background2,
     background3,

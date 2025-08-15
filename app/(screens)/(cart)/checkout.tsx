@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
 
-// Import Supported Content
+// Import eact-Native Content
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image, StatusBar } from 'react-native';
 
-// Import Add-Ons
+// Import Supported Content
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,6 +19,7 @@ const shipping = {
   city: 'Red Hills',
   state: 'St. Andrew',
   country: 'Jamaica.',
+  type: 'Home 01',
 };
 
 const cards = [
@@ -82,9 +83,11 @@ const Checkout = () => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [tempDate, setTempDate] = useState(new Date());
+  
+  /* Setters, Getters and Handlers */
 
-  const handleDateChange = (event, selectedate) => {
-    const currentDate = selectedate || tempDate;
+  const handleDateChange = (event, deliverydate) => {
+    const currentDate = deliverydate || tempDate;
     
     setShowDatePicker(Platform.OS === 'ios');
     setTempDate(currentDate);
@@ -94,54 +97,84 @@ const Checkout = () => {
     }
   };
 
-  const confirmDateSelection = () => {
+  const handleDateSelection = () => {
     setDate(tempDate);
     setShowDatePicker(false);
   };
 
-  const renderSavedCards = () => {
-    return (
-      <View style={styles.savedcards}>
+  // Add this function to handle placing the order
+  const handlePlaceOrder = async () => {
+    try {
+      // Get existing orders
+      const storedOrders = await AsyncStorage.getItem('orders');
+      let orders = storedOrders ? JSON.parse(storedOrders) : [];
 
+      // Create new order object
+      const newOrder = {
+        id: Date.now(), // unique id
+        items: cart,
+        date: new Date().toISOString(),
+        total: (
+          calculateSubsummarytotal() +
+          calculateSubsummarytotal() * 0.15 -
+          calculateSubsummarytotal() * 0.3 +
+          500
+        ).toFixed(2),
+      };
+
+      // Add new order to orders array
+      orders.push(newOrder);
+
+      // Save updated orders
+      await AsyncStorage.setItem('orders', JSON.stringify(orders));
+
+      // Optionally clear cart
+      await AsyncStorage.removeItem('cart');
+
+      // Navigate to order success or orders page
+      router.push('/paymentsuccess');
+    } catch (error) {
+      console.error('Error placing order:', error);
+    }
+  };
+
+  /* Rendering and Loading Constants */
+
+  const renderCards = () => {
+    return (
+      <View style={styles.cards}>
         {cards.map(card => (
           <TouchableOpacity
             key={card.id}
-            style={[
-              styles.carditem,
-              selectedCard?.id === card.id && styles.selectedcarditem
-            ]}
+            style={[styles.card, selectedCard?.id === card.id && styles.selectedcard]}
             onPress={() => setSelectedCard(card)}
           >
-            <View style={styles.cardetails}>
-              <Image 
-                source={card.type === 'mastercard' ? icons.mastercard : icons.visa}
-                style={styles.cardtype}
-              />
+            <View style={styles.cardinfos}>
+              <View style={styles.cardinfo}>
+                <Image 
+                  source={card.type === 'mastercard' ? icons.mastercard : icons.visa}
+                  style={styles.cardtype}
+                  tintColor={''}
+                />
 
-              <Text style={styles.cardno}>**** **** **** {card.number?.slice(-4)}</Text>
-              
-              <View style={styles.cardfooter}>
-                <Text style={styles.cardholder}>{card.cardholder}</Text>
-                <Text style={styles.cardexpiry}>{card.expiry}</Text>
+                <Text style={styles.cardtext}>{card.type}</Text>
               </View>
 
+              <Text style={styles.cardsubtext}>**** **** **** {card.number?.slice(-4)}</Text>
             </View>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity style={styles.cardbutton}>
-          <Text style={styles.cardbuttontext}>+</Text>
-        </TouchableOpacity>
       </View>
     );
   };
 
-  const renderCartItems = () => {
+  const renderItems = () => {
     return (
-      <View style={styles.cart}>
+      <View style={styles.itembody}>
         {cart.map((item) => (
           <View 
             key={item.id} 
-            style={styles.cartitem}
+            style={styles.item}
           >
             <Image
               source={item.image}
@@ -157,7 +190,7 @@ const Checkout = () => {
               </Text>
             </View>
 
-            <Text style={styles.itemTotal}>
+            <Text style={styles.itemsummarytotal}>
               JMD {(item.price * item.quantity).toFixed(2)}
             </Text>
           </View>
@@ -179,13 +212,17 @@ const Checkout = () => {
     }
   };
 
-  const calculateSubtotal = () => {
+  /* Calculation Constants */
+
+  const calculateSubsummarytotal = () => {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   };
 
-  const calculateTotal = () => {
-    return (400 + calculateSubtotal()).toFixed(2);
+  const calculatesummarytotal = () => {
+    return (400 + calculateSubsummarytotal()).toFixed(2);
   };
+
+  /* Use-Effects */
 
   useEffect(() => {
     loadCart();
@@ -198,46 +235,70 @@ const Checkout = () => {
       <SafeAreaView style={styles.safeArea}>
         <ScrollView 
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.verticalViewContent}
+          contentContainerStyle={styles.scrollViewArea1}
         >
           <View style={styles.container}>
             <View style={styles.header}>
-              <Text style={styles.headertext}>Payment</Text>            
+              <TouchableOpacity 
+                style={styles.back}
+                onPress={() => router.back()}
+              >
+                <Image
+                  source={icons.left}
+                  style={styles.icon}
+                />
+              </TouchableOpacity>
+              
+              <Text style={styles.headertext}>Checkout</Text>            
             </View>
             
-            <View style={styles.shippingaddress}>
-              <Text style={styles.addresstext}>Delivery Address</Text>
+            <View style={styles.items}>
+              <Text style={styles.itemtext}>Your Items</Text>
 
-              <View style={styles.addresscard}>
-                <Text style={styles.addressub}>{shipping.street}</Text>
+              {renderItems()}
+            </View>
 
-                <Text style={styles.addressub}>
-                  {shipping.city}, {shipping.state}
-                </Text>
+            <View style={styles.address}>
+              <View style={styles.addressheader}>
+                <Text style={styles.addresstext}>Address</Text>
+                
+                <TouchableOpacity>
+                  <Text style={styles.addressubtext}>Add Address</Text>
+                </TouchableOpacity>
+              </View>
 
-                <Text style={styles.addressub}>{shipping.country}</Text>
+              <View style={styles.addressbody}>
+                <View style={styles.addresscontent}>
+                  <Image 
+                    source={icons.location}
+                    tintColor={colors.black}
+                    style={styles.smallicon}
+                  />
+                  
+                  <Text style={styles.addresscontentext}>{shipping.type}</Text>
+                </View>
+
+                <Text style={styles.addressline}>{shipping.street}, {shipping.city}, {shipping.state},{"\n"}{shipping.country}</Text>
               </View>
             </View>
 
-            <View style={styles.carts}>
-              <Text style={styles.cartext}>Items</Text>
-
-              {renderCartItems()}
-            </View>
-
             <View style={styles.delivery}>
-              <Text style={styles.deliverytext}>Choose Delivery Date</Text>
+              <View style={styles.deliveryheader}>
+                <Text style={styles.deliverytext}>Date & Time</Text>      
+                <Text style={styles.deliverysubtext}>e.g. August 14th 2025/8AM - 11AM</Text>                      
+              </View>
 
               <TouchableOpacity
-                style={styles.dates}
+                style={styles.deliverydates}
                 onPress={() => setShowDatePicker(true)}
               >
                 <Image 
                   source={icons.calendar} 
-                  style={styles.subicon} 
+                  style={styles.icon} 
+                  tintColor={colors.black}
                 />
 
-                <Text style={styles.selectedate}>
+                <Text style={styles.deliverydate}>
                   {date.toLocaleDateString(undefined, {
                     year: 'numeric',
                     month: 'long',
@@ -250,7 +311,7 @@ const Checkout = () => {
                 <ScrollView 
                   horizontal
                   showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.horizontalViewContent}
+                  contentContainerStyle={styles.scrollViewArea2}
                 >
                   {timeslots.map((time) => (
                       <TouchableOpacity 
@@ -265,34 +326,71 @@ const Checkout = () => {
             </View>
 
             <View style={styles.payments}>
-              <Text style={styles.paymentext}>Payment Methods</Text>
+              <View style={styles.paymentheader}>
+                <Text style={styles.paymentext}>Payment</Text>
+                
+                <TouchableOpacity>
+                  <Text style={styles.paymentsubtext}>Add New</Text>
+                </TouchableOpacity>
+              </View>
 
               <View style={styles.payment}>
-                {renderSavedCards()}
+                {renderCards()}
               </View>
             </View>
 
             <View style={styles.summaries}>
               <View style={styles.summary}>
-                <Text style={styles.summarytext}>Subtotal:</Text>
-                <Text style={styles.summarysub}>JMD {calculateSubtotal().toFixed(2)}</Text>
+                <Text style={styles.summarysubtext}>Sub-total</Text>
+                <Text style={styles.summarytext}>JMD {calculateSubsummarytotal().toFixed(2)}</Text>
               </View>
 
               <View style={styles.summary}>
-                <Text style={styles.summarytext}>Delivery:</Text>
-                <Text style={styles.summarysub}>JMD 400.00 </Text>
+                <View style={styles.summarytexts}>
+                  <Text style={styles.summarysubtext}>Tax (+15%)</Text>
+                  <Text style={styles.summarysubtitle}>This applies to all products in every purchase</Text>
+                </View>
+                
+                <Text style={styles.summarytext}>
+                  +JMD {(calculateSubsummarytotal() * 0.15).toFixed(2)}
+                </Text>
               </View>
 
-              <View style={[styles.summary, styles.total]}>
-                <Text style={styles.totaltext}>Total:</Text>
-                <Text style={styles.totalsub}>JMD {calculateTotal()}</Text>
+              <View style={styles.summary}>
+                <View style={styles.summarytexts}>
+                  <Text style={styles.summarysubtext}>Discount (-30%)</Text>
+                  <Text style={styles.summarysubtitle}>This discount only applies for the 1st order</Text>
+                </View>
+
+                <Text style={styles.summarytext}>
+                  -JMD {(calculateSubsummarytotal() * 0.3).toFixed(2)}
+                </Text>
+              </View>
+
+              <View style={styles.summary}>
+                <Text style={styles.summarysubtext}>Delivery</Text>
+                <Text style={styles.summarytext}>JMD 500.00 </Text>
+              </View>
+            
+              <View style={[styles.summary, styles.summarytotal]}>
+                <Text style={styles.summarytotaltext}>Total</Text>
+
+                <Text style={styles.summarytotalsubtext}>
+                  JMD {(
+                  calculateSubsummarytotal() + // sub-total
+                  calculateSubsummarytotal() * 0.15 - // tax
+                  calculateSubsummarytotal() * 0.3 + // discount
+                  500 // delivery
+                  ).toFixed(2)}
+                </Text>
               </View>
             </View>
+
           </View>    
         </ScrollView>
 
         {showDatePicker && (
-            <View style={styles.datepicker}>
+            <View>
               <DateTimePicker
                 value={tempDate}
                 mode="date"
@@ -305,10 +403,10 @@ const Checkout = () => {
         )}  
         
         <TouchableOpacity 
-          style={styles.paybutton} 
-          onPress={() => router.push('/paymentsuccess')}
+          style={styles.pay} 
+          onPress={handlePlaceOrder}
         >
-          <Text style={styles.paybuttontext}>Place Order</Text>
+          <Text style={styles.paytext}>Place Order</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </>
@@ -324,13 +422,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    gap: 10,
   },
 
-  verticalViewContent: {
+  scrollViewArea1: {
 
   },
 
-  horizontalViewContent: {
+  scrollViewArea2: {
     gap: 6,  
   },
 
@@ -339,6 +438,10 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     marginBottom: 20,
+    marginTop: 20,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',    
   },
   
   headertext: {
@@ -346,40 +449,77 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 
-  /* Shipping */
+  /* Address */
   
-  shippingaddress: {
-    marginBottom: 40,
-  },
-  
-  addresscard: {
+  address: {
+    backgroundColor: colors.gallery,
+    padding: 30,
+    borderRadius: 20,
     flexDirection: 'column',
-    gap: 5,
+    gap: 20,
+    borderWidth: 1,
+  },
+
+  addressheader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 0.5,
+    borderColor: colors.charcoal,
+    paddingBottom: 10,
+    marginTop: 10,
   },
   
   addresstext: {
     fontFamily: 'Gilroy-Bold',
     fontSize: 18,
-    lineHeight: 24,
-    color: colors.black,
-    marginBottom: 12,
+    marginBottom: 10,
   },
 
-  addressub: {
-    fontFamily: 'Gilroy-Regular',
-    fontSize: 16,
-    lineHeight: 24,
-    color: colors.black,
+  addressubtext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 12,
+    marginBottom: 10,
+    color: colors.dullGrey,
+  },
+
+  addressline: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 15,
+    marginBottom: 10,
+    color: colors.grey,
+    lineHeight: 25,
+  },
+  
+  addressbody: {
+    flexDirection: 'column',
+    gap: 20,
+  },
+
+  addresscontent: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'center',
+  },
+
+  addresscontentext: {
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 18,
+    color: colors.charcoal,
   },
 
   /* Cart */
 
-  carts: {
+  items: {
     width: '100%',
-    marginBottom: 30,
+    backgroundColor: colors.white,
+    padding: 10,
+    borderRadius: 20,
+    flexDirection: 'column',
+    gap: 20,
   },
   
-  cart: {
+  itembody: {
     width: '100%',
     marginBottom: 20,
     backgroundColor: colors.white,
@@ -391,14 +531,13 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 
-  cartext: {
+  itemtext: {
     fontFamily: 'Gilroy-Bold',
-    fontSize: 18,
-    lineHeight: 24,
-    color: colors.black,
+    fontSize: 24,
+    color: colors.dullGrey,
   },
-  
-  cartitem: {
+
+  item: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -406,12 +545,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.05)',
-  },
-  
-  itemimage: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
   },
   
   itemdetails: {
@@ -430,15 +563,36 @@ const styles = StyleSheet.create({
     color: 'rgba(0, 0, 0, 0.6)',
   },
   
-  itemTotal: {
+  itemsummarytotal: {
     fontFamily: 'Gilroy-Bold',
     fontSize: 16,
+  },
+
+  itemimage: {
+    width: 50,
+    height: 50,
+    borderRadius: 10,
   },
 
   /* Delivery */
   
   delivery: {
-    marginBottom: 20,
+    backgroundColor: colors.gallery,
+    padding: 30,
+    borderRadius: 20,
+    flexDirection: 'column',
+    gap: 20,
+    borderWidth: 1,
+  },
+
+  deliveryheader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 0.5,
+    borderColor: colors.charcoal,
+    paddingBottom: 10,
+    marginTop: 10,
   },
   
   deliverytext: {
@@ -447,33 +601,30 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
+  deliverysubtext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 10,
+    marginBottom: 10,
+    color: colors.dullGrey,
+  },
+
   /* Dates */
 
-  dates: {
+  deliverydates: {
     flexDirection: 'row',
-    backgroundColor: Platform.OS === 'ios' ? '#f8f9fa' : '#e9ecef',
-    padding: 15,
+    backgroundColor: colors.gallery,
+    alignItems: 'center',
     borderRadius: 12,
-    alignItems: 'center',
-  },
-  
-  dateselector: {
-    flexDirection: 'row',
-    alignItems: 'center',
     padding: 15,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-    marginBottom: 20,
-  },
-  
-  dateselectortext: {
-    fontFamily: 'Gilroy-Regular',
-    fontSize: 16,
-    color: '#6c757d',
+    marginTop: 10,
+    gap: 10,
   },
 
-  datepicker: {
-  },  
+  deliverydate: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 13,
+    color: colors.black,
+  },
 
   /* Times */
 
@@ -482,55 +633,85 @@ const styles = StyleSheet.create({
   },
 
   time: {
-    backgroundColor: Platform.OS === 'ios' ? '#f8f9fa' : '#e9ecef',
+    backgroundColor: colors.gallery,
     padding: 15,
     borderRadius: 15,
     marginTop: 10,
   },
 
   timetext: {
-    fontFamily: 'Gilroy-Regular',
-    fontSize: 14,
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 12,
     color: colors.black,
   },
 
   /* Payments */
 
-  payments: {
-    width: '100%',
-  },
-
   payment: {
     width: '100%',
   },
 
+  payments: {
+    backgroundColor: colors.gallery,
+    padding: 30,
+    borderRadius: 20,
+    flexDirection: 'column',
+    gap: 20,
+    borderWidth: 1,
+  },
+
+  paymentheader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 0.5,
+    borderColor: colors.charcoal,
+    paddingBottom: 10,
+    marginTop: 10,
+  },
+  
   paymentext: {
     fontFamily: 'Gilroy-Bold',
     fontSize: 18,
-    color: colors.black,
+    marginBottom: 10,
+  },
+
+  paymentsubtext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 12,
+    marginBottom: 10,
+    color: colors.dullGrey,
   },
 
   /* Cards */
   
-  savedcards: {
+  cards: {
     flexDirection: 'column',
     marginTop: 15,
-    gap: 12,
+    gap: 30,
   },
   
-  carditem: {
-    backgroundColor: Platform.OS === 'ios' ? '#f8f9fa' : '#e9ecef',
-    padding: 20,
-    borderRadius: 20,
-    shadowColor: colors.grey,
-    shadowOpacity: 0.05,
-    elevation: 5,
+  card: {
+    
   },
   
-  cardetails: {
+  cardinfos: {
     flexDirection: 'column',
     justifyContent: 'center',
-    gap: 20,
+    gap: 10,
+  },
+
+  cardinfo: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'center',
+  },
+
+  cardtext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 15,
+    color: colors.black,
+    textTransform: 'capitalize',
   },
 
   cardtype: {
@@ -539,123 +720,123 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   
-  cardno: {
-    fontFamily: 'Gilroy-Medium',
-    fontSize: 16,
-    letterSpacing: 9.35,
+  cardsubtext: {
+    fontFamily: 'Gilroy-SemiBold',
+    fontSize: 12,
+    letterSpacing: 9,
   },
   
-  cardfooter: {
+  cardbot: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 4,
   },
   
   cardholder: {
-    fontFamily: 'Gilroy-Regular',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 14,
-    color: '#6c757d',
+    color: colors.black,
   },
   
   cardexpiry: {
-    fontFamily: 'Gilroy-Regular',
+    fontFamily: 'Gilroy-Medium',
     fontSize: 14,
-    color: '#6c757d',
-  },
-  
-  cardbutton: {
-    backgroundColor: Platform.OS === 'ios' ? '#f8f9fa' : '#e9ecef',
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#e9ecef',
-    borderStyle: 'dashed',
-  },
-  
-  cardbuttontext: {
-    fontSize: 24,
-    color: '#6c757d',
+    color: colors.black,
   },
 
   /* Summaries */
   
   summaries: {
+    flexDirection: 'column',
     backgroundColor: colors.white,
     marginVertical: 20,
     padding: 15,
     borderRadius: 15,
-    shadowColor: 'rgba(0, 0, 0, 0.1)',
-    shadowOffset: { 
-      width: 0, 
-      height: 2 
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    gap: 10,
   },
   
   summary: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 10,
   },
   
+  summarytexts: {
+    flexDirection: 'column',
+    gap: 10,
+    justifyContent: 'center',
+  },
+
   summarytext: {
     fontFamily: 'Gilroy-Regular',
-    fontSize: 16,
+    fontSize: 14,
+    color: colors.black,
+  },
+
+  summarytitle: {
+    fontFamily: 'Gilroy-Regular',
+    fontSize: 10,
+    color: colors.black,
+  },
+
+  summarysubtitle: {
+    fontFamily: 'Gilroy-Regular',
+    fontSize: 10,
+    color: colors.black,
   },
   
-  summarysub: {
+  summarysubtext: {
     fontFamily: 'Gilroy-SemiBold',
-    fontSize: 16,
+    fontSize: 15,
   },
   
-  total: {
+  summarytotal: {
     borderTopWidth: 1,
-    borderTopColor: 'rgba(0, 0, 0, 0.1)',
+    borderTopColor: colors.gallery,
     paddingTop: 10,
     marginTop: 10,
   },
   
-  totaltext: {
-    fontFamily: 'Gilroy-Bold',
+  summarytotaltext: {
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 18,
   },
 
-  totalsub: {
-    fontFamily: 'Gilroy-Bold',
+  summarytotalsubtext: {
+    fontFamily: 'Gilroy-SemiBold',
     fontSize: 18,
-    color: colors.emerald,
+    color: colors.black,
   },
 
-  /* Button */
+  /* Add-Ons */
   
-  paybutton: {
-    backgroundColor: colors.emerald,
+  back: {
+    backgroundColor: colors.gallery,
+    borderRadius: 20,
+    padding: 16,
+    alignItems: 'center',
+  },
+  
+  pay: {
+    backgroundColor: colors.black,
     padding: 15,
     borderRadius: 15,
     margin: 20,
     alignItems: 'center',
   },
   
-  paybuttontext: {
+  paytext: {
     fontFamily: 'Gilroy-Bold',
-    fontSize: 18,
+    fontSize: 15,
     color: colors.white,
   },
 
   /* Selected */
-  
-  selectedate: {
-    fontFamily: 'Gilroy-Regular',
-    fontSize: 16,
-    color: colors.black,
-  },
 
-  selectedcarditem: {
+  selectedcard: {
     backgroundColor: '#f1f9f5',
-    borderColor: colors.emerald,
+    borderColor: colors.black,
   },
 
   /* Button */
@@ -665,26 +846,19 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end', 
     marginTop: 10 
   },
-  
-  confirm: {
-    backgroundColor: colors.emerald,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-  
-  confirmtext: {
-    color: colors.white,
-    fontFamily: 'Gilroy-SemiBold',
-    fontSize: 16,
-  },
 
-  /* Icons and Images */
+  /* Icons */
 
-  subicon: {
+  icon: {
     width: 24,
     height: 24,
-    marginRight: 10,
+  },
+
+
+
+  smallicon: {
+    width: 20,
+    height: 20,
   },
 });
 

@@ -3,16 +3,15 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useRoute } from '@react-navigation/native';
 
-// Import Supported Content
-import { View, Image, StyleSheet, FlatList, PanResponder, TouchableOpacity, StatusBar, ScrollView, Animated, Text, TextInput, ImageBackground, useColorScheme } from 'react-native';
+// Import React-Native Content
+import { View, Image, StyleSheet, FlatList, PanResponder, Animated, TouchableOpacity, StatusBar, ScrollView, Text, TextInput, ImageBackground, useColorScheme } from 'react-native';
 
-// Import Slidder
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
-
-// Import View and Storage
+// Import Other Supported Content
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import * as Location from 'expo-location';
  
 // Import icons, colors, and images
 import { icons, images } from '../../constants';
@@ -544,6 +543,13 @@ const Product = ({ product, onLikePress, likedProducts, router }) => {
             source={product.image}
             style={styles.productimage}
           >
+            {quantity > 0 && (
+              <View style={styles.productoverlay}>
+                <Text style={styles.productoverlaytext}>{quantity}</Text>
+              </View>
+            )}
+            
+
             <TouchableOpacity 
               style={styles.productlike}
               onPress={() => onLikePress(product)} 
@@ -611,6 +617,7 @@ const Home = ({}) => {
   const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
 
   const [values, setValues] = useState([0, 2000]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -621,13 +628,24 @@ const Home = ({}) => {
   const [toggleFilter, setToggleFilter] = useState(false);
   const [currentAdIndex, setcurrentAdIndex] = useState(0);
 
+  const [toggleLocation, setToggleLocation] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState('Deepolie Street, 42');
+  const [savedLocations, setSavedLocations] = useState([
+    'Deepolie Street, 42',
+    '123 Business Ave',
+    '456 Residential Rd'
+  ]);
+  const [showAddLocation, setShowAddLocation] = useState(false);
+  const [newLocation, setNewLocation] = useState('');
+
   const [likedProducts, setLikedProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState(products);
 
   const [pan] = useState(new Animated.Value(0));
   const [filterHeight, setFilterHeight] = useState('60%');
 
-  // Create the pan responder
+  const [searchAnim] = useState(new Animated.Value(0));
+
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -635,9 +653,10 @@ const Home = ({}) => {
         pan.setValue(gestureState.dy);
       },
       onPanResponderRelease: (_, gestureState) => {
-        if (gestureState.dy < -50) { // Swiped up
+        if (gestureState.dy < -50) {
           setFilterHeight('100%');
-        } else if (gestureState.dy > 50) { // Swiped down
+        } 
+        else if (gestureState.dy > 50) {
           setFilterHeight('60%');
         }
         Animated.spring(pan, {
@@ -648,7 +667,7 @@ const Home = ({}) => {
     })
   ).current;
 
-  /* Handlers Constants  */
+  /* Getters and Handlers Constants  */
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category);
@@ -687,6 +706,20 @@ const Home = ({}) => {
       selectedGrade,
       selectedRating      
     ));
+  };
+
+  const getCurrentLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    
+    if (status !== 'granted') {
+      alert('Permission to access location was denied');
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    let address = await Location.reverseGeocodeAsync(location.coords);
+    
+    setCurrentLocation(`${address[0].street}, ${address[0].city}`);
   };
 
   /* Product Constants */
@@ -763,13 +796,31 @@ const Home = ({}) => {
     return filtered;
   };
 
+  /* Other Constants */
+
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength 
+      ? text.substring(0, maxLength) + '...' 
+      : text;
+  };
+
+  /* Use-Effects */
+
   useEffect(() => {
     const timer = setInterval(() => {
       setcurrentAdIndex((prevIndex) => (prevIndex + 1) % ads.length);
     }, 6000);
 
     return () => clearInterval(timer);
-  }, []);  
+  }, []); 
+  
+  useEffect(() => {
+    Animated.timing(searchAnim, {
+      toValue: showSearch ? 1 : 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  }, [showSearch]);
 
   return (
     <>
@@ -782,7 +833,10 @@ const Home = ({}) => {
         >
           <View style={styles.container}>
             <View style={styles.header}>
-              <TouchableOpacity style={styles.headertop}>
+              <TouchableOpacity 
+                style={styles.headertop}
+                onPress={() => setToggleLocation(!toggleLocation)}
+              >
                 <Image
                   source={icons.location}
                   style={styles.icon}
@@ -792,11 +846,13 @@ const Home = ({}) => {
 
               <View style={styles.headerbody}>
                 <Text style={styles.headerbodytext}>Express delivery</Text>
-                <Text style={styles.headerbodysub}>Deepolie Street, 42</Text>
+                <Text style={styles.headerbodysub}>
+                  {truncateText(currentLocation, 20)}
+                </Text>
               </View>
 
               <View style={styles.headerbot}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowSearch(!showSearch)}>
                   <Image
                     source={icons.search}
                     style={styles.icon}
@@ -814,31 +870,50 @@ const Home = ({}) => {
               </View>
             </View>
 
-            <View style={styles.search}>
-              <Image
-                source={icons.search}
-                style={styles.mediumicon}
-                tintColor='rgba(0, 0, 0, 0.2)'
-              />
-
-              <TextInput
-                placeholder="Search for your items"
-                placeholderTextColor='rgba(0, 0, 0, 0.2)'
-                value={searchQuery}
-                onChangeText={handleSearch}
-                style={styles.searchtext}
-              />
-
-              <TouchableOpacity 
-                onPress={() => setToggleFilter(!toggleFilter)}
+            {showSearch && (
+              <Animated.View 
+                style={[
+                  styles.search,
+                  {
+                    opacity: searchAnim,
+                    transform: [{
+                      translateY: searchAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [-20, 0],
+                      }),
+                    }],
+                  },
+                ]}
               >
-                <Image
-                  source={icons.filter}
-                  style={styles.mediumicon}
-                  tintColor='rgba(0, 0, 0, 0.2)'
+                <TouchableOpacity onPress={() => setShowSearch(false)}>
+                  <Image
+                    source={icons.close}
+                    style={styles.subicon}
+                    tintColor='rgba(0, 0, 0, 0.2)'
+                  />
+                </TouchableOpacity>
+
+                <TextInput
+                  placeholder="Search for your items"
+                  placeholderTextColor='rgba(0, 0, 0, 0.2)'
+                  value={searchQuery}
+                  onChangeText={handleSearch}
+                  style={styles.searchtext}
+                  autoFocus={true}
                 />
-              </TouchableOpacity>
-            </View>
+
+                <TouchableOpacity onPress={() => {
+                  setShowSearch(false);
+                  setToggleFilter(!toggleFilter);
+                }}>
+                  <Image
+                    source={icons.filter}
+                    style={styles.mediumicon}
+                    tintColor='rgba(0, 0, 0, 0.2)'
+                  />
+                </TouchableOpacity>
+              </Animated.View>
+            )}
 
             <View style={styles.promos}>
               <ImageBackground
@@ -1004,7 +1079,7 @@ const Home = ({}) => {
                       <Image
                         source={icons.close}
                         style={styles.tinyicon}
-                        tintColor={colors.dullGrey}
+                        tintColor={colors.white}
                       />
                     </TouchableOpacity>
                   </View>
@@ -1208,6 +1283,154 @@ const Home = ({}) => {
             </Animated.View>
           </>
         )}
+
+        {toggleLocation && (
+          <>
+            <BlurView intensity={90} tint="dark" style={StyleSheet.absoluteFill} />
+
+            <Animated.View 
+              style={[
+                styles.locations,
+                { height: filterHeight },
+                {
+                  transform: [{
+                    translateY: pan.interpolate({
+                      inputRange: [-300, 0, 300],
+                      outputRange: [-50, 0, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  }],
+                }
+              ]}
+            >
+              <View 
+                style={styles.locationdrag}
+                {...panResponder.panHandlers}
+              >
+                <Image
+                  source={icons.drag}
+                  style={styles.largeicon}
+                  tintColor={colors.dullGrey}
+                />
+              </View>
+              
+              <ScrollView 
+                showsVerticalScrollIndicator={false} 
+                contentContainerStyle={styles.scrollViewContent2}
+              >
+                <View style={styles.location}>
+                  {showAddLocation ? (
+                    <View>
+                      <View style={styles.locationheader}>
+                        <TouchableOpacity onPress={() => setShowAddLocation(false)}>
+                          <Image
+                            source={icons.back}
+                            style={styles.mediumicon}
+                            tintColor={colors.black}
+                          />
+                        </TouchableOpacity>
+                        
+                        <Text style={styles.locationtitle}>Add New Location</Text>
+                        
+                        <View style={{width: 24}} />
+                      </View>
+
+                      <TextInput
+                        placeholder="Enter full address"
+                        value={newLocation}
+                        onChangeText={setNewLocation}
+                        style={styles.locationinput}
+                      />
+
+                      <TouchableOpacity 
+                        style={styles.savelocation}
+                        onPress={() => {
+                          if (newLocation.trim()) {
+                            setSavedLocations([...savedLocations, newLocation]);
+                            setCurrentLocation(newLocation);
+                            setNewLocation('');
+                            setShowAddLocation(false);
+                            setToggleLocation(false);
+                          }
+                        }}
+                      >
+                        <Text style={styles.savelocationtext}>Save Location</Text>
+                      </TouchableOpacity>
+                    </View>
+
+                  ) : (
+                    <>
+                      <View style={styles.locationheader}>
+                        <View style={styles.locationcontent}>
+                          <Text style={styles.locationtitle}>Select Location</Text>
+                          <Text style={styles.locationsubtitle}>Delivery options and speeds may vary for different locations</Text>        
+                        </View>
+
+                        <TouchableOpacity 
+                          style={[styles.close, {backgroundColor: colors.black}]}
+                          onPress={() => setToggleLocation(false)}
+                        >
+                          <Image
+                            source={icons.close}
+                            style={styles.tinyicon}
+                            tintColor={colors.white}
+                          />
+                        </TouchableOpacity>
+                      </View>
+
+                      <View style={styles.locationoptions}>
+                        <TouchableOpacity 
+                          style={styles.locationoption}
+                          onPress={getCurrentLocation}
+                        >
+                          <Image
+                            source={icons.gps}
+                            style={styles.mediumicon}
+                            tintColor={colors.charcoal}
+                          />
+
+                          <Text style={styles.locationoptiontext}>Use Current Location</Text>
+                        </TouchableOpacity>
+
+                        {savedLocations.map((location, index) => (
+                          <TouchableOpacity 
+                            key={index}
+                            style={styles.locationoption}
+                            onPress={() => {
+                              setCurrentLocation(location);
+                              setToggleLocation(false);
+                            }}
+                          >
+                            <Image
+                              source={icons.location}
+                              style={styles.mediumicon}
+                              tintColor={colors.charcoal}
+                            />
+                            
+                            <Text style={styles.locationoptiontext}>{location}</Text>
+                          </TouchableOpacity>
+                        ))}
+
+                        <TouchableOpacity 
+                          style={styles.addlocation}
+                          onPress={() => setShowAddLocation(true)}
+                        >
+                          <Image
+                            source={icons.add}
+                            style={[styles.mediumicon, {}]}
+                            tintColor={colors.charcoal}
+                          />
+
+                          <Text style={styles.addlocationtext}>Add New Location</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </>
+                  )}
+                </View>
+              </ScrollView>
+            </Animated.View>
+          </>
+        )}
       </SafeAreaView>
     </>
   );
@@ -1250,10 +1473,11 @@ const styles = StyleSheet.create({
     width: '90%',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 10,
   },
 
   headertop: {
-    /* Add code here  */
+    paddingRight: 10,
   },
 
   headerbody: {
@@ -1304,6 +1528,7 @@ const styles = StyleSheet.create({
     width: '90%',
     overflow: 'hidden',
     borderRadius: 20,
+    marginTop: 5,
   },
 
   promoImage: {
@@ -1497,6 +1722,20 @@ const styles = StyleSheet.create({
     fontFamily: 'Gilroy-SemiBold',
     fontSize: 15,
     color: colors.black,
+  },
+
+  productoverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+  },
+  
+  productoverlaytext: {
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 30,
+    color: colors.white,
   },
 
   /* Category */
@@ -1703,6 +1942,108 @@ const styles = StyleSheet.create({
     color: colors.white
   },
 
+  /* Location */
+
+  locations: {
+    backgroundColor: colors.white,
+    width: '100%',
+    height: '60%',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+
+  locationdrag: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  location: {
+    width: '99%',
+    padding: 30,
+  },
+
+  locationheader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+
+  locationcontent: {
+    flexDirection: 'column',
+    gap: 10,
+  },
+
+  locationtitle: {
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 20,
+    color: colors.black,
+  },
+
+  locationsubtitle: {
+    fontFamily: 'Gilroy-Regular',
+    fontSize: 12,
+    color: colors.black,
+    width: 300,
+    lineHeight: 20,
+  },
+
+  locationoptions: {
+    marginBottom: 20,
+  },
+
+  locationoption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gallery,
+  },
+
+  locationoptiontext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 16,
+    marginLeft: 10,
+  },
+
+  addlocation: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    marginTop: 10,
+  },
+
+  addlocationtext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 16,
+    marginLeft: 10,
+    color: colors.black,
+  },
+
+  /* Saved Location */
+  
+  locationinput: {
+    backgroundColor: colors.gallery,
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 20,
+    fontFamily: 'Gilroy-Medium',
+  },
+
+  savelocation: {
+    backgroundColor: colors.emerald,
+    borderRadius: 10,
+    padding: 15,
+    alignItems: 'center',
+  },
+
+  savelocationtext: {
+    color: colors.white,
+    fontFamily: 'Gilroy-Bold',
+    fontSize: 16,
+  },
+
   /* Selected */
 
   selectedrating: {
@@ -1748,7 +2089,7 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     borderRadius: 20,
-    backgroundColor: colors.black,
+    backgroundColor: colors.dullGrey,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -1792,6 +2133,12 @@ const styles = StyleSheet.create({
   tinyicon: {
     height: 5,
     width: 5,
+  },
+
+  subicon: {
+    height: 10,
+    width: 10,
+    margin: 12,
   },
 
 });

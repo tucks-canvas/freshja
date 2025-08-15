@@ -1,99 +1,105 @@
-import home from "../assets/icons/home.png";
-import like from "../assets/icons/like.png";
-import cart from "../assets/icons/cart.png";
-import profile from "../assets/icons/profile.png";
-import homefill from "../assets/icons/homefill.png";
-import likefill from "../assets/icons/likefill.png";
-import cartfill from "../assets/icons/cartfill.png";
-import profilefill from "../assets/icons/profilefill.png";
-import notification from "../assets/icons/notification.png";
-import location from "../assets/icons/location.png";
-import search from "../assets/icons/search.png";
-import filter from "../assets/icons/filter.png";
-import bag from "../assets/icons/bag.png";
-import tick from "../assets/icons/tick.png";
-import close from "../assets/icons/close.png";
-import funnel from "../assets/icons/funnel.png";
-import plus from "../assets/icons/plus.png";
-import minus from "../assets/icons/minus.png";
-import add from "../assets/icons/add.png";
-import subtract from "../assets/icons/subtract.png";
-import calories from "../assets/icons/calories.png";
-import carbs from "../assets/icons/carbs.png";
-import fat from "../assets/icons/fat.png";
-import potassium from "../assets/icons/potassium.png";
-import protein from "../assets/icons/protein.png";
-import vitamin from "../assets/icons/vitamin.png";
-import star from "../assets/icons/star.png";
-import starfill from "../assets/icons/starfill.png";
-import slash from "../assets/icons/slash.png";
-import cross from "../assets/icons/cross.png";
-import checkmark from "../assets/icons/checkmark.png";
-import calendar from "../assets/icons/calendar.png";
-import mastercard from "../assets/icons/mastercard.png";
-import visa from "../assets/icons/visa.png";
-import order from "../assets/icons/order.png";
-import unchecked from "../assets/icons/unchecked.png";
-import checked from "../assets/icons/checked.png";
-import lock from "../assets/icons/lock.png";
-import show from "../assets/icons/show.png";
-import hide from "../assets/icons/hide.png";
-import user from "../assets/icons/user.png";
-import back from "../assets/icons/back.png";
-import phone from "../assets/icons/phone.png";
-import email from "../assets/icons/email.png";
-import upload from "../assets/icons/upload.png";
-import left from "../assets/icons/left.png";
-import right from "../assets/icons/right.png";
-import drag from "../assets/icons/drag.png";
+import home from "../assets/icons/essentials/home.png";
+import like from "../assets/icons/essentials/like.png";
+import cart from "../assets/icons/essentials/cart.png";
+import profile from "../assets/icons/essentials/profile.png";
+import homefill from "../assets/icons/essentials/homefill.png";
+import likefill from "../assets/icons/essentials/likefill.png";
+import cartfill from "../assets/icons/essentials/cartfill.png";
+import profilefill from "../assets/icons/essentials/profilefill.png";
+import star from "../assets/icons/essentials/star.png";
+import starfill from "../assets/icons/essentials/starfill.png";
+import order from "../assets/icons/essentials/order.png";
+import orderfill from "../assets/icons/essentials/orderfill.png";
+import user from "../assets/icons/essentials/user.png";
+import userfill from "../assets/icons/essentials/userfill.png";
+
+import close from "../assets/icons/change/close.png";
+import plus from "../assets/icons/change/plus.png";
+import minus from "../assets/icons/change/minus.png";
+import add from "../assets/icons/change/add.png";
+import subtract from "../assets/icons/change/subtract.png";
+import search from "../assets/icons/change/search.png";
+import filter from "../assets/icons/change/filter.png";
+import tick from "../assets/icons/change/tick.png";
+import unchecked from "../assets/icons/change/unchecked.png";
+import checked from "../assets/icons/change/checked.png";
+import hide from "../assets/icons/change/hide.png";
+import back from "../assets/icons/change/back.png";
+import left from "../assets/icons/change/left.png";
+import right from "../assets/icons/change/right.png";
+import drag from "../assets/icons/change/drag.png";
+import show from "../assets/icons/change/show.png";
+import checkmark from "../assets/icons/change/checkmark.png";
+import up from "../assets/icons/change/up.png";
+import down from "../assets/icons/change/down.png";
+
+import calories from "../assets/icons/food/calories.png";
+import carbs from "../assets/icons/food/carbs.png";
+import fat from "../assets/icons/food/fat.png";
+import potassium from "../assets/icons/food/potassium.png";
+import protein from "../assets/icons/food/protein.png";
+import vitamin from "../assets/icons/food/vitamin.png";
+
+import calendar from "../assets/icons/accents/calendar.png";
+import mastercard from "../assets/icons/accents/mastercard.png";
+import visa from "../assets/icons/accents/visa.png";
+
+import phone from "../assets/icons/accents/phone.png";
+import email from "../assets/icons/accents/email.png";
+import upload from "../assets/icons/accents/upload.png";
+import notification from "../assets/icons/accents/notification.png";
+import location from "../assets/icons/accents/location.png";
+import lock from "../assets/icons/accents/lock.png";
+import gps from "../assets/icons/accents/gps.png";
 
 export default { 
     home,
-    visa,
     like,
     cart, 
-    checkmark,
-    mastercard,
     profile,
     homefill,
     likefill,
     cartfill, 
     profilefill,
-    notification,
-    calendar,
-    location,
-    search,
-    filter,
-    bag,
-    tick,
-    close,
-    funnel,
-    minus,
-    add,
-    plus, 
-    subtract,
+    star,
+    starfill,
+    order, 
+    orderfill,
+    user,
+    userfill,
     calories,
     carbs,
     fat, 
     vitamin,
     potassium,
     protein,
-    star,
-    starfill,
-    slash,
-    cross,
-    order, 
     checked,
     unchecked,
-    lock,
+    search,
+    filter,
+    drag,
+    tick,
+    close,
+    minus,
+    add,
+    plus, 
+    subtract,
     show,
     hide,
-    user,
+    checkmark,
+    up,
+    down,
+    mastercard,
+    notification,
+    calendar,
+    location,
+    lock,
     back,
     phone,
     email,
     upload, 
     left, 
     right,
-    drag
+    visa,
+    gps,
 };
