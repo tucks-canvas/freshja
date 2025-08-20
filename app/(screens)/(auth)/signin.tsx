@@ -22,37 +22,14 @@ const Signin = () => {
       <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
       
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.overlay}> 
-          <View style={styles.waves}>
-            <Svg
-              height="300"
-              width="200%"
-              viewBox="0 0 440 165"
-              style={[styles.wave, { bottom: 100 }]}
-              preserveAspectRatio="none"
-            >
-              <Defs>
-                <Pattern
-                  id="wavePattern"
-                  patternUnits="userSpaceOnUse"
-                  width="440"
-                  height="600"
-                >
-                  <SvgImage
-                    href={images.photo6}
-                    width="440"
-                    height="200"
-                    preserveAspectRatio="xMidYMid slice"
-                  />
-                </Pattern>
-              </Defs>
-              
-              <Path
-                fill="url(#wavePattern)"
-                d="M 120 0 V 140 C 276 187 257 86 441 151 v -151 Z"
-              />
-            </Svg>
-          </View>
+        <> 
+          <ImageBackground 
+            imageStyle={styles.imageStyle}
+            style={styles.imageOverlay}
+            source={images.texture2}
+            resizeMode='cover'
+          >
+          </ImageBackground>
 
           <View style={styles.container}>
             <View style={styles.header}>
@@ -64,7 +41,7 @@ const Signin = () => {
               <View style={styles.textfield}> 
                 <View style={styles.textbody}>
                   <Image
-                    source={icons.user}
+                    source={icons.profilefill}
                     tintColor={colors.grey}
                     style={styles.icon}
                   />
@@ -113,7 +90,7 @@ const Signin = () => {
                 >
                   <Image
                     source={showRememberMe ? icons.checked : icons.unchecked}
-                    tintColor={colors.elf}
+                    tintColor={colors.yellow}
                     style={styles.icon}                                           
                   />
                 </TouchableOpacity>
@@ -149,7 +126,7 @@ const Signin = () => {
               </View>
             </View>
           </View>
-        </View>
+        </>
       </SafeAreaView>
     </>
   );
@@ -165,28 +142,15 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     zIndex: 1,
-    marginTop: 300,
+    marginTop: 25,
   },
 
-  /* Waves */
+  /* Images */
 
-  overlay: {
-  },
-
-  waves: {
-    position: 'absolute',
-    height: 200,
-    top: 160,
-    right: 300,
+  imageOverlay: {
+    height: 300,
     width: '100%',
-    zIndex: 0,
-
-  },
-  
-  wave: {
-    position: 'absolute',
-    elevation: 10,
-    shadowColor: colors.black,
+    top: -30,
   },
   
   /* Header */
@@ -202,7 +166,7 @@ const styles = StyleSheet.create({
 
   headertext: {
     fontSize: 40,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -223,13 +187,11 @@ const styles = StyleSheet.create({
   textfield: {
     height: 55,
     flexDirection: 'row',
-    backgroundColor: colors.white,
+    backgroundColor: colors.gallery,
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
     borderRadius: 20,
-    elevation: 10,
-    shadowColor: colors.dullGrey,
   },
 
   textbody: {
@@ -242,7 +204,7 @@ const styles = StyleSheet.create({
 
   textinput: {
     fontSize: 13,
-    color: colors.elf,
+    color: colors.black,
     fontFamily: 'Montserrat-Medium',
   },
 
@@ -264,13 +226,13 @@ const styles = StyleSheet.create({
 
   remembertext: {
     fontSize: 12,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Montserrat-Medium',
   },
 
   forgotext: {
     fontSize: 13,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -288,14 +250,12 @@ const styles = StyleSheet.create({
 
   button: {
     width: '100%',
-    backgroundColor: colors.elf,
+    backgroundColor: colors.yellow,
     borderRadius: 20,
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    elevation: 10,
-    shadowColor: colors.dullGrey,
   },
 
   buttontext: {
@@ -322,7 +282,7 @@ const styles = StyleSheet.create({
 
   signsub: {
     fontSize: 12,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 

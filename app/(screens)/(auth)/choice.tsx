@@ -60,7 +60,7 @@ const Signin = () => {
             <ImageBackground
               imageStyle={styles.imageOverlay}
               style={styles.imageSpace}
-              source={images.background3}
+              source={images.texture6}
             >
               <TouchableOpacity 
                 style={[
@@ -74,7 +74,7 @@ const Signin = () => {
                   <Text style={styles.choicesub}>Sell produce</Text>
                 </View>
                 <Image
-                  source={images.photo2}
+                  source={images.photo1}
                   style={styles.image1}
                   resizeMode='contain'
                 />
@@ -84,7 +84,7 @@ const Signin = () => {
             <ImageBackground
               imageStyle={styles.imageOverlay}
               style={styles.imageSpace}
-              source={images.background3}
+              source={images.texture6}
             >
               <TouchableOpacity 
                 style={[
@@ -98,7 +98,7 @@ const Signin = () => {
                   <Text style={styles.choicesub}>Buy produce</Text>
                 </View>
                 <Image
-                  source={images.photo4}
+                  source={images.photo2}
                   style={styles.image2}
                   resizeMode='contain'
                 />
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
 
   headertext: {
     fontSize: 30,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
 
   registertext: {
     fontSize: 85,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.white, 
     backgroundColor: 'rgba(46, 204, 113, 0.1)', 
-    elevation: 100,
+    elevation: 200,
     zIndex: 102,
   },
   
@@ -337,12 +337,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 45,
     height: 45,
-    backgroundColor: colors.white,
+    backgroundColor: colors.gallery,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
-    elevation: 10,
-    shadowColor: colors.grey,
     cursor: 'pointer',
   },
 

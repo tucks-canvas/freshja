@@ -105,7 +105,7 @@ const Reel = () => {
 
           <TouchableOpacity 
             style={styles.button}
-            onPress={() => router.replace('../../(tabs)/home')}
+            onPress={() => router.replace('/signin')}
           >
             <Text style={styles.buttontext}>Get started</Text>
           </TouchableOpacity>

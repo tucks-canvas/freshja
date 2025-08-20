@@ -45,7 +45,7 @@ const DocumentUpload = ({ title, type, onUpload, file }) => {
             <Image 
               source={icons.checked} 
               style={styles.icon} 
-              tintColor={colors.elf} 
+              tintColor={colors.yellow} 
             />
             
             <Text style={styles.uploadedtext}>File uploaded: {file.name}</Text>
@@ -55,7 +55,7 @@ const DocumentUpload = ({ title, type, onUpload, file }) => {
             <Image 
               source={icons.upload} 
               style={styles.icon} 
-              tintColor={colors.elf} 
+              tintColor={colors.yellow} 
             />
 
             <Text style={styles.uploadtext}>Tap to select file</Text>
@@ -124,42 +124,10 @@ const Farmer = () => {
       
       <SafeAreaView style={styles.safeArea}>
         <ScrollView
-          vertical
           contentContainerStyle={styles.scrollArea}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.container}>
-            <View style={styles.waves}>
-              <Svg
-                height="300"
-                width="200%"
-                viewBox="0 0 440 165"
-                style={[styles.wave, { bottom: 100 }]}
-                preserveAspectRatio="none"
-              >
-                <Defs>
-                  <Pattern
-                    id="wavePattern"
-                    patternUnits="userSpaceOnUse"
-                    width="440"
-                    height="600"
-                  >
-                    <SvgImage
-                      href={colors.white}
-                      width="440"
-                      height="200"
-                      preserveAspectRatio="xMidYMid slice"
-                    />
-                  </Pattern>
-                </Defs>
-                
-                <Path
-                  fill="url(#wavePattern)"
-                  d="M 120 0 V 140 C 276 187 257 86 441 151 v -151 Z"
-                />
-              </Svg>
-            </View>
-          
+          <View style={styles.container}>          
             <View style={styles.backward}>
               <TouchableOpacity 
                 style={styles.back}
@@ -188,7 +156,7 @@ const Farmer = () => {
                 <View style={styles.textfield}> 
                   <View style={styles.textbody}>
                     <Image
-                      source={icons.user}
+                      source={icons.profilefill}
                       tintColor={colors.grey}
                       style={styles.icon}
                     />
@@ -354,20 +322,6 @@ const styles = StyleSheet.create({
   scrollArea: {
     marginBottom: 80,
   },
-
-  /* Waves */
-
-  waves: {
-    position: 'absolute',
-    height: 200,
-    top: 160,
-    right: 300,
-    width: '100%',
-  },
-  
-  wave: {
-    position: 'absolute',
-  },
   
   /* Header */
 
@@ -384,7 +338,7 @@ const styles = StyleSheet.create({
 
   headertext: {
     fontSize: 45,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -406,13 +360,11 @@ const styles = StyleSheet.create({
   textfield: {
     height: 55,
     flexDirection: 'row',
-    backgroundColor: colors.white,
+    backgroundColor: colors.gallery,
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
     borderRadius: 20,
-    elevation: 10,
-    shadowColor: colors.dullGrey,
   },
 
   textbody: {
@@ -425,7 +377,7 @@ const styles = StyleSheet.create({
 
   textinput: {
     fontSize: 13,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Montserrat-Medium',
   },
 
@@ -466,7 +418,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     borderWidth: 1,
-    borderColor: colors.elf,
+    borderColor: colors.yellow,
     borderStyle: 'dashed',
     elevation: 10,
     shadowColor: colors.dullGrey,
@@ -486,14 +438,14 @@ const styles = StyleSheet.create({
 
   uploadtext: {
     fontSize: 10,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Medium',
     textAlign: 'center',
   },
 
   uploadedtext: {
     fontSize: 10,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Medium',
   },
 
@@ -512,14 +464,14 @@ const styles = StyleSheet.create({
   
   pagetext: {
     fontSize: 10,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Medium',
     top: 3,
   },
     
   pagesub: {
     fontSize: 25,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-SemiBold',
   },
 
@@ -539,14 +491,12 @@ const styles = StyleSheet.create({
 
   button: {
     width: '100%',
-    backgroundColor: colors.elf,
+    backgroundColor: colors.yellow,
     borderRadius: 20,
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    elevation: 10,
-    shadowColor: colors.dullGrey,
   },
 
   buttontext: {
@@ -573,7 +523,7 @@ const styles = StyleSheet.create({
 
   signsub: {
     fontSize: 13,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -595,7 +545,7 @@ const styles = StyleSheet.create({
 
   reptext: {
     fontSize: 85,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -614,7 +564,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
 
-
   /* Add-Ons */
 
   back: {
@@ -622,11 +571,9 @@ const styles = StyleSheet.create({
     padding: 20,
     width: 50,
     height: 50,
-    backgroundColor: colors.white,
+    backgroundColor: colors.gallery,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 5,
-    shadowColor: colors.grey,
   },
 
   float1: {

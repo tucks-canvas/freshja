@@ -55,38 +55,7 @@ const Farmer = () => {
             contentContainerStyle={styles.scrollArea}
             showsVerticalScrollIndicator={false}
           >
-            <View style={styles.container}>
-              <View style={styles.waves}>
-                  <Svg
-                  height="300"
-                  width="200%"
-                  viewBox="0 0 440 165"
-                  style={[styles.wave, { bottom: 100 }]}
-                  preserveAspectRatio="none"
-                  >
-                  <Defs>
-                      <Pattern
-                          id="wavePattern"
-                          patternUnits="userSpaceOnUse"
-                          width="440"
-                          height="600"
-                      >
-                          <SvgImage
-                              href={images.background3}
-                              width="440"
-                              height="200"
-                              preserveAspectRatio="xMidYMid slice"
-                          />
-                      </Pattern>
-                  </Defs>
-                  
-                  <Path
-                      fill="url(#wavePattern)"
-                      d="M 120 0 V 140 C 276 187 257 86 441 151 v -151 Z"
-                  />
-                  </Svg>
-              </View>
-                        
+            <View style={styles.container}>                        
               <View style={styles.backward}>
                   <TouchableOpacity 
                       style={styles.back}
@@ -114,7 +83,7 @@ const Farmer = () => {
                   <View style={styles.textfield}> 
                       <View style={styles.textbody}>
                           <Image
-                              source={icons.user}
+                              source={icons.profilefill}
                               tintColor={colors.grey}
                               style={styles.icon}
                           />
@@ -254,29 +223,13 @@ const styles = StyleSheet.create({
 
   imageOverlay: {
     width: '100%',
-    height: '105%',
-    opacity: 0.05,
+    height: '110%',
+    opacity: 0,
     top: -20,
   },
 
   imageSpace: {
     zIndex: 0,
-  },
-
-  /* Waves */
-
-  waves: {
-    position: 'absolute',
-    height: 200,
-    top: 500,
-    right: 300,
-    width: '100%',
-  },
-  
-  wave: {
-    position: 'absolute',
-    opacity: 0,
-
   },
   
   /* Header */
@@ -294,7 +247,7 @@ const styles = StyleSheet.create({
 
   headertext: {
     fontSize: 45,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -316,13 +269,11 @@ const styles = StyleSheet.create({
   textfield: {
     height: 55,
     flexDirection: 'row',
-    backgroundColor: colors.white,
+    backgroundColor: colors.gallery,
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
     borderRadius: 20,
-    elevation: 10,
-    shadowColor: colors.dullGrey,
   },
 
   textbody: {
@@ -376,7 +327,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     borderWidth: 1,
-    borderColor: colors.elf,
+    borderColor: colors.yellow,
     borderStyle: 'dashed',
   },
 
@@ -394,14 +345,14 @@ const styles = StyleSheet.create({
 
   uploadtext: {
     fontSize: 10,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Medium',
     textAlign: 'center',
   },
 
   uploadedtext: {
     fontSize: 10,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Medium',
   },
 
@@ -420,14 +371,14 @@ const styles = StyleSheet.create({
   
   pagetext: {
     fontSize: 10,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Medium',
     top: 3,
   },
     
   pagesub: {
     fontSize: 25,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-SemiBold',
   },
 
@@ -447,7 +398,7 @@ const styles = StyleSheet.create({
 
   button: {
     width: '100%',
-    backgroundColor: colors.elf,
+    backgroundColor: colors.yellow,
     borderRadius: 20,
     padding: 20,
     justifyContent: 'center',
@@ -481,7 +432,7 @@ const styles = StyleSheet.create({
 
   signsub: {
     fontSize: 13,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -503,7 +454,7 @@ const styles = StyleSheet.create({
 
   reptext: {
     fontSize: 85,
-    color: colors.elf,
+    color: colors.yellow,
     fontFamily: 'Gilroy-Bold',
   },
 
@@ -529,11 +480,9 @@ const styles = StyleSheet.create({
     padding: 20,
     width: 50,
     height: 50,
-    backgroundColor: colors.white,
+    backgroundColor: colors.gallery,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 5,
-    shadowColor: colors.grey,
   },
 
   float1: {
