@@ -86,48 +86,52 @@ const Profile = () => {
     <>
       <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
 
-      <SafeAreaView style={styles.safeArea}>
-        <ImageBackground
-          source={images.texture2}
-          style={styles.backgroundImage}
-          imageStyle={styles.imageStyle}
-        >
-          <View style={styles.profileheader}>
-            <TouchableOpacity 
-              style={styles.profileaddon}
-              onPress={() => router.replace('/cart')}
-            >
-              <Image
-                source={icons.bag}
-                style={styles.tinyicon}
-                tintColor={colors.white}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.profilefooter}>
-            <TouchableOpacity 
-              style={styles.profileimage}
-              onPress={handleProfilePhoto}  
-            >
-              <Image
-                source={user.image}
-                style={styles.largeimage}
-                resizeMode='cover'
-              />
-            </TouchableOpacity>
-
-            <View style={styles.header}>
-              <Text style={styles.headertext}>{user.fullname}</Text>              
-              <Text style={styles.headersubtext}>{user.username}</Text>
-            </View>
-          </View>
-        </ImageBackground>
-
+      <SafeAreaView style={styles.safeArea} edges={['bottom']}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollViewArea}
+          scrollEventThrottle={16}
+          bounces={true}
         >
+          {/* Header section that will scroll */}
+          <ImageBackground
+            source={images.texture2}
+            style={styles.backgroundImage}
+            imageStyle={styles.imageStyle}
+          >
+            <View style={styles.profileheader}>
+              <TouchableOpacity 
+                style={styles.profileaddon}
+                onPress={() => router.replace('/cart')}
+              >
+                <Image
+                  source={icons.bag}
+                  style={styles.tinyicon}
+                  tintColor={colors.white}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.profilefooter}>
+              <TouchableOpacity 
+                style={styles.profileimage}
+                onPress={handleProfilePhoto}  
+              >
+                <Image
+                  source={user.image}
+                  style={styles.largeimage}
+                  resizeMode='cover'
+                />
+              </TouchableOpacity>
+
+              <View style={styles.header}>
+                <Text style={styles.headertext}>{user.fullname}</Text>              
+                <Text style={styles.headersubtext}>{user.username}</Text>
+              </View>
+            </View>
+          </ImageBackground>
+
+          {/* Content sections */}
           <View style={styles.container}>
             <View style={styles.profilebody}>
               <View style={[styles.sections, { marginTop: 20 }]}> 
@@ -233,31 +237,19 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.white,
-    height: '100%',
-    width: '100%',
   },
 
   scrollViewArea: {
-    top: 250,
-    height: '100%',
-    width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    zIndex: 2,
-    marginBottom: 200,
+    flexGrow: 1,
   },
   
   backgroundImage: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
     width: '100%',
-    height: 300,
-    zIndex: 0,
-    justifyContent: 'center',
+    minHeight: 350, // Use minHeight instead of fixed height for better scrolling
+    justifyContent: 'space-between', // Distribute content properly
     alignItems: 'center',
-    flexDirection: 'column',
-    gap: 30,
+    paddingTop: 60, // Add top padding to account for status bar
+    paddingBottom: 40, // Add bottom padding
   },
   
   imageStyle: {
@@ -266,10 +258,10 @@ const styles = StyleSheet.create({
   },
   
   container: {
-    flex: 1,
     alignItems: 'center',
     width: '100%',
-    zIndex: 2,
+    minHeight: 700, // Ensure enough content to scroll
+    top: -30,
   },
 
   /* Header */
@@ -299,7 +291,7 @@ const styles = StyleSheet.create({
   profileheader: {
     width: '90%',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end', // Align cart icon to right
   },
 
   profilefooter: {
@@ -313,7 +305,7 @@ const styles = StyleSheet.create({
   profilebody: {
     width: '100%',
     alignItems: 'center',
-    zIndex: 3,
+    paddingBottom: 50, // Add bottom padding for better scroll experience
   },
 
   profileimage: {
@@ -324,9 +316,7 @@ const styles = StyleSheet.create({
   },
 
   profileaddon: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
+    padding: 10, // Add padding for easier touch
   },
 
   /* Sections */
