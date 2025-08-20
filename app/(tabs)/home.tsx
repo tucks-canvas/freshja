@@ -30,7 +30,7 @@ const ads = [
     id: 2,
     title: 'Level 2 in August',
     subtitle: '12% off on your favourite product',
-    text: '1, 000 credits',
+    text: '1,000 credits',
     image: images.background4,
     link: '',
   },
@@ -38,8 +38,16 @@ const ads = [
     id: 3,
     title: 'Level 3 in September',
     subtitle: '20% on your favourite product',
-    text: '1, 500 credits',
+    text: '1,500 credits',
     image: images.background5,
+    link: '',
+  },
+  {
+    id: 4,
+    title: 'Meet John of R & B Farms',
+    subtitle: 'He`s been a proud farmer for over 30 decades',
+    text: 'Learn more',
+    image: images.photo3,
     link: '',
   },
 ];
@@ -475,9 +483,12 @@ const Product = ({ product, onLikePress, likedProducts, router }) => {
   useEffect(() => {
     const loadQuantity = async () => {
       const storedCart = await AsyncStorage.getItem('cart');
+      console.log('Load Cart', storedCart);
+
       if (storedCart) {
         const cart = JSON.parse(storedCart);
         const cartItem = cart.find(item => item.id === product.id);
+
         if (cartItem) {
           setQuantity(cartItem.quantity);
         }
@@ -513,7 +524,8 @@ const Product = ({ product, onLikePress, likedProducts, router }) => {
         cart.splice(itemIndex, 1);
       }
 
-      await AsyncStorage.setItem('cart', JSON.stringify(cart));
+      const cartLog = await AsyncStorage.setItem('cart', JSON.stringify(cart));
+      console.log('Log:', cartLog);
       setQuantity(newQuantity);
 
     } catch (error) {
@@ -1726,7 +1738,7 @@ const styles = StyleSheet.create({
 
   productoverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,

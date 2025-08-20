@@ -53,9 +53,17 @@ import background2 from "../assets/images/background/background2.jpg";
 import background3 from "../assets/images/background/background3.jpg";
 import background4 from "../assets/images/background/background4.jpg";
 import background5 from "../assets/images/background/background5.jpg";
+import texture1 from "../assets/images/background/texture1.jpg";
+import texture2 from "../assets/images/background/texture2.jpg";
+import texture3 from "../assets/images/background/texture3.jpg";
+import texture4 from "../assets/images/background/texture4.jpg";
+import texture5 from "../assets/images/background/texture5.jpg";
+import texture6 from "../assets/images/background/texture6.jpg";
+import texture7 from "../assets/images/background/texture7.jpg";
 import store from "../assets/images/choice/store.png";
 import customer from "../assets/images/choice/customer.png";
 import all from "../assets/images/produce/all.png";
+import placeholder from "../assets/images/background/placeholder.jpg";
 
 export default { 
     user,
@@ -113,7 +121,15 @@ export default {
     background3,
     background4,
     background5,
+    texture1,
+    texture2,
+    texture3,
+    texture4,
+    texture5,
+    texture6,
+    texture7,    
     store,
     customer,
-    all
+    all, 
+    placeholder,
 };

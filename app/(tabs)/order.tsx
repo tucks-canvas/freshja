@@ -183,8 +183,8 @@ const Order = () => {
                     <TouchableOpacity
                       key={order.id}
                       activeOpacity={0.8}
-                      onPress={() => toggleOrder(order.id)}
                       style={styles.order}
+                      onPress={() =>  router.replace('../(screens)/(order)/timeline')}
                     >
                       <View style={styles.ordersnippets}>
                         <View style={styles.orderheader}>
@@ -196,10 +196,14 @@ const Order = () => {
                             </Text>
                           </View>
 
-                          <Image
-                            source={expandedOrderId === order.id ? icons.up : icons.down}
-                            style={styles.icon}
-                          />
+                          <TouchableOpacity
+                            onPress={() => toggleOrder(order.id)}
+                          >
+                            <Image
+                              source={expandedOrderId === order.id ? icons.up : icons.down}
+                              style={styles.icon}
+                            />
+                          </TouchableOpacity>
                         </View>
                         
                         <ProgressBar status={order.status || 'Confirmed'} />

@@ -10,8 +10,6 @@ import star from "../assets/icons/essentials/star.png";
 import starfill from "../assets/icons/essentials/starfill.png";
 import order from "../assets/icons/essentials/order.png";
 import orderfill from "../assets/icons/essentials/orderfill.png";
-import user from "../assets/icons/essentials/user.png";
-import userfill from "../assets/icons/essentials/userfill.png";
 
 import close from "../assets/icons/change/close.png";
 import plus from "../assets/icons/change/plus.png";
@@ -32,6 +30,8 @@ import show from "../assets/icons/change/show.png";
 import checkmark from "../assets/icons/change/checkmark.png";
 import up from "../assets/icons/change/up.png";
 import down from "../assets/icons/change/down.png";
+import on from "../assets/icons/change/on.png";
+import off from "../assets/icons/change/off.png";
 
 import calories from "../assets/icons/food/calories.png";
 import carbs from "../assets/icons/food/carbs.png";
@@ -43,14 +43,23 @@ import vitamin from "../assets/icons/food/vitamin.png";
 import calendar from "../assets/icons/accents/calendar.png";
 import mastercard from "../assets/icons/accents/mastercard.png";
 import visa from "../assets/icons/accents/visa.png";
-
 import phone from "../assets/icons/accents/phone.png";
 import email from "../assets/icons/accents/email.png";
 import upload from "../assets/icons/accents/upload.png";
 import notification from "../assets/icons/accents/notification.png";
+import notificationfill from "../assets/icons/accents/notificationfill.png";
 import location from "../assets/icons/accents/location.png";
 import lock from "../assets/icons/accents/lock.png";
 import gps from "../assets/icons/accents/gps.png";
+import settings from "../assets/icons/accents/settings.png";
+import payments from "../assets/icons/accents/payments.png";
+import theme from "../assets/icons/accents/theme.png";
+import user from "../assets/icons/accents/user.png";
+import bag from "../assets/icons/accents/bag.png";
+import logout from "../assets/icons/accents/logout.png";
+import building from "../assets/icons/accents/building.png";
+import no from "../assets/icons/accents/no.png";
+import text from "../assets/icons/accents/text.png";
 
 export default { 
     home,
@@ -65,8 +74,6 @@ export default {
     starfill,
     order, 
     orderfill,
-    user,
-    userfill,
     calories,
     carbs,
     fat, 
@@ -89,17 +96,29 @@ export default {
     checkmark,
     up,
     down,
+    back,
+    left, 
+    right,
+    on, 
+    off,
     mastercard,
     notification,
+    notificationfill,
     calendar,
     location,
     lock,
-    back,
     phone,
     email,
     upload, 
-    left, 
-    right,
     visa,
     gps,
+    settings,
+    payments,
+    theme,
+    user,
+    bag,
+    logout,
+    building,
+    text,
+    no,
 };

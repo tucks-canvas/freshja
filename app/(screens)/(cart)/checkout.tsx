@@ -854,8 +854,6 @@ const styles = StyleSheet.create({
     height: 24,
   },
 
-
-
   smallicon: {
     width: 20,
     height: 20,

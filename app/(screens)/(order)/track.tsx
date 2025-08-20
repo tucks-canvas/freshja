@@ -29,7 +29,8 @@ const Track: React.FC = () => {
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
           <MapView
-            style={styles.map}
+            provider="google" // <-- add this line if using Expo
+            style={{ flex: 1, minHeight: 200 }}
             initialRegion={{
               latitude: deliveryStatus.driverlocation.latitude,
               longitude: deliveryStatus.driverlocation.longitude,
@@ -43,16 +44,18 @@ const Track: React.FC = () => {
             />
           </MapView>
 
-          <View style={styles.status}>
-            <Text style={styles.statustext}>{deliveryStatus.orderStatus}</Text>
-            <Text style={styles.timetext}>Estimated Arrival Time: {deliveryStatus.estimatedtime}</Text>
+          <View style={styles.statuses}>
+            <View style={styles.status}>
+              <Text style={styles.statustext}>{deliveryStatus.orderStatus}</Text>
+              <Text style={styles.timetext}>Estimated Arrival Time: {deliveryStatus.estimatedtime}</Text>
+            </View>
             
             <View style={styles.progressbar}>
               <View style={styles.progress} />
             </View>
             
             <TouchableOpacity
-              style={styles.button}
+              style={[styles.button, {backgroundColor: colors.black}]}
               onPress={() => {
                 setShowDetails(!showDetails);
                 router.push('/');
@@ -62,13 +65,13 @@ const Track: React.FC = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.button1}
+              style={styles.button}
               onPress={() => {
                 setShowDetails(!showDetails);
                 router.push('../../(tabs)/home');
               }}
             >
-              <Text style={styles.buttonsub}>Back to Home</Text>
+              <Text style={styles.buttontext}>Back to Home</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -96,50 +99,50 @@ const styles = StyleSheet.create({
 
   /* Status */
 
-  status: {
-    backgroundColor: 'white',
+  statuses: {
+    backgroundColor: colors.white,
     position: 'absolute',
     bottom: 0,
     width: '100%',
+    height: 300,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { 
-      width: 0, 
-      height: -2 
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    padding: 25,
+    justifyContent: 'center',
+  },
+
+  status: {
+    padding: 5,
   },
 
   statustext: {
     fontSize: 18,
-    fontFamily: 'Gilroy-Bold',
+    fontFamily: 'Gilroy-SemiBold',
     marginBottom: 10,
   },
 
   timetext: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.grey,
-    fontFamily: 'Gilroy-Bold',
+    fontFamily: 'Gilroy-Medium',
   },
 
   /* Progress */
 
   progressbar: {
-    height: 5,
+    width: '96%',
+    height: 4,
     backgroundColor: colors.backdrop,
     borderRadius: 2,
-    marginVertical: 15,
+    marginVertical: 25,
+    marginHorizontal: 5,
   },
 
   progress: {
     height: '100%',
     backgroundColor: colors.fresh,
-    borderRadius: 2,
-    width: '60%',
+    borderRadius: 3,
+    width: '50%',
   },
 
   /* Add-Ons */
@@ -147,7 +150,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.fresh,
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 20,
     alignItems: 'center',
     marginTop: 10,
   },
@@ -155,21 +158,21 @@ const styles = StyleSheet.create({
   button1: {
     backgroundColor: colors.black,
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 20,
     alignItems: 'center',
     marginTop: 10,
   },
 
   buttontext: {
     color: colors.white,
-    fontSize: 16,
-    fontFamily: 'Gilroy-Bold',
+    fontSize: 13,
+    fontFamily: 'Gilroy-Medium',
   },
 
   buttonsub: {
     color: colors.white,
-    fontSize: 16,
-    fontFamily: 'Gilroy-Bold',
+    fontSize: 13,
+    fontFamily: 'Gilroy-Medium',
   },
 });
 
