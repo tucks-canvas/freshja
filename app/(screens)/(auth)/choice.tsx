@@ -60,7 +60,7 @@ const Signin = () => {
             <ImageBackground
               imageStyle={styles.imageOverlay}
               style={styles.imageSpace}
-              source={images.texture6}
+              source={images.texture2}
             >
               <TouchableOpacity 
                 style={[
@@ -84,7 +84,7 @@ const Signin = () => {
             <ImageBackground
               imageStyle={styles.imageOverlay}
               style={styles.imageSpace}
-              source={images.texture6}
+              source={images.texture2}
             >
               <TouchableOpacity 
                 style={[

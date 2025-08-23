@@ -30,7 +30,7 @@ const sections = [
   {
     id: 0,
     title: 'Account',
-    image: icons.user,
+    image: icons.profilefill,
     link: '/editprofile',
   },
   {
@@ -65,6 +65,12 @@ const sections = [
   },
   {
     id: 6,
+    title: 'Membership',
+    image: icons.profilefill,
+    link: '/membership',
+  },
+  {
+    id: 7,
     title: 'Logout',
     image: icons.logout,
     link: '/signin',
@@ -79,8 +85,8 @@ const Profile = () => {
   };
 
   const mainsection = sections.slice(0, 2);
-  const othersection = sections.slice(2, 6);
-  const footersection = sections.slice(6);
+  const othersection = sections.slice(2, 7);
+  const footersection = sections.slice(7);
 
   return (
     <>
@@ -245,11 +251,11 @@ const styles = StyleSheet.create({
   
   backgroundImage: {
     width: '100%',
-    minHeight: 350, // Use minHeight instead of fixed height for better scrolling
-    justifyContent: 'space-between', // Distribute content properly
+    minHeight: 350,
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 60, // Add top padding to account for status bar
-    paddingBottom: 40, // Add bottom padding
+    paddingTop: 60,
+    paddingBottom: 40,
   },
   
   imageStyle: {
@@ -260,7 +266,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     width: '100%',
-    minHeight: 700, // Ensure enough content to scroll
+    minHeight: 700,
     top: -30,
   },
 
@@ -291,7 +297,7 @@ const styles = StyleSheet.create({
   profileheader: {
     width: '90%',
     justifyContent: 'center',
-    alignItems: 'flex-end', // Align cart icon to right
+    alignItems: 'flex-end',
   },
 
   profilefooter: {
@@ -305,7 +311,7 @@ const styles = StyleSheet.create({
   profilebody: {
     width: '100%',
     alignItems: 'center',
-    paddingBottom: 50, // Add bottom padding for better scroll experience
+    paddingBottom: 50,
   },
 
   profileimage: {
@@ -316,7 +322,9 @@ const styles = StyleSheet.create({
   },
 
   profileaddon: {
-    padding: 10, // Add padding for easier touch
+    padding: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.13)',
+    borderRadius: 20,
   },
 
   /* Sections */

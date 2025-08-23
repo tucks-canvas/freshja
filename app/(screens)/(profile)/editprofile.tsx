@@ -18,6 +18,10 @@ const EditProfile = () => {
   
   const router = useRouter();
 
+  const handleProfilePhoto = () => {
+    
+  };
+
   return (
     <>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
@@ -42,12 +46,74 @@ const EditProfile = () => {
               <Text style={styles.headertext}>Edit Profile</Text>            
             </View>
 
-            <View>
-              <TouchableOpacity>
-                
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity 
+              onPress={handleProfilePhoto}
+              style={styles.profile}
+            > 
+              <Image
+                source={images.background1}
+                style={styles.largeimage}
+              />
+            </TouchableOpacity>
 
+            <View style={styles.textbody}>              
+              <View style={styles.textinputs}>
+                <Text style={styles.text}>Address Line 1</Text>
+
+                <View style={styles.textinput}>
+                  <Image
+                    source={icons.text}
+                    style={styles.icon}
+                    tintColor='rgba(0, 0, 0, 0.2)'
+                  />
+
+                  <TextInput
+                    placeholder="Address Line 1"
+                    placeholderTextColor='rgba(0, 0, 0, 0.2)'
+                    style={styles.subtext}
+                    autoFocus={true}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.textinputs}>
+                <Text style={styles.text}>Address Line 2</Text>
+
+                <View style={styles.textinput}>
+                  <Image
+                    source={icons.text}
+                    style={styles.icon}
+                    tintColor='rgba(0, 0, 0, 0.2)'
+                  />
+
+                  <TextInput
+                    placeholder="Street Name"
+                    placeholderTextColor='rgba(0, 0, 0, 0.2)'
+                    style={styles.subtext}
+                    autoFocus={true}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.textinputs}>
+                <Text style={styles.text}>Postal Code</Text>
+
+                <View style={styles.textinput}>
+                  <Image
+                    source={icons.text}
+                    style={styles.icon}
+                    tintColor='rgba(0, 0, 0, 0.2)'
+                  />
+
+                  <TextInput
+                    placeholder="Postal Code"
+                    placeholderTextColor='rgba(0, 0, 0, 0.2)'
+                    style={styles.subtext}
+                    autoFocus={true}
+                  />
+                </View>
+              </View>
+            </View>
           </View>    
         </ScrollView>
       </SafeAreaView>
@@ -71,6 +137,15 @@ const styles = StyleSheet.create({
 
   },
 
+  /* Image */
+
+  profile: {
+    height: 200,
+    width: 200,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+
   /* Header */
 
   header: {
@@ -86,6 +161,42 @@ const styles = StyleSheet.create({
     fontFamily: 'Gilroy-Bold',
     fontSize: 25,
   },
+
+  /* Text */
+
+  textbody: {
+    flexDirection: 'column',
+  },
+
+  textinputs: {
+    flexDirection: 'column',
+  },
+
+  textinput: {
+    width: '100%',
+    backgroundColor: colors.gallery,
+    flexDirection: 'row',
+    gap: 7,
+    alignItems: 'center',   
+    marginVertical: 20, 
+    borderRadius: 18,
+    padding: 10,
+  },
+
+  text: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 15,
+    color: colors.charcoal,
+    marginRight: 120,
+  },
+
+  subtext: {
+    fontFamily: 'Gilroy-Medium',
+    fontSize: 15,
+    color: colors.charcoal,
+    marginRight: 120,
+  },
+
 
   /* Add-Ons */
   
